@@ -5,4 +5,10 @@ return [
     'no' => 'No',
     'admin' => 'Admin',
     'translations' => 'Translations',
+    'general' => 'General',
+    'name' => 'Name',
+    'title' => 'Title',
+    'description' => 'Description',
+    'images' => 'Images',
+    'gallery' => 'Gallery',
 ];
