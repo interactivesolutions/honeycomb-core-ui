@@ -1,8 +1,9 @@
 {
-  "name": "interactivesolutions/honeycombcoreui",
+  "name": "interactivesolutions/honeycomb-core-ui",
   "description": "HoneyComb framework package for ui elements",
-  "keywords": ["honeycomb", "honey", "ui", "javascript", "form"],
-  "licence": "All Rights reserved Copyright (c) 2013-2016 UAB Interaktyvūs Sprendimai",
+  "keywords": ["honeycomb", "honey", "ui", "javascript", "form", "laravel"],
+  "homepage": "https://github.com/interactivesolutions/honeycomb-core-ui/",
+  "license": "MIT",
   "authors": [
     {
       "name": "Mantas Paulauskas",
