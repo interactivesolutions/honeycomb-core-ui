@@ -1,0 +1,25 @@
+{
+  "name": "interactivesolutions/honeycombcoreui",
+  "description": "HoneyComb framework package for ui elements",
+  "keywords": ["honeycomb", "honey", "ui", "javascript", "form"],
+  "licence": "All Rights reserved Copyright (c) 2013-2016 UAB Interaktyvūs Sprendimai",
+  "authors": [
+    {
+      "name": "Mantas Paulauskas",
+      "email": "mp@interactivesolutions.lt"
+    },
+    {
+      "name": "Jevgenij Dmitrijev",
+      "email": "jd@interactivesolutions.lt"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "interactivesolutions\\honeycombcoreui\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
