@@ -11,8 +11,9 @@
         '/js/shared/hc-service.js',
         '/js/shared/hc-form-manager.js',
         '/js/shared/hc-form.js',
-        
+
         '/js/shared/form/hc-form-BasicField.js',
+        '/js/shared/form/hc-form-Button.js',
     ])
 
 !!}
