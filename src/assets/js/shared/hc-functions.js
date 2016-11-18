@@ -18,15 +18,15 @@ HCFunctions = new function ()
             message = ['Unknown error'];
         else if (e.message)
         {
-            if (ISFunctions.isStringJson(e.message))
+            if (HCFunctions.isStringJson(e.message))
             {
                 // TODO loop throw error messages. Error message also cant contain array of strings
                 message = [e.message];
             }
-            else if (ISFunctions.isString(e.message))
+            else if (HCFunctions.isString(e.message))
                 message = [e.message];
         }
-        else if (ISFunctions.isString(e))
+        else if (HCFunctions.isString(e))
             message = e;
 
         if (message)
