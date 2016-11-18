@@ -9,6 +9,10 @@
         '/js/shared/hc-functions.js',
         '/js/shared/hc-loader.js',
         '/js/shared/hc-service.js',
+        '/js/shared/hc-form-manager.js',
+        '/js/shared/hc-form.js',
+        
+        '/js/shared/form/hc-form-BasicField.js',
     ])
 
 !!}
