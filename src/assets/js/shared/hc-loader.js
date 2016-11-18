@@ -384,7 +384,7 @@ HCSLoader = new function ()
 
         var scope = this;
 
-        this.load = function (url, file)
+        this.upload = function (url, file)
         {
             var cacheUpdateType = false;
             var cacheSendType   = false;
