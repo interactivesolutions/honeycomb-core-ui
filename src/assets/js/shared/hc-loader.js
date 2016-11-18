@@ -2,7 +2,7 @@
  * A module which contains all Loader used by HoneyComb* environment.
  * @module ISLoader
  */
-HCSLoader = new function ()
+HCLoader = new function ()
 {
     /**
      * @class BasicLoader is a default class which will be used by all of the Loaders
