@@ -502,7 +502,6 @@ HCService.FormManager.Objects.BasicField = function ()
 
         multiLanguageSelect.change (function (e)
         {
-
             if (e.originalEvent)
             {
                 localScope.form.currentLanguage = e.currentTarget.value;
