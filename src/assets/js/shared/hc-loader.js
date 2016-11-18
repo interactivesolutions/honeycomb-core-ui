@@ -372,4 +372,66 @@ HCSLoader = new function ()
         document.body.appendChild (form);
         form.submit ();
     };
+
+    /**
+     * @class FileUploader upload a selected file / files to the server
+     */
+    this.FileUploader = function ()
+    {
+        this.eventDispatcher = new HCObjects.HCEventDispatcher();
+        this.updateType      = false;
+        var request;
+
+        var scope = this;
+
+        this.load = function (url, file)
+        {
+            var cacheUpdateType = false;
+            var cacheSendType   = false;
+
+            if (HCFunctions.isArray (this.updateType))
+            {
+                cacheUpdateType = this.updateType[0];
+                cacheSendType   = this.updateType[1];
+            }
+            else
+                cacheUpdateType = this.updateType;
+
+            var data = new FormData ();
+            data.append ('file', file);
+
+            request = new XMLHttpRequest ();
+
+            request.upload.addEventListener ('progress', function (e)
+            {
+                scope.eventDispatcher.trigger ('progress', Math.ceil ((e.loaded / e.total) * 100) + '%');
+            }, false);
+
+            request.onreadystatechange = this.handleReadyStateChange;
+
+            request.open ('POST', url, true);
+
+            var token = $ ('meta[name="csrf-token"]').attr ('content');
+
+            if (token)
+                request.setRequestHeader ('X-CSRF-TOKEN', token);
+
+            if (cacheUpdateType)
+                request.setRequestHeader ("OC-Update-Type", cacheUpdateType);
+
+            if (cacheSendType)
+                request.setRequestHeader ("OC-Item-Type", cacheSendType);
+
+            request.send (data);
+        };
+
+        this.handleReadyStateChange = function ()
+        {
+            if (request.readyState == 4)
+                if (request.status === 200)
+                    scope.eventDispatcher.trigger ('complete', request.response);
+                else
+                    HCFunctions.showToastrMessage ('error', request.statusText);
+        }
+    }
 };
