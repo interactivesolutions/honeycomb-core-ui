@@ -148,7 +148,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
         {
             availableLanguages    = formConfiguration.availableLanguages;
             scope.currentLanguage = availableLanguages[0];
-            scope.content.content = {};
+            scope.content.translations = {};
         }
         
         createForm ();
@@ -510,9 +510,6 @@ HCService.FormManager.ISForm = function (data, availableFields)
     {
         if (!scope.content)
             return;
-
-        console.log(scope.content);
-        return;
         
         disableSubmit ('data-management');
         
