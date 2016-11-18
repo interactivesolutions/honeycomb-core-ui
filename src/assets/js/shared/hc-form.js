@@ -49,7 +49,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
     /**
      * Form structure information
      */
-    var structureResponse;
+    var formConfiguration;
     
     /**
      * Form Available languages for all multi language fields
@@ -142,11 +142,11 @@ HCService.FormManager.ISForm = function (data, availableFields)
      */
     function structureLoaded (response)
     {
-        structureResponse = response;
+        formConfiguration = response;
         
-        if (response.availableLanguages)
+        if (formConfiguration.availableLanguages)
         {
-            availableLanguages    = response.availableLanguages;
+            availableLanguages    = formConfiguration.availableLanguages;
             scope.currentLanguage = availableLanguages[0];
             scope.content.content = {};
         }
@@ -159,11 +159,11 @@ HCService.FormManager.ISForm = function (data, availableFields)
      */
     function createForm ()
     {
-        storageURL = structureResponse.storageURL;
+        storageURL = formConfiguration.storageURL;
         
         createFormDiv ();
-        createFormFields (structureResponse.structure);
-        createFormButtons ();
+        createFormFields (formConfiguration.structure);
+        createFormButtons (formConfiguration.buttons);
         
         if (data.contentID)
             loadContent ();
@@ -306,7 +306,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
                 }
             }
             else
-                HCFunctions.showToastrMessage('warning', 'No form field with type: ' + fieldData.type + ', is not registered.');
+                HCFunctions.showToastrMessage ('warning', 'No form field with type: ' + fieldData.type + ', is not registered.');
         });
         
         scope.DependencyManager.setFields (formFields);
@@ -474,11 +474,12 @@ HCService.FormManager.ISForm = function (data, availableFields)
     /**
      * Creating form buttons
      */
-    function createFormButtons ()
+    function createFormButtons (buttons)
     {
         //TODO multi language
-        //TODO use buttons from forms first
-        var buttons       = [{class: "col-centered", label: "Submit", type: "submit"}];
+        if (!buttons)
+            buttons = [{class: "col-centered", label: "Submit", type: "submit"}];
+
         var buttonsHolder = $ ('<div class="hc-form-buttons-holder"></div>');
         var length        = buttons.length;
         var button;
@@ -550,7 +551,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
         
         // response is from backend and from dd() method
         else if (HCFunctions.isString (response) && response.indexOf ("<script> Sfdump = window.Sfdump || (function (doc)") > -1)
-            handleError(response);
+            handleError (response);
         else if (scope.successCallBack)
             scope.successCallBack (response);
         else if (response.success == true)
