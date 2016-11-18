@@ -256,9 +256,9 @@ HCService.FormManager.Objects.BasicField = function ()
         if (fieldData.placeholder)
             placeholder = 'is-hidden';
 
-        return this.labelWrapper = $('<div class="is-fo-field-label ' + placeholder + '">' + this.getLabel() + ' ' + this.getRequiredHTML() + '</div>');
+        return this.labelWrapper = $ ('<div class="is-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + this.getRequiredHTML () + '</div>');
     };
-    
+
     /**
      * Returns generated Field required HTML div
      *
@@ -268,10 +268,10 @@ HCService.FormManager.Objects.BasicField = function ()
     this.getRequiredHTML = function ()
     {
         var r = '';
-        
+
         if (this.isRequired () && fieldData.requiredVisible)
             r = '<div class="is-fo-required">*</div>';
-        
+
         return r;
     };
 
@@ -346,7 +346,7 @@ HCService.FormManager.Objects.BasicField = function ()
             if (index >= 0)
             {
                 validateIndex (index);
-                localScope.form.content.content[index][localScope.getFieldID ()] = this.getContentData ();
+                localScope.form.content.translations[index][localScope.getFieldID ()] = this.getContentData ();
             }
         }
         else
@@ -361,10 +361,10 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     function validateIndex (index)
     {
-        if (!localScope.form.content.content[index])
+        if (!localScope.form.content.translations[index])
         {
-            localScope.form.content.content[index]                  = {};
-            localScope.form.content.content[index]['language_code'] = localScope.form.currentLanguage;
+            localScope.form.content.translations[index]                  = {};
+            localScope.form.content.translations[index]['language_code'] = localScope.form.currentLanguage;
         }
     }
 
@@ -378,6 +378,28 @@ HCService.FormManager.Objects.BasicField = function ()
 
     this.validateContentData = function ()
     {
+        if (fieldData.requiredLanguages)
+        {
+            var missingLanguages = HCFunctions.clone (fieldData.requiredLanguages);
+            var languagePosition;
+
+            $.each (this.form.content.translations, function (key, value)
+            {
+                languagePosition = missingLanguages.indexOf (value.language_code);
+
+                if (languagePosition >= 0 && value[localScope.getFieldID ()])
+                    missingLanguages.splice (languagePosition, 1);
+            });
+
+            if (missingLanguages.length > 0)
+            {
+                this.showFieldError (this.getLabel () + ' missing languages: ' + missingLanguages.toString ());
+                return false;
+            }
+            else
+                return true;
+        }
+
         if (this.isRequired () && this.getContentData () == null)
         {
             this.showFieldError (this.getLabel () + ' is empty!');
@@ -535,7 +557,7 @@ HCService.FormManager.Objects.BasicField = function ()
             if (index >= 0)
             {
                 validateIndex (index);
-                localScope.setContentData (localScope.form.content.content[index][localScope.getFieldID ()]);
+                localScope.setContentData (localScope.form.content.translations[index][localScope.getFieldID ()]);
             }
         }
         else
@@ -551,14 +573,14 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         var _key = undefined;
 
-        $.each (localScope.form.content.content, function (key, value)
+        $.each (localScope.form.content.translations, function (key, value)
         {
             if (value.language_code == localScope.form.currentLanguage)
                 _key = key;
         });
 
         if (_key == undefined)
-            _key = Object.size (localScope.form.content.content);
+            _key = Object.size (localScope.form.content.translations);
 
         return _key;
     }
@@ -570,8 +592,9 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.hideParent = function ()
     {
-        this.available    = false;
-        this.fieldOptions = null;
+        this.available = false;
+
+        fieldOptions = null;
         parent.addClass ('is-hidden');
 
         if (innerRequired == 1)
