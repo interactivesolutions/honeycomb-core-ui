@@ -38,7 +38,7 @@ HCService.FormManager = new function ()
      */
     this.initialize = function ()
     {
-        
+        this.registerField(HCService.FormManager.Objects.SingleLine);
         
         initializedLocal = true;
     };
