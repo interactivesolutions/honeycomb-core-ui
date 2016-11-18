@@ -417,10 +417,10 @@ HCSLoader = new function ()
                 request.setRequestHeader ('X-CSRF-TOKEN', token);
 
             if (cacheUpdateType)
-                request.setRequestHeader ("OC-Update-Type", cacheUpdateType);
+                request.setRequestHeader ("HC-Update-Type", cacheUpdateType);
 
             if (cacheSendType)
-                request.setRequestHeader ("OC-Item-Type", cacheSendType);
+                request.setRequestHeader ("HC-Item-Type", cacheSendType);
 
             request.send (data);
         };
