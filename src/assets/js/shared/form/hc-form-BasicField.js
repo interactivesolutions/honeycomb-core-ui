@@ -175,7 +175,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.handleEditable = function ()
     {
-        if (this.editType == 1)
+        if (this.editType)
             this.innerHTML.addClass ('is-field-disabled').attr ('disabled', true);
     };
     
