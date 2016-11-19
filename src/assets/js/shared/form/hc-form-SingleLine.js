@@ -31,8 +31,9 @@ HCService.FormManager.Objects.SingleLine = function ()
             this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
 
         this.innerHTML.append (this.inputField);
-
         this.checkForMultiLanguage ();
+
+        this.innerHTML.append (this.getAnnotation());
     };
 
     /**

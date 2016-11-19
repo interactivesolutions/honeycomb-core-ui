@@ -208,7 +208,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.getAnnotation = function ()
     {
         if (fieldData.note)
-            return '<div class="hc-fo-note">' + fieldData.note + '</div>';
+            return '<div style="width: 100%;"><small class="text-muted pull-right">' + fieldData.note + '</small></div>';
 
         return '';
     };
@@ -464,6 +464,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.hideFieldError = function ()
     {
+        //TODO make possibility for fields to have warning and danger types
         parent.removeClass ('has-danger').addClass('has-success');
         this.inputField.addClass('form-control-success');
     };
