@@ -198,7 +198,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
             value.populateContent ();
         });
         
-        enableSubmit ('data-management');
+        this.enableSubmit ('data-management');
     }
     
     /**
