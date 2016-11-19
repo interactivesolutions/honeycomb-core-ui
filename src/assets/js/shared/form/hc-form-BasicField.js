@@ -465,9 +465,11 @@ HCService.FormManager.Objects.BasicField = function ()
     this.hideFieldError = function ()
     {
         //TODO make possibility for fields to have warning and danger types
-        parent.removeClass ('has-danger').addClass('has-success');
-        this.inputField.addClass('form-control-success');
+        parent.removeClass ('has-danger');
+        if (fieldData.required)
+            parent.addClass('has-success');
 
+        this.inputField.addClass('form-control-success');
         this.form.enableSubmit('field_' + this.uniqueFieldID);
     };
 
