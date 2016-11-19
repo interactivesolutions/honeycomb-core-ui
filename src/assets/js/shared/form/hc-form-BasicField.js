@@ -256,7 +256,7 @@ HCService.FormManager.Objects.BasicField = function ()
 
     /**
      * Getting required html
-     * 
+     *
      * @returns {*}
      */
     function getRequiredHTML()
@@ -388,11 +388,8 @@ HCService.FormManager.Objects.BasicField = function ()
                 this.showFieldError (this.getLabel () + ' missing languages: ' + missingLanguages.toString ());
                 return false;
             }
-            else
-                return true;
         }
-
-        if (this.isRequired () && this.getContentData () == null)
+        else if (this.isRequired () && this.getContentData () == null)
         {
             this.showFieldError (this.getLabel () + ' is empty!');
             return false;
@@ -467,7 +464,8 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.hideFieldError = function ()
     {
-        parent.removeClass ('has-danger');
+        parent.removeClass ('has-danger').addClass('has-success');
+        this.inputField.addClass('form-control-success');
     };
 
     /**
@@ -480,6 +478,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.showFieldError = function (value)
     {
         parent.addClass ('has-danger');
+        this.inputField.removeClass('form-control-success');
         this.showErrorMessage (value);
     };
 
@@ -528,7 +527,7 @@ HCService.FormManager.Objects.BasicField = function ()
 
         this.inputField.addClass('col-xs-10');
 
-        this.innerHTML.addClass('row');
+        this.innerHTML.addClass('row form-group');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
         this.innerHTML.append (multiLanguageSelect);
     };
