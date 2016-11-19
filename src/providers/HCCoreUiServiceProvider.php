@@ -2,6 +2,9 @@
 
 namespace interactivesolutions\honeycombcoreui\providers;
 
+use Devfactory\Minify\Facades\MinifyFacade;
+use Devfactory\Minify\MinifyServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class HCCoreUiServiceProvider extends ServiceProvider
@@ -30,12 +33,16 @@ class HCCoreUiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'honeycombcoreui');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'honeycombcoreui');
 
         // Publish your migrations
         $this->publishes([
             __DIR__ . '/../assets/' => public_path('/'),
         ]);
+
+        // register minify class facade
+        AliasLoader::getInstance()->alias('Minify', MinifyFacade::class);
     }
 
     /**
@@ -46,5 +53,8 @@ class HCCoreUiServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands($this->commands);
+
+        if( class_exists(MinifyServiceProvider::class) )
+            $this->app->register(MinifyServiceProvider::class);
     }
 }

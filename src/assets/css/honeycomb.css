@@ -1,0 +1,16 @@
+.form-group {
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.form-tabs {
+    padding: 5px;
+    border: 1px solid #EEEEEE;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
