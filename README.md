@@ -103,3 +103,21 @@ Goes into structure array of form configuration.
 Parameter | Usage |
 --- | --- |
  - | No additional parameters are required |
+ 
+## Password
+Password input line, allows user to enter password
+
+### Configuration and usage:
+Goes into structure array of form configuration.
+
+```javascript
+{
+  "type": "password",
+  "fieldID": "password",
+  "label": "Password",
+}
+```
+
+Parameter | Usage |
+--- | --- |
+ - | No additional parameters are required |
