@@ -40,6 +40,7 @@ HCService.FormManager = new function ()
     {
         this.registerField(HCService.FormManager.Objects.SingleLine);
         this.registerField(HCService.FormManager.Objects.Email);
+        this.registerField(HCService.FormManager.Objects.Password);
 
         initializedLocal = true;
     };

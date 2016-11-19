@@ -13,6 +13,7 @@
         '/js/shared/form/hc-form-Button.js',
         '/js/shared/form/hc-form-SingleLine.js',
         '/js/shared/form/hc-form-Email.js',
+        '/js/shared/form/hc-form-Password.js',
     ])
 
 !!}
