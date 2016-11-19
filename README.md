@@ -41,7 +41,8 @@ These parameters are used by every single field
   "required": 1,
   "requiredVisible": 1,
   "hidden": 1,
-  "note": "Annotation"
+  "note": "Annotation",
+  "placeholder": 1
 }
 ```
 Parameter | Usage |
@@ -53,7 +54,8 @@ editable | Should field be allowed to be edited |
 required | Is this field required |
 requiredVisible | Should required be visible (*) |
 hidden | Used in edit forms to hide some information so user can not see it but it required for submit |
-note | Annotation for input field (password needs to be 8-20 symbols and etc)
+note | Annotation for input field (password needs to be 8-20 symbols and etc) |
+placeholder | Should field have a visible label or should the label be added as PlaceHolder |
 
 ## SingleLine
 Simple single line with multilanguage support.
