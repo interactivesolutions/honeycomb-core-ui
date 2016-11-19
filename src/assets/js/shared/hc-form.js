@@ -175,7 +175,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
      */
     function loadContent ()
     {
-        disableSubmit ('data-management');
+        scope.disableSubmit ('data-management');
         
         var loader;
         loader = new HCLoader.BasicLoader ();
@@ -204,7 +204,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
     /**
      * Disable submit button
      */
-    function disableSubmit (key)
+    this.disableSubmit = function (key)
     {
         if (!key)
             return;
@@ -213,12 +213,12 @@ HCService.FormManager.ISForm = function (data, availableFields)
         
         if (submitButton)
             submitButton.disable ();
-    }
+    };
     
     /**
      * Enable submit button
      */
-    function enableSubmit (key)
+    this.enableSubmit = function  (key)
     {
         if (!key)
             return;
@@ -228,7 +228,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
         if (Object.size (disableSubmitButtonReasons) == 0)
             if (submitButton)
                 submitButton.enable ();
-    }
+    };
     
     /**
      * Creating DIV DOM object for the form to be stored
@@ -507,8 +507,8 @@ HCService.FormManager.ISForm = function (data, availableFields)
     {
         if (!scope.content)
             return;
-        
-        disableSubmit ('data-management');
+
+        scope.disableSubmit ('data-management');
         
         var dataLoader = new HCLoader.BasicLoader ();
         
@@ -564,7 +564,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
     function handleError (e)
     {
         HCFunctions.showToastrMessage ('error', e);
-        enableSubmit ('data-management');
+        this.enableSubmit ('data-management');
     }
     
     initialize ();
