@@ -121,3 +121,27 @@ Goes into structure array of form configuration.
 Parameter | Usage |
 --- | --- |
  - | No additional parameters are required |
+
+## TextArea
+Simple text area with multilanguage support
+
+### Configuration and usage:
+Goes into structure array of form configuration.
+
+```javascript
+{
+  "type": "textArea",
+  "fieldID": "textArea",
+  "label": "TextArea",
+  
+  "multiLanguage": 1,
+  "requiredLanguages": ['en', 'de'],
+  "rows":"5"
+}
+```
+
+Parameter | Usage |
+--- | --- |
+ multiLanguage | Does this field support multi language data input |
+requiredLanguages | If some languages are strictly required here must be it's list |
+rows | Amount of rows to display |
