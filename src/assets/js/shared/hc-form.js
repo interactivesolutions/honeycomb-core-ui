@@ -248,45 +248,42 @@ HCService.FormManager.ISForm = function (data, availableFields)
      */
     function createFormFields (structure)
     {
-        var tabClass;
+        var _class;
         tabHolder = {};
         
         $.each (structure, function (i, fieldData)
         {
             if (availableFields[fieldData.type])
             {
-                tabClass = '';
+                _class = 'form-group ';
                 
                 if (fieldData.tabID)
                 {
                     if (!tabHolder[fieldData.tabID])
-                        tabHolder[fieldData.tabID] = HCFunctions.createUUID ();
-                    
-                    tabClass = tabHolder[fieldData.tabID];
+                        tabHolder[fieldData.tabID] = 'tab_' + HCFunctions.createUUID ();
+
+                    _class += tabHolder[fieldData.tabID];
                 }
                 else
                 {
-                    if (fieldData.editType != 2)
+                    if (!fieldData.hidden)
                     {
                         if (!tabHolder['undefined'])
-                            tabHolder['undefined'] = HCFunctions.createUUID ();
-                        
-                        tabClass = tabHolder['undefined'];
+                            tabHolder['undefined'] = 'tab_' + HCFunctions.createUUID();
+
+                        _class += tabHolder['undefined'];
                     }
-                    else
-                        tabClass = '';
                 }
                 
-                var isHidden      = '';
                 var field         = new availableFields[fieldData.type] ();
                 field.form        = scope;
                 field.formWrapper = data.divID;
                 field.setFieldData (fieldData);
-                
-                if (fieldData.editType == 2)
-                    isHidden = ' hc-hidden';
-                
-                var html       = $ ('<div class="hc-fm-field-holder' + isHidden + ' ' + tabClass + '"></div>').append (field.getHTML ());
+
+                if (fieldData.hidden)
+                    _class += ' hidden';
+
+                var html       = $ ('<div class="' + _class + '"></div>').append (field.getHTML ());
                 var finalField = {field: field, html: html, destination: $ (data.divID + ' .formContent')};
                 
                 placeFieldOnStage (finalField);
