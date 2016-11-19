@@ -4,7 +4,7 @@ HoneyComb coreui repository
 Contains
 - Formbuilder
 
-# Installation
+## Installation
 
 Begin by installing this package through Composer.
 
@@ -21,7 +21,7 @@ Begin by installing this package through Composer.
     composer require interactivesolutions/honeycombcoreui "*"
 ```
 
-# Laravel installation
+## Laravel installation
 
 Then register the service provider and Facade by opening `config/app.php`
 
