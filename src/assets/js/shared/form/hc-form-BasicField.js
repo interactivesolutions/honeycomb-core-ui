@@ -249,7 +249,7 @@ HCService.FormManager.Objects.BasicField = function ()
             return '';
 
         if (fieldData.placeholder)
-            placeholder = 'hc-hidden';
+            placeholder = 'hidden';
 
         return $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + getRequiredHTML() + '</label>');
     };
