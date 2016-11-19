@@ -42,6 +42,7 @@ HCService.FormManager = new function ()
         this.registerField(HCService.FormManager.Objects.Email);
         this.registerField(HCService.FormManager.Objects.Password);
         this.registerField(HCService.FormManager.Objects.DateTimePicker);
+        this.registerField(HCService.FormManager.Objects.TextArea);
 
         initializedLocal = true;
     };

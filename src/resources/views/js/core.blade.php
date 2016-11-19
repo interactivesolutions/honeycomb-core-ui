@@ -15,6 +15,7 @@
         '/js/shared/form/hc-form-Email.js',
         '/js/shared/form/hc-form-Password.js',
         '/js/shared/form/hc-form-DateTimePicker.js',
+        '/js/shared/form/hc-form-TextArea.js',
     ])
 
 !!}
