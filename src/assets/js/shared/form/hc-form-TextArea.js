@@ -18,10 +18,6 @@ HCService.FormManager.Objects.TextArea = function ()
     {
         this.innerHTML = $ ('<div></div>');
         this.inputField  = $ ('<textarea style="width:100%" rows="' + this.getFieldData().rows + '" id="' + this.uniqueFieldID + '"></textarea>');
-
-        if (this.getFieldData ().maxLength)
-            this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
-
         this.innerHTML.append (this.inputField);
         this.checkForMultiLanguage ();
 
