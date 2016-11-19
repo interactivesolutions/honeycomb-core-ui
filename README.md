@@ -30,7 +30,7 @@ divID | Location in HTML where form should be generated, if empty form will be a
 
 ## General configuration for every single field.
 
-These parameters are **required**
+These parameters are used by every single field
 
 ```javascript
 {
@@ -40,7 +40,8 @@ These parameters are **required**
   "editable": 1,
   "required": 1,
   "requiredVisible": 1,
-  "hidden": 1
+  "hidden": 1,
+  "note": "Annotation"
 }
 ```
 Parameter | Usage |
@@ -52,6 +53,7 @@ editable | Should field be allowed to be edited |
 required | Is this field required |
 requiredVisible | Should required be visible (*) |
 hidden | Used in edit forms to hide some information so user can not see it but it required for submit |
+note | Annotation for input field (password needs to be 8-20 symbols and etc)
 
 ## SingleLine
 Simple single line with multilanguage support.
