@@ -258,24 +258,21 @@ HCService.FormManager.Objects.BasicField = function ()
         if (fieldData.placeholder)
             placeholder = 'hc-hidden';
 
-        return this.labelWrapper = $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + this.getRequiredHTML () + '</label>');
+        return $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + getRequiredHTML() + '</label>');
     };
 
     /**
-     * Returns generated Field required HTML div
-     *
-     * @method getRequiredHTML
-     * @return {string} HTML div
+     * Getting required html
+     * 
+     * @returns {*}
      */
-    this.getRequiredHTML = function ()
+    function getRequiredHTML()
     {
-        var r = '';
+        if (fieldData.required && fieldData.requiredVisible)
+            return '<span class="text-danger">*</span>';
 
-        if (this.isRequired () && fieldData.requiredVisible)
-            r = '<span class="hc-fo-required">*</span>';
-
-        return r;
-    };
+        return '';
+    }
 
     /**
      * Returns value if the field required or not
