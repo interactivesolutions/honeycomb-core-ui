@@ -42,7 +42,8 @@ These parameters are used by every single field
   "requiredVisible": 1,
   "hidden": 1,
   "note": "Annotation",
-  "placeholder": 1
+  "placeholder": 1,
+  "tabID": "Tab name"
 }
 ```
 Parameter | Usage |
@@ -56,6 +57,7 @@ requiredVisible | Should required be visible (*) |
 hidden | Used in edit forms to hide some information so user can not see it but it required for submit |
 note | Annotation for input field (password needs to be 8-20 symbols and etc) |
 placeholder | Should field have a visible label or should the label be added as PlaceHolder |
+tabID | Form can be splited into tabs, each field can be assigned to a tab |
 
 ## SingleLine
 Simple single line with multilanguage support.
