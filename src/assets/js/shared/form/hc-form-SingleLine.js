@@ -22,15 +22,15 @@ HCService.FormManager.Objects.SingleLine = function ()
     this.handleProperties = function ()
     {
         this.innerHTML = $ ('<div></div>');
-        this.inputHTML  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="text" placeholder="' + this.getPlaceHolder () + '">');
+        this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="text" placeholder="' + this.getPlaceHolder () + '">');
 
         if (this.getFieldData ().centered)
-            this.inputHTML.css ('text-align', 'center');
+            this.inputField.css ('text-align', 'center');
 
         if (this.getFieldData ().maxLength)
-            this.inputHTML.attr ('maxLength', this.getFieldData ().maxLength);
+            this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
 
-        this.innerHTML.append (this.inputHTML);
+        this.innerHTML.append (this.inputField);
 
         this.checkForMultiLanguage ();
     };

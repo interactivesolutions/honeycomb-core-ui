@@ -26,13 +26,6 @@ HCService.FormManager.Objects.BasicField = function ()
     this.uniqueFieldID = HCFunctions.createUUID ();
 
     /**
-     * Input field
-     *
-     * @type {undefined}
-     */
-    this.inputHTML = undefined;
-
-    /**
      * Field Properties
      * @type Object
      */
@@ -178,7 +171,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.handleEditable = function ()
     {
         if (!editable)
-            this.inputHTML.attr ('disabled', true);
+            this.inputField.attr ('disabled', true);
     };
 
     /**
@@ -474,7 +467,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.hideFieldError = function ()
     {
-        this.inputField.removeClass ('hc-fo-wrong-input');
+        parent.removeClass ('has-danger');
     };
 
     /**
@@ -486,7 +479,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.showFieldError = function (value)
     {
-        this.inputField.addClass ('hc-fo-wrong-input');
+        parent.addClass ('has-danger');
         this.showErrorMessage (value);
     };
 
@@ -502,12 +495,15 @@ HCService.FormManager.Objects.BasicField = function ()
         HCFunctions.showToastrMessage ('warning', value);
     };
 
+    /**
+     * Checking for multi language
+     */
     this.checkForMultiLanguage = function ()
     {
         var availableLanguages = this.form.getAvailableLanguages ();
 
         if (availableLanguages.length == 0 || !fieldData.multiLanguage)
-            return null;
+            return;
 
         multiLanguageSelect = $ ('<select id="multi-language-selector" class="form-control col-xs-2"></select>');
 
@@ -530,9 +526,10 @@ HCService.FormManager.Objects.BasicField = function ()
 
         localScope.form.eventDispatcher.bind (localScope, 'languageChanged', this.languageSelectionChanged);
 
+        this.inputField.addClass('col-xs-10');
+
         this.innerHTML.addClass('row');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
-        this.inputHTML.addClass('col-xs-10');
         this.innerHTML.append (multiLanguageSelect);
     };
 
