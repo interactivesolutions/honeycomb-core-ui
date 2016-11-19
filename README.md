@@ -4,6 +4,36 @@ HoneyComb coreui repository
 Contains
 - Formbuilder
 
+# Installation
+
+Begin by installing this package through Composer.
+
+
+```js
+	{
+	    "require": {
+	    	"interactivesolutions/honeycombcoreui": "*"
+		}
+	}
+```
+
+```js
+    composer require interactivesolutions/honeycombcoreui "*"
+```
+
+# Laravel installation
+
+Then register the service provider and Facade by opening `config/app.php`
+
+    interactivesolutions\honeycombcoreui\providers\HCCoreUiServiceProvider::class
+
+Publish the files:
+
+```
+	php artisan vendor:publish
+
+```
+
 # Formbuilder
 
 Formbuilder is created to ease the job of backend developers.
