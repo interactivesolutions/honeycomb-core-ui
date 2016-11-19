@@ -25,20 +25,20 @@ HCService.FormManager.Objects.Button = function ()
      */
     this.handleProperties = function ()
     {
-        this.innerHTML = $('<button tabindex="0" type="button" id="' + this.uniqueFieldID + '"></button>');
+        this.innerHTML = this.inputHTML = $('<button tabindex="0" type="button" id="' + this.uniqueFieldID + '"></button>');
 
         if (this.getFieldData().attributes)
         {
             $.each(this.getFieldData().attributes, function (key, value)
             {
-                scope.innerHTML.attr(key, value);
+                scope.inputHTML.attr(key, value);
             });
         }
 
         if (!this.getFieldData().class)
             this.getFieldData().class = 'col-centered';
 
-        this.innerHTML.addClass(this.getFieldData().class);
+        this.inputHTML.addClass(this.getFieldData().class);
         this.enable();
     };
 
@@ -71,9 +71,9 @@ HCService.FormManager.Objects.Button = function ()
      */
     this.disable = function ()
     {
-        this.innerHTML.unbind();
-        this.innerHTML.removeClass('is-button');
-        this.innerHTML.addClass('disabled hc-button-disabled');
+        this.inputHTML.unbind();
+        this.inputHTML.removeClass('is-button');
+        this.inputHTML.addClass('disabled hc-button-disabled');
     };
 
     /**
@@ -81,12 +81,12 @@ HCService.FormManager.Objects.Button = function ()
      */
     this.enable = function ()
     {
-        this.innerHTML.removeClass('disabled hc-button-disabled');
-        this.innerHTML.addClass('is-button');
-        this.innerHTML.html(this.getLabel());
+        this.inputHTML.removeClass('disabled hc-button-disabled');
+        this.inputHTML.addClass('is-button');
+        this.inputHTML.html(this.getLabel());
 
-        this.innerHTML.unbind();
-        this.innerHTML.bind('click', handleLocalClick);
+        this.inputHTML.unbind();
+        this.inputHTML.bind('click', handleLocalClick);
     };
 
     /**
