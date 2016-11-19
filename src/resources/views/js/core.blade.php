@@ -12,6 +12,7 @@
         '/js/shared/form/hc-form-BasicField.js',
         '/js/shared/form/hc-form-Button.js',
         '/js/shared/form/hc-form-SingleLine.js',
+        '/js/shared/form/hc-form-Email.js',
     ])
 
 !!}
