@@ -272,6 +272,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
                             tabHolder['undefined'] = 'tab_' + HCFunctions.createUUID();
 
                         _class += tabHolder['undefined'];
+                        fieldData.tabID = 'undefined';
                     }
                 }
                 
@@ -398,29 +399,32 @@ HCService.FormManager.ISForm = function (data, availableFields)
         
         if (totalTabs <= 1)
             return;
-        
-        var html = $ ('<ul class="list-inline nav-pills nav"></ul>');
+
+        var html = $ ('<div class="form-tabs"></div>');
+        var menu = $ ('<ul class="nav nav-pills"></ul>');
         var li;
         var firstLi;
         
         $.each (tabInfo, function (key, value)
         {
-            li = $ ('<li class>' + '<a data-toggle="tab" href="' + value + '">' + key + '</a>' + '</li>');
-            
+            li = $ ('<li class="nav-item">' + '<a class="nav-link" data-toggle="tab" href="' + value + '">' + key + '</a>' + '</li>');
+
             if (!firstLi)
+            {
                 firstLi = li;
-            
+                firstLi.find('a').addClass('active');
+            }
+
             li.bind ('click', function (e)
             {
                 changeTabContent ($ (this).find ('a').attr ('href'));
             });
             
-            html.append (li);
+            menu.append (li);
         });
         
-        $ (data.divID).prepend (html);
+        $ (data.divID).prepend (html.append(menu));
         
-        firstLi.addClass ('active');
         firstLi.trigger ('click');
     }
     
