@@ -12,13 +12,13 @@ Begin by installing this package through Composer.
 ```js
 	{
 	    "require": {
-	    	"interactivesolutions/honeycombcoreui": "*"
+	    	"interactivesolutions/honeycomb-core-ui": "*"
 		}
 	}
 ```
 
 ```js
-    composer require interactivesolutions/honeycombcoreui "*"
+    composer require interactivesolutions/honeycomb-core-uii "0.1.*"
 ```
 
 ## Laravel installation
