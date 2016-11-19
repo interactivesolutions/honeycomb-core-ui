@@ -12,7 +12,7 @@ Formbuilder is created to ease the job of backend developers.
 var config   = {
     "storageURL": "http://www.domain.com/admin/api/service-name",
     "availableLanguages":["en", "de"],
-    "buttons": [{"label": "Submit", "type": "submit", "attributes":["class": "col-centered", "data-step":"one"]}],
+    "buttons": [{ "label": "Submit", "type": "submit", "attributes": { "class": "center-block" } }],
     "structure": [],
     "divID":"#form"
 };
