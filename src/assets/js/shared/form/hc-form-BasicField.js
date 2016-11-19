@@ -512,7 +512,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (availableLanguages.length == 0 || !fieldData.multiLanguage)
             return null;
 
-        multiLanguageSelect = $ ('<select id="multi-language-selector" class="form-control"></select>');
+        multiLanguageSelect = $ ('<select id="multi-language-selector" class="form-control col-xs-2"></select>');
 
         if (!editable)
             multiLanguageSelect.attr('disabled', true);
@@ -533,6 +533,9 @@ HCService.FormManager.Objects.BasicField = function ()
 
         localScope.form.eventDispatcher.bind (localScope, 'languageChanged', this.languageSelectionChanged);
 
+        this.innerHTML.addClass('row');
+        this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
+        this.inputHTML.addClass('col-xs-10');
         this.innerHTML.append (multiLanguageSelect);
     };
 
