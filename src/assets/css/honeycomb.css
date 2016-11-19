@@ -1,9 +1,8 @@
-.hc-fm-field-holder {
+.form-group {
     margin-bottom: 15px;
 }
 
-.hidden
-{
+.hidden {
     display: none;
     visibility: hidden;
     opacity: 0;
