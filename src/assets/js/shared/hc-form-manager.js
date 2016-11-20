@@ -45,6 +45,7 @@ HCService.FormManager = new function ()
         this.registerField(HCService.FormManager.Objects.TextArea);
         this.registerField(HCService.FormManager.Objects.RichTextArea);
         this.registerField(HCService.FormManager.Objects.CheckBoxList);
+        this.registerField(HCService.FormManager.Objects.RadioList);
 
         initializedLocal = true;
     };
