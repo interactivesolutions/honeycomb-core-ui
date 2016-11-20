@@ -14,3 +14,13 @@
     border-radius: 3px;
     margin-bottom: 10px;
 }
+
+.form-check {
+    cursor: pointer;
+}
+
+.form-check-input {
+    margin-left: 0;
+    margin-right: 10px;
+    cursor: pointer;
+}

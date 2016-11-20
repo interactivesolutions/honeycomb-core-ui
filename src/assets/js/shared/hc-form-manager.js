@@ -44,6 +44,7 @@ HCService.FormManager = new function ()
         this.registerField(HCService.FormManager.Objects.DateTimePicker);
         this.registerField(HCService.FormManager.Objects.TextArea);
         this.registerField(HCService.FormManager.Objects.RichTextArea);
+        this.registerField(HCService.FormManager.Objects.CheckBoxList);
 
         initializedLocal = true;
     };

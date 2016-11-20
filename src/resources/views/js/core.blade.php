@@ -17,6 +17,7 @@
         '/js/shared/form/hc-form-DateTimePicker.js',
         '/js/shared/form/hc-form-TextArea.js',
         '/js/shared/form/hc-form-RichTextArea.js',
+        '/js/shared/form/hc-form-CheckBoxList.js',
     ])
 
 !!}
