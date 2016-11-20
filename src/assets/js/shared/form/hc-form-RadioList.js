@@ -20,7 +20,7 @@ HCService.FormManager.Objects.RadioList = function ()
      */
     this.handleProperties = function ()
     {
-        this.innerHTML = $('<div class="form-check"></div>');
+        this.innerHTML = this.inputField = $('<div class="form-check"></div>');
     };
 
     /**
@@ -39,19 +39,18 @@ HCService.FormManager.Objects.RadioList = function ()
 
         var length = this.getOptions().length;
         var horizontal = '';
-        var disableValue = '';
+        var disabled = '';
 
         if (this.getFieldData().horizontal)
             horizontal = '-inline';
 
-        if (this.editType || this.editType > 0)
-            disableValue = "disabled";
+        if (this.getFieldData().readonly)
+            disabled = "disabled";
 
         for (var i = 0; i < length; i++)
         {
             idHolder[this.getOptions()[i].id] = HCFunctions.createUUID();
-
-            this.innerHTML.append('<label class="form-check"' + horizontal + '>' + '<input class="form-check-input" type="radio" name="' + this.uniqueFieldID + '" id="' + idHolder[this.getOptions()[i].id] + '" value="' + this.getOptions()[i].id + '">' + this.getOptions()[i].label + '</label>');
+            this.innerHTML.append('<div class="form-check' + horizontal + ' ' + disabled + '"><label class="form-check-label"><input ' + disabled + ' class="form-check-input" type="radio" name="' + this.uniqueFieldID + '" id="' + idHolder[this.getOptions()[i].id] + '" value="' + this.getOptions()[i].id + '">' + this.getOptions()[i].label + '</label></div>');
         }
 
         if (contentData)

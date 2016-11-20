@@ -44,7 +44,7 @@ HCService.FormManager.Objects.CheckBoxList = function ()
         if (!this.getOptions())
             return;
 
-        var horizontal = '', disabledValue = '';
+        var horizontal = '', disabled = '';
 
        /* if (this.getFieldData().limit)
             limit = this.getFieldData().limit;*/
@@ -53,7 +53,7 @@ HCService.FormManager.Objects.CheckBoxList = function ()
             horizontal = '-inline';
 
         if (this.getFieldData().readonly)
-            disabledValue = "disabled readonly";
+            disabled = "disabled";
 
         fillOptions(this.getOptions(), 0);
 
@@ -68,7 +68,7 @@ HCService.FormManager.Objects.CheckBoxList = function ()
 
                 idsHolder[option.id] = HCFunctions.createUUID();
 
-                scope.innerHTML.append('<label class="form-check' + horizontal + '"><input id="' + idsHolder[option.id] + '" type="checkbox" class="form-check-input" value="' + option.id + '">' + option.label +'</label>');
+                scope.innerHTML.append('<div ' + padding + ' class="form-check' + horizontal + ' ' + disabled + '"><label class="form-check-label"><input ' + disabled + ' id="' + idsHolder[option.id] + '" type="checkbox" class="form-check-input" value="' + option.id + '">' + option.label +'</label></div>');
 
                 if (option.children)
                     fillOptions(option.children, level + 1);
