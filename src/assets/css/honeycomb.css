@@ -20,3 +20,11 @@
     margin-right: 10px;
     cursor: pointer;
 }
+
+.select2 {
+    width: 100%;
+}
+
+.select2-selection {
+    padding-bottom: 5px;
+}
