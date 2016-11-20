@@ -24,9 +24,6 @@ HCService.FormManager.Objects.SingleLine = function ()
         this.innerHTML = $ ('<div></div>');
         this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="text" placeholder="' + this.getPlaceHolder () + '">');
 
-        if (this.getFieldData ().centered)
-            this.inputField.css ('text-align', 'center');
-
         if (this.getFieldData ().maxLength)
             this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
 
