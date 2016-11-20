@@ -153,7 +153,7 @@ Parameter | Usage |
  - | No additional parameters are required |
 
 ## TextArea
-Simple text area with multilanguage support
+Simple text area with multi language support
 
 ### Configuration and usage:
 Goes into structure array of form configuration.
@@ -175,3 +175,30 @@ Parameter | Usage |
  multiLanguage | Does this field support multi language data input |
 requiredLanguages | If some languages are strictly required here must be it's list |
 rows | Amount of rows to display |
+
+## RichTextArea
+TyniMCE based rich text editor with multi language support
+
+### Configuration and usage:
+Goes into structure array of form configuration.
+
+```javascript
+{
+  "type": "richTextArea",
+  "fieldID": "richTextArea",
+  "label": "Rich Text Area",
+  
+  "multiLanguage': 1,
+  "requiredLanguages": ["en", "de"],
+  "height": 500,
+  "plugins": [],
+  "toolbar": []
+}
+```
+
+Parameter | Usage |
+--- | --- |
+ multiLanguage | Does this field support multi language data input |
+requiredLanguages | If some languages are strictly required here must be it's list |
+plugins | Which tinymce plugins should be used |
+toolbar | What items toolbar should use |
