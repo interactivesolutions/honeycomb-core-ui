@@ -7,6 +7,7 @@
         'https://www.atlasestateagents.co.uk/javascript/tether.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js',
+        'https://cdn.tinymce.com/4/tinymce.min.js'
     ])
 
 !!}
