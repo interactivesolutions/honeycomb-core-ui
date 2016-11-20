@@ -21,16 +21,23 @@ HCService.FormManager.Objects.BasicField = function ()
     this.eventDispatcher = new HCObjects.HCEventDispatcher ();
 
     /**
-     * Field metadata
-     * @type Object
-     */
-    var fieldData = null;
-
-    /**
      * Unique identification number for a field
      * @type String
      */
     this.uniqueFieldID = HCFunctions.createUUID ();
+
+    /**
+     * Label wrapper used for checkbox list
+     *
+     * @type {undefined}
+     */
+    this.labelWrapper = undefined;
+
+    /**
+     * Field metadata
+     * @type Object
+     */
+    var fieldData = null;
 
     /**
      * Field Properties
@@ -258,7 +265,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (fieldData.placeholder)
             placeholder = 'hidden';
 
-        return $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + getRequiredHTML() + '</label>');
+        return this.labelWrapper = $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + getRequiredHTML() + '</label>');
     };
 
     /**

@@ -9,8 +9,17 @@ HCService.FormManager.Objects.RichTextArea = function ()
      */
     this.fieldName = 'richTextArea';
 
+    /**
+     * Parent scope
+     *
+     * @type {HCService.FormManager.Objects.BasicField}
+     */
     var parentScope = this.parentScrope;
 
+    /**
+     * This scope
+     * @type {HCService.FormManager.Objects.RichTextArea}
+     */
     var scope = this;
 
     /**
@@ -59,12 +68,6 @@ HCService.FormManager.Objects.RichTextArea = function ()
                 },
                 readonly : this.getFieldData().readonly
             });
-
-        if (this.getFieldData().multiLanguage)
-        {
-            console.log(tinymce.editors[this.uniqueFieldID]);
-        }
-        //
     };
 
     /**
