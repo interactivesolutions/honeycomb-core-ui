@@ -73,10 +73,10 @@ HCService.FormManager.Objects.BasicField = function ()
     var multiLanguageSelect;
 
     /**
-     * Is field editable
+     * Is field readonly
      * @type Boolean
      */
-    var editable;
+    var readonly;
 
     /**
      * Setting field metadata and field properties
@@ -90,14 +90,14 @@ HCService.FormManager.Objects.BasicField = function ()
         fieldProperties = data.properties;
         fieldOptions    = data.options;
         innerRequired   = data.required;
-        editable        = data.editable;
+        readonly        = data.readonly;
 
         this.updateDependencyArray ();
         this.handleProperties ();
         this.handleOptions ();
 
         if (this.fieldName != 'button')
-            this.handleEditable ();
+            this.handleReadonly ();
     };
 
     /**
@@ -175,9 +175,9 @@ HCService.FormManager.Objects.BasicField = function ()
     /**
      * Checking if field can be edited
      */
-    this.handleEditable = function ()
+    this.handleReadonly = function ()
     {
-        if (!editable)
+        if (readonly)
             this.inputField.attr ('disabled', true);
     };
 
@@ -522,7 +522,7 @@ HCService.FormManager.Objects.BasicField = function ()
 
         multiLanguageSelect = $ ('<select id="multi-language-selector" class="form-control col-xs-2"></select>');
 
-        if (!editable)
+        if (readonly)
             multiLanguageSelect.attr('disabled', true);
 
         $.each (availableLanguages, function (key, value)

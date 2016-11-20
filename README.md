@@ -67,7 +67,7 @@ These parameters are used by every single field
   "type": "typeOfField",
   "fieldID": "fieldID",
   "label": "FieldLabel",
-  "editable": 1,
+  "readonly": 1,
   "required": 1,
   "requiredVisible": 1,
   "hidden": 1,
@@ -81,7 +81,7 @@ Parameter | Usage |
 type | Type of a field every field will have its own unique type (all types are described below) |
 fieldID | ID of the field or value. Under which name it should be sent to backend |
 label | Label of the field |
-editable | Should field be allowed to be edited |
+readonly | Is field read only or editable |
 required | Is this field required |
 requiredVisible | Should required be visible (*) |
 hidden | Used in edit forms to hide some information so user can not see it but it required for submit |
