@@ -188,7 +188,7 @@ Goes into structure array of form configuration.
   "fieldID": "richTextArea",
   "label": "Rich Text Area",
   
-  "multiLanguage': 1,
+  "multiLanguage": 1,
   "requiredLanguages": ["en", "de"],
   "height": 500,
   "plugins": [],
