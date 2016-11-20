@@ -202,3 +202,43 @@ Parameter | Usage |
 requiredLanguages | If some languages are strictly required here must be it's list |
 plugins | Which tinymce plugins should be used |
 toolbar | What items toolbar should use |
+
+## CheckBoxList
+Check box list
+
+### Configuration and usage:
+Goes into structure array of form configuration.
+
+```javascript
+{
+  "type": "checkBoxList",
+  "fieldID": "checkBoxList",
+  "label": "Check Box List",
+  
+  "options": [{"id":"id", "label":"label", "children":[]}],
+}
+```
+
+Parameter | Usage |
+--- | --- |
+options | Array of available options, contains objects with ID and Label. Also each object can contain children array where more options can be added. |
+
+## RadioList
+RadioList
+
+### Configuration and usage:
+Goes into structure array of form configuration.
+
+```javascript
+{
+  "type": "radioList",
+  "fieldID": "radioList",
+  "label": "Radio List",
+  
+  "options": [{"id":"id", "label":"label"}],
+}
+```
+
+Parameter | Usage |
+--- | --- |
+options | Array of available options, contains objects with ID and Label.|
