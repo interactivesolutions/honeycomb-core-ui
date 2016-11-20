@@ -8,6 +8,13 @@ HCService.FormManager.Objects.BasicField = function ()
     var localScope = this;
 
     /**
+     * Parent scope
+     *
+     * @type {HCService.FormManager.Objects.BasicField}
+     */
+    this.parentScrope = this;
+
+    /**
      * Events dispatcher
      * @type jQuery Object
      */
