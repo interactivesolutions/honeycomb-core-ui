@@ -56,7 +56,8 @@ HCService.FormManager.Objects.RichTextArea = function ()
                         scope.innerHTML.find('.mce-tinymce').addClass('col-xs-10');
                         scope.innerHTML.find('.mce-tinymce').css({"box-sizing": "border-box", "-moz-box-sizing": "border-box", "-webkit-box-sizing": "border-box"});
                     });
-                }
+                },
+                readonly : !this.getFieldData().editable
             });
 
         if (this.getFieldData().multiLanguage)
