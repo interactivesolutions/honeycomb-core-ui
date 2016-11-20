@@ -17,7 +17,7 @@ HCService.FormManager.Objects.TextArea = function ()
     this.handleProperties = function ()
     {
         this.innerHTML = $ ('<div></div>');
-        this.inputField  = $ ('<textarea class="form-control" style="width:100%" rows="' + this.getFieldData().rows + '" id="' + this.uniqueFieldID + '"></textarea>');
+        this.inputField  = $ ('<textarea class="form-control" rows="' + this.getFieldData().rows + '" id="' + this.uniqueFieldID + '"></textarea>');
         this.innerHTML.append (this.inputField);
         this.checkForMultiLanguage ();
 
