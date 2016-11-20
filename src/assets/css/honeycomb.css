@@ -14,3 +14,17 @@
     border-radius: 3px;
     margin-bottom: 10px;
 }
+
+.form-check-input {
+    margin-left: 0;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.select2 {
+    width: 100%;
+}
+
+.select2-selection {
+    padding-bottom: 5px;
+}

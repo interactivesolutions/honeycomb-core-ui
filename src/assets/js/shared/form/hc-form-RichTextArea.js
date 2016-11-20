@@ -9,8 +9,17 @@ HCService.FormManager.Objects.RichTextArea = function ()
      */
     this.fieldName = 'richTextArea';
 
+    /**
+     * Parent scope
+     *
+     * @type {HCService.FormManager.Objects.BasicField}
+     */
     var parentScope = this.parentScrope;
 
+    /**
+     * This scope
+     * @type {HCService.FormManager.Objects.RichTextArea}
+     */
     var scope = this;
 
     /**
@@ -57,14 +66,8 @@ HCService.FormManager.Objects.RichTextArea = function ()
                         scope.innerHTML.find('.mce-tinymce').css({"box-sizing": "border-box", "-moz-box-sizing": "border-box", "-webkit-box-sizing": "border-box"});
                     });
                 },
-                readonly : !this.getFieldData().editable
+                readonly : this.getFieldData().readonly
             });
-
-        if (this.getFieldData().multiLanguage)
-        {
-            console.log(tinymce.editors[this.uniqueFieldID]);
-        }
-        //
     };
 
     /**
