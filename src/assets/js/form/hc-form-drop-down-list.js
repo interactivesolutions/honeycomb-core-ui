@@ -29,7 +29,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             if (!this.getFieldData().search.maximumSelectionLength || this.getFieldData().search.maximumSelectionLength > 0)
                 multiple = 'multiple';
 
-        this.innerHTML = this.inputField = $('<select ' + multiple + ' id="' + this.uniqueFieldID + '" class="is-fo-dropdown-list"></select>');
+        this.innerHTML = this.inputField = $('<select ' + multiple + ' id="' + this.uniqueFieldID + '" class="form-control"></select>');
     };
 
     /**
@@ -39,34 +39,35 @@ HCService.FormManager.Objects.DropDownList = function ()
      */
     this.handleOptions = function ()
     {
-        if (!this.fieldOptions)
+        if (!this.getOptions())
             return;
 
-        this.fieldOptions = formatData(this.fieldOptions);
-        var length_i      = this.fieldOptions.length;
+        var fieldOptions = formatData(this.getOptions());
+
+        var length_i      = fieldOptions.length;
         var length_j;
         var option;
 
         var existingValue = this.getContentData() ? this.getContentData() : this.getFieldData().value;
 
-        this.innerHTML.html('');
+        this.inputField.html('');
 
         for (var i = 0; i < length_i; i++)
         {
-            if (this.fieldOptions[i].children)
+            if (fieldOptions[i].children)
             {
-                length_j = this.fieldOptions[i].children.length;
-                option   = '<optgroup label="' + this.fieldOptions[i].text + '">';
+                length_j = fieldOptions[i].children.length;
+                option   = '<optgroup label="' + fieldOptions[i].text + '">';
 
                 for (var j = 0; j < length_j; j++)
-                    option += '<option value="' + this.fieldOptions[i].children[j].id + '">' + this.fieldOptions[i].children[j].text + '&nbsp;&nbsp;</option>';
+                    option += '<option value="' + fieldOptions[i].children[j].id + '">' + fieldOptions[i].children[j].text + '&nbsp;&nbsp;</option>';
 
                 option += '</optgroup>';
             }
             else
-                option = '<option value="' + this.fieldOptions[i].id + '">' + this.fieldOptions[i].text + '&nbsp;&nbsp;</option>';
+                option = '<option value="' + fieldOptions[i].id + '">' + fieldOptions[i].text + '&nbsp;&nbsp;</option>';
 
-            this.innerHTML.append(option);
+            this.inputField.append(option);
         }
 
         if (existingValue)
