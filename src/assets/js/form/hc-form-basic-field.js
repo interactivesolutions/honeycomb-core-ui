@@ -352,11 +352,13 @@ HCService.FormManager.Objects.BasicField = function ()
             if (index >= 0)
             {
                 validateIndex (index);
-                localScope.form.content.translations[index][localScope.getFieldID ()] = this.getContentData ();
+                if (localScope.form)
+                    localScope.form.content.translations[index][localScope.getFieldID ()] = this.getContentData ();
             }
         }
         else
-            this.form.content[this.getFieldID ()] = this.getContentData ();
+            if (this.form)
+                this.form.content[this.getFieldID ()] = this.getContentData ();
 
         this.eventDispatcher.trigger ('contentDataChange', this);
     };
@@ -384,6 +386,9 @@ HCService.FormManager.Objects.BasicField = function ()
 
     this.validateContentData = function ()
     {
+        if (!this.form)
+            return true;
+
         if (fieldData.requiredLanguages)
         {
             var missingLanguages = HCFunctions.clone (fieldData.requiredLanguages);

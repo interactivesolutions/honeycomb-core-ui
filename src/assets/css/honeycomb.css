@@ -28,3 +28,32 @@
 .select2-selection {
     padding-bottom: 5px;
 }
+
+.hc-action-list-button {
+    margin-right: 5px;
+}
+
+.hc-action-list-search {
+    width: 200px;
+    margin-right: 5px;
+}
+
+.hc-action-list {
+    float: left;
+}
+
+.hc-filter-list {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.hc-filter-list label {
+    margin: 8px;
+}
+
+select {
+    padding-top: 6px !important;
+}
