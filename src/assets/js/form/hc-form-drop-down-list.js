@@ -29,7 +29,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             if (!this.getFieldData().search.maximumSelectionLength || this.getFieldData().search.maximumSelectionLength > 0)
                 multiple = 'multiple';
 
-        this.innerHTML = this.inputField = $('<select ' + multiple + ' id="' + this.uniqueFieldID + '" class="form-control"></select>');
+        this.innerHTML = this.inputField = $('<select ' + multiple + ' id="' + this.uniqueFieldID + '" class="form-control" style="width:auto;"></select>');
     };
 
     /**
