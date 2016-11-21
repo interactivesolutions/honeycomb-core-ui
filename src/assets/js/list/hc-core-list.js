@@ -333,7 +333,7 @@ HCService.List.Core = function ()
                 
                 case 'dateTimePicker':
                     
-                    field = createFilterDateTimePicker(value);
+                    //field = createFilterDateTimePicker(value);
                     break;
             }
             
@@ -362,14 +362,16 @@ HCService.List.Core = function ()
      */
     function handleFilterChange(e)
     {
+        return;
+
         var id = e.getFieldID();
-        
-        if (e.fieldData.customURL)
+
+        if (e.getFieldData().customURL)
         {
             var loader = new HCLoader.BasicLoader();
             loader.methodPOST();
             loader.addVariable(e.getFieldID(), e.getContentData());
-            loader.load(null, null, null, e.fieldData.customURL);
+            loader.load(null, null, null, e.getFieldData().customURL);
         }
         else
         {
@@ -458,11 +460,11 @@ HCService.List.Core = function ()
             $.each(localScope.filterParameters, function (key, value)
             {
                 
-                if (!value.fieldData.customURL)
+                if (!value.getFieldData().customURL)
                 {
                     cValue = value.getContentData();
                     
-                    if (value.fieldData.ignoreFieldID)
+                    if (value.getFieldData().ignoreFieldID)
                         url += cValue;
                     else
                         url += '&' + key + '=' + cValue;

@@ -15,8 +15,6 @@ HCService.List.SimpleList = function (configuration)
     {
         listElementsHolder = {};
 
-        //createTableHeader();
-
        /* endlessScroll = new HCObjects.EndlessScroll({
             url: configuration.url,
             onLoadComplete: createTableHeader,
@@ -44,6 +42,8 @@ HCService.List.SimpleList = function (configuration)
      */
     function createTableHeader()
     {
+        return;
+
         var headers = $('<div class="is-list-item content-is-list-headers"></div>');
         var useTranslations = true;
         mainCheckBox = $('<div style="width:1px; text-align:center;" class="is-list-item-value independent">' +
@@ -622,9 +622,7 @@ HCService.List.SimpleList = function (configuration)
 
     this.handleReloadAction = function (url)
     {
-        listContainer.html('');
         createTableHeader();
-        endlessScroll.reload(url);
     };
 
     /**
@@ -634,8 +632,6 @@ HCService.List.SimpleList = function (configuration)
      */
     this.handleFilterButtonActionClick = function (value)
     {
-        //var value = e.currentTarget.value;
-
         $.each($('.is-list-container .is-list-item-color'), function (key, element)
         {
             listElementsHolder[$(element).attr('id')].showElement();
@@ -650,6 +646,10 @@ HCService.List.SimpleList = function (configuration)
     this.handleDeleteButtonClick = function ()
     {
         var listToDelete = getSelectedListItems();
+
+        if(listToDelete.length == 0)
+            return;
+
         var loader = new HCLoader.BasicLoader();
         loader.addVariable('list', listToDelete);
         loader.methodDELETE();
