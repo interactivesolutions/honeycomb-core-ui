@@ -9,17 +9,17 @@
         '/js/shared/hc-form-manager.js',
         '/js/shared/hc-form.js',
 
-        '/js/shared/form/hc-form-BasicField.js',
-        '/js/shared/form/hc-form-Button.js',
-        '/js/shared/form/hc-form-SingleLine.js',
-        '/js/shared/form/hc-form-Email.js',
-        '/js/shared/form/hc-form-Password.js',
-        '/js/shared/form/hc-form-DateTimePicker.js',
-        '/js/shared/form/hc-form-TextArea.js',
-        '/js/shared/form/hc-form-RichTextArea.js',
-        '/js/shared/form/hc-form-CheckBoxList.js',
-        '/js/shared/form/hc-form-RadioList.js',
-        '/js/shared/form/hc-form-DropDownList.js',
+        '/js/form/hc-form-BasicField.js',
+        '/js/form/hc-form-Button.js',
+        '/js/form/hc-form-SingleLine.js',
+        '/js/form/hc-form-Email.js',
+        '/js/form/hc-form-Password.js',
+        '/js/form/hc-form-DateTimePicker.js',
+        '/js/form/hc-form-TextArea.js',
+        '/js/form/hc-form-RichTextArea.js',
+        '/js/form/hc-form-CheckBoxList.js',
+        '/js/form/hc-form-RadioList.js',
+        '/js/form/hc-form-DropDownList.js',
     ])
 
 !!}
