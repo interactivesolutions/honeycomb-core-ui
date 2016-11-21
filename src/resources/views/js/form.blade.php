@@ -1,8 +1,8 @@
 {!!
 
     Minify::javascript([
-        '/js/shared/hc-form-manager.js',
-        '/js/shared/hc-form.js',
+        '/js/form/hc-form-manager.js',
+        '/js/form/hc-form.js',
 
         '/js/form/hc-form-basic-field.js',
         '/js/form/hc-form-button.js',
