@@ -69,7 +69,7 @@ HCService.List.Core = function ()
     {
         localScope.actionListItems = [];
         
-        var actions = $('<div class="hc-action-list row"></div>');
+        var actions = $('<div class="hc-action-list flex"></div>');
 
         $.each(configuration.actions, function (key, value)
         {
@@ -319,7 +319,7 @@ HCService.List.Core = function ()
     {
         filterListItems = {};
         
-        var actions = $('<div class="hc-filter-list row"></div>');
+        var actions = $('<div class="hc-filter-list flex"></div>');
         var field;
         
         $.each(configuration.filters, function (key, value)

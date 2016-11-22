@@ -14,6 +14,7 @@ HCService.List.SimpleList = function (configuration)
     this.createContentList = function ()
     {
         listElementsHolder = {};
+        createTableHeader();
 
        /* endlessScroll = new HCObjects.EndlessScroll({
             url: configuration.url,
@@ -42,13 +43,11 @@ HCService.List.SimpleList = function (configuration)
      */
     function createTableHeader()
     {
-        return;
-
-        var headers = $('<div class="is-list-item content-is-list-headers"></div>');
+        var headers = $('<div class="list-group-item hc-list-headers"></div>');
         var useTranslations = true;
-        mainCheckBox = $('<div style="width:1px; text-align:center;" class="is-list-item-value independent">' +
-            '<input type="checkbox" value="" name="checkbox" class="">' +
-            '</div>');
+        mainCheckBox = $('<div class="hc-list-item-value independent" style="width: 30px;padding-top: 2px;">'
+            + '<input type="checkbox" value="" name="checkbox" class="">'
+            + '</div>');
 
         if (!configuration.headers)
         {
@@ -83,10 +82,10 @@ HCService.List.SimpleList = function (configuration)
             else
                 label = value.label;
 
-            headers.append('<div class="is-list-item-value">' + label + '</div>');
+            headers.append('<div class="hc-list-item-value">' + label + '</div>');
         });
 
-        listContainer = $('<div class="is-list-container"></div>');
+        listContainer = $('<div class="hc-list-container"></div>');
         scope.mainContainer.append(listContainer);
         listContainer.append(headers);
     }
@@ -129,7 +128,7 @@ HCService.List.SimpleList = function (configuration)
         $.each(configuration.headers, function (key, value)
         {
             if (key.indexOf('.') != -1)
-                value = ISFunctions.pathIndex(data, key);
+                value = HCFunctionss.pathIndex(data, key);
             else if (configuration.headers)
                 value = data[key];
 
@@ -180,8 +179,8 @@ HCService.List.SimpleList = function (configuration)
          */
         function createRecordItem(key, value, disabled)
         {
-            if (!ISFunctions.isArray(value))
-                value = ISFunctions.stripHTML(value);
+            if (!HCFunctionss.isArray(value))
+                value = HCFunctionss.stripHTML(value);
 
             var cell = getValue(key, value, disabled);
             var holder = $('<div class="is-list-item-value"></div>');
@@ -307,7 +306,7 @@ HCService.List.SimpleList = function (configuration)
 
                         checkBox.addClass('disabled');
 
-                        var loader = new ISLoader.BasicLoader();
+                        var loader = new HCLoader.BasicLoader();
                         loader.addVariable(key, value);
                         loader.methodPUT();
                         loader.load(handleStrictLoaded, handleError, null, url, 'strict');
@@ -324,7 +323,7 @@ HCService.List.SimpleList = function (configuration)
                 function handleError(e)
                 {
                     checkBox.removeClass('disabled');
-                    ISFunctions.showToastrMessage('error', e);
+                    HCFunctionss.showToastrMessage('error', e);
                 }
             }
 
@@ -387,7 +386,7 @@ HCService.List.SimpleList = function (configuration)
                     button.addClass('is-silent-button-active');
                     button.removeClass('is-silent-button');
                     button.unbind();
-                    new ISLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
+                    new HCLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
                 }
 
                 function handleError(e)
@@ -399,7 +398,7 @@ HCService.List.SimpleList = function (configuration)
                     button.addClass('fa-exclamation-triangle');
                     button.css('color', 'red');
 
-                    ISFunctions.showToastrMessage('error', e);
+                    HCFunctionss.showToastrMessage('error', e);
                 }
 
                 function handleSilentLoaded(data)
@@ -582,11 +581,11 @@ HCService.List.SimpleList = function (configuration)
 
         $.each(config, function (config_key, config_value)
         {
-            if (ISFunctions.isString(config_value))
+            if (HCFunctionss.isString(config_value))
             {
                 if (config_key.indexOf('.') >= 0)
                 {
-                    if (ISFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctionss.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == config_value)
@@ -603,13 +602,13 @@ HCService.List.SimpleList = function (configuration)
                 // Checking if value is an array
                 if (cf.indexOf(',') >= 0)
                 {
-                    if (config_value.indexOf(ISFunctions.pathIndex(data, config_key)) >= 0)
+                    if (config_value.indexOf(HCFunctionss.pathIndex(data, config_key)) >= 0)
                         disabled = true;
                 }
                 // Checking if key has multiple params
                 else if (config_key.indexOf('.') >= 0)
                 {
-                    if (ISFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctionss.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == cf)
