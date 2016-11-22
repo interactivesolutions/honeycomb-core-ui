@@ -34,8 +34,8 @@ HCService.List.SimpleList = function (configuration)
     }
 
     var listContainer;
-    var mainCheckBox;
     var listElementsHolder;
+    var mainCheckBox;
     var scope = this;
 
     /**
@@ -74,6 +74,24 @@ HCService.List.SimpleList = function (configuration)
         }
 
         var label;
+        var dropDownItem;
+        var displayOption = $('<div id="hc-header-settings" class="btn-group hc-list-item-value"></div>');
+        var dropDownMenu = $('<div class="dropdown-menu dropdown-menu-right"></div>');
+        var headerSettings = $('<i aria-haspopup="true" aria-expanded="false" class="fa fa-cog"></i>');
+
+        displayOption.append(headerSettings);
+        displayOption.append(dropDownMenu);
+
+        headerSettings.on('click', function (event)
+        {
+            $(this).parent().toggleClass('open');
+        });
+
+        $('body').on('click', function (e)
+        {
+            if (!headerSettings.is(e.target) && dropDownMenu.has(e.target).length === 0)
+                displayOption.removeClass('open');
+        });
 
         $.each(configuration.headers, function (key, value)
         {
@@ -82,12 +100,22 @@ HCService.List.SimpleList = function (configuration)
             else
                 label = value.label;
 
-            headers.append('<div class="hc-list-item-value">' + label + '</div>');
+            dropDownItem = $('<a class="dropdown-item"><label><input type="checkbox" checked><span>' + label + '</span></label></a>');
+            dropDownItem.bind('click', handleHeaderSettingsClick);
+
+            dropDownMenu.append(dropDownItem);
+            headers.append('<div class="hc-list-item-value" data-id="' + key + '">' + label + '</div>');
         });
+
+        headers.append(displayOption);
 
         listContainer = $('<div class="hc-list-container"></div>');
         scope.mainContainer.append(listContainer);
         listContainer.append(headers);
+    }
+
+    function handleHeaderSettingsClick(e)
+    {
     }
 
     /**

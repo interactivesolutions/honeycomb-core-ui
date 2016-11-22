@@ -106,3 +106,7 @@ select {
 {
     border-top-right-radius: .25em;
 }
+
+#hc-header-settings .dropdown-menu-right .dropdown-item input{
+    margin-right:5px;
+}
