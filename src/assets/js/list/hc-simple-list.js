@@ -45,6 +45,7 @@ HCService.List.SimpleList = function (configuration)
     {
         var headers = $('<div class="list-group-item hc-list-headers"></div>');
         var useTranslations = true;
+
         mainCheckBox = $('<div class="hc-list-item-value independent" style="width: 30px;padding-top: 2px;">'
             + '<input type="checkbox" value="" name="checkbox" class="">'
             + '</div>');
@@ -77,7 +78,7 @@ HCService.List.SimpleList = function (configuration)
         var dropDownItem;
         var displayOption = $('<div id="hc-header-settings" class="btn-group hc-list-item-value"></div>');
         var dropDownMenu = $('<div class="dropdown-menu dropdown-menu-right"></div>');
-        var headerSettings = $('<i aria-haspopup="true" aria-expanded="false" class="fa fa-cog"></i>');
+        var headerSettings = $('<i aria-haspopup="true" aria-expanded="false" class="fa fa-columns"></i>');
 
         displayOption.append(headerSettings);
         displayOption.append(dropDownMenu);
@@ -100,7 +101,7 @@ HCService.List.SimpleList = function (configuration)
             else
                 label = value.label;
 
-            dropDownItem = $('<a class="dropdown-item"><label><input type="checkbox" checked><span>' + label + '</span></label></a>');
+            dropDownItem = $('<a class="dropdown-item"><label><input data-id="' + key + '" type="checkbox" checked><span>' + label + '</span></label></a>');
             dropDownItem.bind('click', handleHeaderSettingsClick);
 
             dropDownMenu.append(dropDownItem);
@@ -112,10 +113,38 @@ HCService.List.SimpleList = function (configuration)
         listContainer = $('<div class="hc-list-container"></div>');
         scope.mainContainer.append(listContainer);
         listContainer.append(headers);
-    }
 
-    function handleHeaderSettingsClick(e)
-    {
+        /**
+         * When settings is clicked hide / show row
+         * @param e
+         */
+        function handleHeaderSettingsClick(e)
+        {
+            //TODO save status for each list to cookie!
+            //TODO Allow min 1 selected item!
+            var target = $(e.target);
+            var data = target.data();
+
+            if (Object.size(data) != 0)
+            {
+                if (target.is(':checked'))
+                {
+                    listContainer.find('.hc-list-item-value').filter(
+                        function(){
+                            return $(this).data('id') === data.id;
+                        })
+                        .show();
+                }
+                else
+                {
+                    listContainer.find('.hc-list-item-value').filter(
+                        function(){
+                            return $(this).data('id') === data.id;
+                        })
+                        .hide();
+                }
+            }
+        }
     }
 
     /**
