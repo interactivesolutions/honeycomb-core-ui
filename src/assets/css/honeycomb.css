@@ -133,4 +133,11 @@ select {
 {
     opacity: 0.5;
     cursor: not-allowed;
+    background-color: #e3e3e3;
+}
+
+.hc-active
+{
+    background-color: #53707F !important;
+    color: #FFF !important;
 }

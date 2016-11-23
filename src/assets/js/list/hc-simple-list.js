@@ -293,7 +293,7 @@ HCService.List.SimpleList = function (configuration)
                         if (disabled || value == '-')
                             value = '-';
                         else
-                            value = createSilentButton(value, config.showAlert);
+                            value = createSilentButton(value);
                         break;
 
                     case 'external-button':
@@ -404,38 +404,18 @@ HCService.List.SimpleList = function (configuration)
                 return button;
             }
 
-            function createSilentButton(value, showAlert)
+            function createSilentButton(value)
             {
                 var button = $('<i class="fa fa-refresh is-silent-button" aria-hidden="true"></i>');
                 button.bind('click', function ()
                 {
-                    if (showAlert)
-                    {
-                        // sweet alert for confirmation
-                        swal({
-                            title: "Are you sure?",
-                            text: "You will not be able to recover this action!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Yes",
-                            closeOnConfirm: true
-                        }, function ()
-                        {
-                            handleButton();
-                        });
-                    } else
-                    {
-                        handleButton();
-                    }
+                   handleButton();
                 });
 
                 function handleButton()
                 {
                     button.addClass('fa-spin');
                     button.addClass('fa-fw');
-                    button.addClass('is-silent-button-active');
-                    button.removeClass('is-silent-button');
                     button.unbind();
                     new HCLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
                 }
@@ -445,8 +425,6 @@ HCService.List.SimpleList = function (configuration)
                     button.removeClass('fa-spin');
                     button.removeClass('fa-refresh');
                     button.removeClass('fa-fw');
-                    button.removeClass('is-silent-button-active');
-                    button.addClass('fa-exclamation-triangle');
                     button.css('color', 'red');
 
                     HCFunctions.notify('error', e);
@@ -459,7 +437,6 @@ HCService.List.SimpleList = function (configuration)
                         button.removeClass('fa-spin');
                         button.removeClass('fa-refresh');
                         button.removeClass('fa-fw');
-                        button.removeClass('is-silent-button-active');
                         button.addClass('fa-check');
                         button.css('color', 'green');
                     }
@@ -470,8 +447,7 @@ HCService.List.SimpleList = function (configuration)
 
             function createExternalButton(value)
             {
-                var button = $('<a href="' + value + '" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>');
-                return button;
+                return $('<a href="' + value + '" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>');;
             }
         }
 
@@ -532,12 +508,12 @@ HCService.List.SimpleList = function (configuration)
         {
             if ($(':checkbox', checkBox).prop('checked'))
             {
-                //record.addClass('active');
+                record.addClass('hc-active');
                 leScope.isSelected = true;
             }
             else
             {
-                //record.removeClass('active');
+                record.removeClass('hc-active');
                 leScope.isSelected = false;
             }
 
@@ -620,8 +596,6 @@ HCService.List.SimpleList = function (configuration)
     {
         if (!config)
             return false;
-
-        //console.log(data, config);
 
         var disabled = false;
 
