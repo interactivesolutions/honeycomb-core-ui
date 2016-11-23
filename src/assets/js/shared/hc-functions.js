@@ -11,7 +11,7 @@ HCFunctions = new function ()
      * @param type
      * @param e error information
      */
-    this.showToastrMessage = function (type, e)
+    this.notify = function (type, e)
     {
         var message;
         if (!e)

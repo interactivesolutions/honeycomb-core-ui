@@ -9,17 +9,31 @@ HCService.List.SimpleList = function (configuration)
     var dataList;
 
     /**
+     * Total selected rows
+     *
+     * @type {number}
+     */
+    var totalSelectedRows = 0;
+
+    /**
      * Creating content
      */
     this.createContentList = function ()
     {
         listElementsHolder = {};
 
-       /* endlessScroll = new HCObjects.EndlessScroll({
-            url: configuration.url,
-            onLoadComplete: createTableHeader,
-            createElement: createListElement
-        });*/
+        switch (configuration.type)
+        {
+            case 'endless':
+
+                dataList = new HCService.List.Endless({
+                    url: configuration.contentURL,
+                    onLoadComplete: createTableHeader,
+                    createElement: createListElement
+                });
+
+                break;
+        }
     };
 
     /**
@@ -33,8 +47,8 @@ HCService.List.SimpleList = function (configuration)
     }
 
     var listContainer;
-    var mainCheckBox;
     var listElementsHolder;
+    var mainCheckBox;
     var scope = this;
 
     /**
@@ -42,26 +56,26 @@ HCService.List.SimpleList = function (configuration)
      */
     function createTableHeader()
     {
-        return;
-
-        var headers = $('<div class="is-list-item content-is-list-headers"></div>');
+        var headers = $('<div class="list-group-item hc-list-headers"></div>');
         var useTranslations = true;
-        mainCheckBox = $('<div style="width:1px; text-align:center;" class="is-list-item-value independent">' +
-            '<input type="checkbox" value="" name="checkbox" class="">' +
-            '</div>');
+
+        mainCheckBox = $('<div class="hc-list-item-value independent" style="width: 30px;padding-top: 2px;">'
+            + '<input type="checkbox" value="" name="checkbox" class="">'
+            + '</div>');
 
         if (!configuration.headers)
         {
             useTranslations = false;
-            configuration.headers = endlessScroll.getLoadedData().data[0];
+            configuration.headers = dataList.getLoadedData().data[0];
         }
 
-        if (scope.actionListItems.delete || scope.actionListItems.merge || scope.actionListItems.custom)
+        if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
             headers.append(mainCheckBox);
 
             mainCheckBox.bind('change', function ()
             {
+                totalSelectedRows = 0;
                 var checkStatus = $(':checked', mainCheckBox).prop('checked');
 
                 $.each(listElementsHolder, function (key, value)
@@ -75,6 +89,24 @@ HCService.List.SimpleList = function (configuration)
         }
 
         var label;
+        var dropDownItem;
+        var displayOption = $('<div id="hc-header-settings" class="btn-group hc-list-item-value"></div>');
+        var dropDownMenu = $('<div class="dropdown-menu dropdown-menu-right"></div>');
+        var headerSettings = $('<i aria-haspopup="true" aria-expanded="false" class="fa fa-columns"></i>');
+
+        displayOption.append(headerSettings);
+        displayOption.append(dropDownMenu);
+
+        headerSettings.on('click', function (event)
+        {
+            $(this).parent().toggleClass('open');
+        });
+
+        $('body').on('click', function (e)
+        {
+            if (!headerSettings.is(e.target) && dropDownMenu.has(e.target).length === 0)
+                displayOption.removeClass('open');
+        });
 
         $.each(configuration.headers, function (key, value)
         {
@@ -83,13 +115,55 @@ HCService.List.SimpleList = function (configuration)
             else
                 label = value.label;
 
-            headers.append('<div class="is-list-item-value">' + label + '</div>');
+            dropDownItem = $('<a class="dropdown-item"><label><input data-id="' + key + '" type="checkbox" checked><span>' + label + '</span></label></a>');
+            dropDownItem.bind('click', handleHeaderSettingsClick);
+
+            dropDownMenu.append(dropDownItem);
+            headers.append('<div class="hc-list-item-value" data-id="' + key + '">' + label + '</div>');
         });
 
-        listContainer = $('<div class="is-list-container"></div>');
+        headers.append(displayOption);
+
+        listContainer = $('<div class="hc-list-container"></div>');
         scope.mainContainer.append(listContainer);
         listContainer.append(headers);
+
+        /**
+         * When settings is clicked hide / show row
+         * @param e
+         */
+        function handleHeaderSettingsClick(e) {
+            //TODO save status for each list to cookie!
+            //TODO Allow min 1 selected item!
+            var target = $(e.target);
+            var data = target.data();
+
+            if (Object.size(data) != 0) {
+                if (target.is(':checked'))
+                {
+                    hiddenColumns.remove(data.id);
+
+                    listContainer.find('.hc-list-item-value').filter(
+                        function () {
+                            return $(this).data('id') === data.id;
+                        })
+                        .show();
+                }
+                else
+                {
+                    hiddenColumns.push(data.id);
+
+                    listContainer.find('.hc-list-item-value').filter(
+                        function () {
+                            return $(this).data('id') === data.id;
+                        })
+                        .hide();
+                }
+            }
+        }
     }
+
+    var hiddenColumns = [];
 
     /**
      * LIST ITEM ELEMENT
@@ -104,21 +178,17 @@ HCService.List.SimpleList = function (configuration)
         var currentID = data.id;
 
         var disabledFully = isDisabled(data, configuration.disableByFieldsFully) ? 'disabled' : '';
-        var disabledPartially = isDisabled(data, configuration.disableByFieldsPartially) ? 'independent' : '';
 
-        if (disabledFully)
-            disabledPartially = '';
+        var record = $('<div id="' + currentID + '" class="list-group-item hc-list-item ' + disabledFully + '"></div>');
 
-        var record = $('<div id="' + currentID + '"class="is-list-item is-list-item-color ' + disabledFully + ' ' + disabledPartially + '"></div>');
-
-        if (scope.actionListItems.delete || scope.actionListItems.merge || scope.actionListItems.custom)
+        if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
             var checkBox = $('<input type="checkbox" value="" name="checkbox" class="">');
 
-            if (disabledFully != '' || disabledPartially != '')
+            if (disabledFully != '')
                 checkBox.attr('disabled', true);
 
-            checkBox = $('<div style="width:1px; text-align:center;" class="is-list-item-value independent hover">' + checkBox.outerHTML() + '</div>');
+            checkBox = $('<div class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</div>');
             checkBox.bind('click', handleCheckBoxClick);
             checkBox.bind('change', handleCheckBoxChange);
             record.append(checkBox);
@@ -129,7 +199,7 @@ HCService.List.SimpleList = function (configuration)
         $.each(configuration.headers, function (key, value)
         {
             if (key.indexOf('.') != -1)
-                value = ISFunctions.pathIndex(data, key);
+                value = HCFunctions.pathIndex(data, key);
             else if (configuration.headers)
                 value = data[key];
 
@@ -144,31 +214,7 @@ HCService.List.SimpleList = function (configuration)
             record.append(createRecordItem(key, value, disabledFully));
         });
 
-        if (disabledFully == '' && disabledPartially == '')
-            enableListItemChildren(currentID);
-        else
-            disableListItemChildren(currentID);
-
-        /**
-         * If item is disabled, disabling all divs except independent
-         *
-         * @param id
-         */
-        function disableListItemChildren(id)
-        {
-            var record = $('#' + id);
-
-            record.removeClass('disabled');
-
-            $.each(record.children(), function (key, child)
-                {
-                    if ($(child).attr('class').split(' ').indexOf('independent') == -1)
-                    {
-                        $(child).addClass('disabled');
-                    }
-                }
-            );
-        }
+        record.append ('<div class="hc-list-item-value"></div>');
 
         /**
          * Creating record item
@@ -180,13 +226,17 @@ HCService.List.SimpleList = function (configuration)
          */
         function createRecordItem(key, value, disabled)
         {
-            if (!ISFunctions.isArray(value))
-                value = ISFunctions.stripHTML(value);
+            if (!HCFunctions.isArray(value))
+                value = HCFunctions.stripHTML(value);
 
             var cell = getValue(key, value, disabled);
-            var holder = $('<div class="is-list-item-value"></div>');
+            var holder = $('<div data-id="' + key + '" class="hc-list-item-value"></div>');
             holder.append(cell.cell);
             holder.addClass(cell.parentClass);
+
+            if (hiddenColumns.indexOf(key) >= 0)
+                holder.hide();
+
             return holder;
         }
 
@@ -211,7 +261,7 @@ HCService.List.SimpleList = function (configuration)
                         if (value != null && value != '' && value != '-')
                             value = '<img src="' + configuration.imagesURL + '/' + value + '/' + config.options.w + '/' + config.options.h + ' "style="max-width: ' + config.options.w + 'px;">';
                         else
-                            value = '<img style="opacity: 0.5" src="/octopus/img/no_image.svg" width="' + config.options.w + 'px" height="' + config.options.h + '">';
+                            value = '<i class="fa fa-picture-o" aria-hidden="true" style="opacity: 0.5" width="' + config.options.w + 'px" height="' + config.options.h + '"></i>';
                         break;
 
                     case 'text':
@@ -243,7 +293,7 @@ HCService.List.SimpleList = function (configuration)
                         if (disabled || value == '-')
                             value = '-';
                         else
-                            value = createSilentButton(value, config.showAlert);
+                            value = createSilentButton(value);
                         break;
 
                     case 'external-button':
@@ -307,7 +357,7 @@ HCService.List.SimpleList = function (configuration)
 
                         checkBox.addClass('disabled');
 
-                        var loader = new ISLoader.BasicLoader();
+                        var loader = new HCLoader.BasicLoader();
                         loader.addVariable(key, value);
                         loader.methodPUT();
                         loader.load(handleStrictLoaded, handleError, null, url, 'strict');
@@ -324,7 +374,7 @@ HCService.List.SimpleList = function (configuration)
                 function handleError(e)
                 {
                     checkBox.removeClass('disabled');
-                    ISFunctions.showToastrMessage('error', e);
+                    HCFunctions.notify('error', e);
                 }
             }
 
@@ -354,40 +404,20 @@ HCService.List.SimpleList = function (configuration)
                 return button;
             }
 
-            function createSilentButton(value, showAlert)
+            function createSilentButton(value)
             {
                 var button = $('<i class="fa fa-refresh is-silent-button" aria-hidden="true"></i>');
                 button.bind('click', function ()
                 {
-                    if (showAlert)
-                    {
-                        // sweet alert for confirmation
-                        swal({
-                            title: "Are you sure?",
-                            text: "You will not be able to recover this action!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Yes",
-                            closeOnConfirm: true
-                        }, function ()
-                        {
-                            handleButton();
-                        });
-                    } else
-                    {
-                        handleButton();
-                    }
+                   handleButton();
                 });
 
                 function handleButton()
                 {
                     button.addClass('fa-spin');
                     button.addClass('fa-fw');
-                    button.addClass('is-silent-button-active');
-                    button.removeClass('is-silent-button');
                     button.unbind();
-                    new ISLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
+                    new HCLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
                 }
 
                 function handleError(e)
@@ -395,11 +425,10 @@ HCService.List.SimpleList = function (configuration)
                     button.removeClass('fa-spin');
                     button.removeClass('fa-refresh');
                     button.removeClass('fa-fw');
-                    button.removeClass('is-silent-button-active');
                     button.addClass('fa-exclamation-triangle');
                     button.css('color', 'red');
 
-                    ISFunctions.showToastrMessage('error', e);
+                    HCFunctions.notify('error', e);
                 }
 
                 function handleSilentLoaded(data)
@@ -409,7 +438,6 @@ HCService.List.SimpleList = function (configuration)
                         button.removeClass('fa-spin');
                         button.removeClass('fa-refresh');
                         button.removeClass('fa-fw');
-                        button.removeClass('is-silent-button-active');
                         button.addClass('fa-check');
                         button.css('color', 'green');
                     }
@@ -420,8 +448,7 @@ HCService.List.SimpleList = function (configuration)
 
             function createExternalButton(value)
             {
-                var button = $('<a href="' + value + '" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>');
-                return button;
+                return $('<a href="' + value + '" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>');;
             }
         }
 
@@ -436,9 +463,6 @@ HCService.List.SimpleList = function (configuration)
             var canUpdate = (configuration.actions && configuration.actions.indexOf('update') >= 0);
 
             record.removeClass('disabled');
-
-            if (canUpdate)
-                record.addClass('active');
 
             $.each(record.children(), function (key, child)
                 {
@@ -479,19 +503,18 @@ HCService.List.SimpleList = function (configuration)
                 $(':checkbox', checkBox).prop('checked', true);
                 handleCheckBoxChange();
             }
-
         }
 
         function handleCheckBoxChange()
         {
             if ($(':checkbox', checkBox).prop('checked'))
             {
-                record.addClass('is-admin-list-item-selected');
+                record.addClass('hc-active');
                 leScope.isSelected = true;
             }
             else
             {
-                record.removeClass('is-admin-list-item-selected');
+                record.removeClass('hc-active');
                 leScope.isSelected = false;
             }
 
@@ -505,7 +528,7 @@ HCService.List.SimpleList = function (configuration)
 
         this.selectItem = function ()
         {
-            if (isVisible)
+            if (isVisible && !$(':checkbox', checkBox).attr('disabled'))
             {
                 $(':checkbox', checkBox).prop('checked', true);
                 handleCheckBoxChange();
@@ -532,8 +555,6 @@ HCService.List.SimpleList = function (configuration)
         };
     };
 
-    var total = 0;
-
     /**
      * Update count in the buttons
      *
@@ -542,15 +563,16 @@ HCService.List.SimpleList = function (configuration)
     function updateSelected(increase)
     {
         if (increase)
-            total++;
+            totalSelectedRows++;
         else
-            total--;
+            if (totalSelectedRows > 0)
+                totalSelectedRows--;
 
-        if (total > 0)
+        if (totalSelectedRows > 0)
         {
             $('.counter', scope.actionListItems.delete).show();
 
-            if (total >= Object.size(listElementsHolder))
+            if (totalSelectedRows >= Object.size(listElementsHolder))
                 $(':not(:checked)', mainCheckBox).prop("checked", true);
             else
                 $(':checked', mainCheckBox).prop("checked", false);
@@ -561,7 +583,7 @@ HCService.List.SimpleList = function (configuration)
             $('.counter', scope.actionListItems.delete).hide();
         }
 
-        $('.counter', scope.actionListItems.delete).html('(' + total + ')');
+        $('.counter', scope.actionListItems.delete).html('(' + totalSelectedRows + ')');
     }
 
     /**
@@ -576,17 +598,15 @@ HCService.List.SimpleList = function (configuration)
         if (!config)
             return false;
 
-        //console.log(data, config);
-
         var disabled = false;
 
         $.each(config, function (config_key, config_value)
         {
-            if (ISFunctions.isString(config_value))
+            if (HCFunctions.isString(config_value))
             {
                 if (config_key.indexOf('.') >= 0)
                 {
-                    if (ISFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == config_value)
@@ -603,13 +623,13 @@ HCService.List.SimpleList = function (configuration)
                 // Checking if value is an array
                 if (cf.indexOf(',') >= 0)
                 {
-                    if (config_value.indexOf(ISFunctions.pathIndex(data, config_key)) >= 0)
+                    if (config_value.indexOf(HCFunctions.pathIndex(data, config_key)) >= 0)
                         disabled = true;
                 }
                 // Checking if key has multiple params
                 else if (config_key.indexOf('.') >= 0)
                 {
-                    if (ISFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == cf)
@@ -620,9 +640,13 @@ HCService.List.SimpleList = function (configuration)
         return disabled;
     }
 
+    /**
+     * Creating table header
+     * @param url
+     */
     this.handleReloadAction = function (url)
     {
-        createTableHeader();
+        //createTableHeader();
     };
 
     /**
@@ -688,37 +712,6 @@ HCService.List.SimpleList = function (configuration)
     this.handleSuccessCreation = function (url)
     {
         this.handleReloadAction(url);
-    };
-
-    /**
-     * Creating custom actions
-     *
-     * @param data
-     */
-    this.createCustomAction = function (data)
-    {
-        var customButton = '<div class="btn btn-success hc-action-list-button">';
-
-        if (data.icon && data.icon != '')
-            customButton += '<i class="fa ' + data.icon + '"></i>';
-
-        customButton += '<div class="counter"></div>';
-
-        if (data.label && data.label != '')
-            customButton += '<div class="label">' + data.label + '</div>';
-
-        customButton += '</div>';
-
-        customButton = $(customButton);
-
-        scope.actionListItems.custom = true;
-
-        customButton.bind('click', function (e)
-        {
-            data.callback(getSelectedListItems());
-        });
-
-        return customButton;
     };
 
     this.initializeCore(configuration);

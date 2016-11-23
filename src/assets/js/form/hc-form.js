@@ -304,7 +304,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
                 }
             }
             else
-                HCFunctions.showToastrMessage ('warning', 'No form field with type: ' + fieldData.type + ', is not registered.');
+                HCFunctions.notify ('warning', 'No form field with type: ' + fieldData.type + ', is not registered.');
         });
         
         scope.DependencyManager.setFields (formFields);
@@ -556,7 +556,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
         else if (scope.successCallBack)
             scope.successCallBack (response);
         else if (response.success == true)
-            HCFunctions.showToastrMessage ('success', response);
+            HCFunctions.notify ('success', response);
     }
     
     /**
@@ -567,7 +567,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
      */
     function handleError (e)
     {
-        HCFunctions.showToastrMessage ('error', e);
+        HCFunctions.notify ('error', e);
         this.enableSubmit ('data-management');
     }
     

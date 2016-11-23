@@ -519,7 +519,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.showErrorMessage = function (value)
     {
-        HCFunctions.showToastrMessage ('warning', value);
+        HCFunctions.notify ('warning', value);
     };
 
     /**
@@ -890,7 +890,7 @@ HCService.FormManager.Objects.BasicField = function ()
      *!/
      function handleError(e)
      {
-     HCFunctions.showToastrMessage('error', e);
+     HCFunctions.notify('error', e);
      submitButton.enable();
      }*/
 };

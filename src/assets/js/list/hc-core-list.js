@@ -41,7 +41,7 @@ HCService.List.Core = function ()
         
         if (!configuration.div || configuration.div == '')
         {
-            HCFunctions.showToastrMessage('error', "No div", "No div specified!", "error");
+            HCFunctions.notify('error', "No div", "No div specified!", "error");
             return false;
         }
         
@@ -69,7 +69,7 @@ HCService.List.Core = function ()
     {
         localScope.actionListItems = [];
         
-        var actions = $('<div class="hc-action-list row"></div>');
+        var actions = $('<div class="hc-action-list flex"></div>');
 
         $.each(configuration.actions, function (key, value)
         {
@@ -172,7 +172,7 @@ HCService.List.Core = function ()
      */
     function createActionDelete()
     {
-        localScope.actionListItems.delete = $('<div class="btn btn-danger hc-action-list-button"><i class="fa fa-fw fa-trash"></i><div class="counter"></div></div>');
+        localScope.actionListItems.delete = $('<div class="btn btn-danger hc-action-list-button" style="display: flex"><i class="fa fa-fw fa-trash"></i><div class="counter"></div></div>');
         localScope.actionListItems.delete.bind('click', localScope.handleDeleteButtonClick);
         
         return localScope.actionListItems.delete;
@@ -319,7 +319,7 @@ HCService.List.Core = function ()
     {
         filterListItems = {};
         
-        var actions = $('<div class="hc-filter-list row"></div>');
+        var actions = $('<div class="hc-filter-list flex"></div>');
         var field;
         
         $.each(configuration.filters, function (key, value)
@@ -482,6 +482,6 @@ HCService.List.Core = function ()
     this.handleError = function (e)
     {
         //TODO: check if all beeing displayed good
-        HCFunctions.showToastrMessage('error', e);
+        HCFunctions.notify('error', e);
     }
 };
