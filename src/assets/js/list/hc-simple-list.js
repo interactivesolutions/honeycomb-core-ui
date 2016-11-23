@@ -425,6 +425,7 @@ HCService.List.SimpleList = function (configuration)
                     button.removeClass('fa-spin');
                     button.removeClass('fa-refresh');
                     button.removeClass('fa-fw');
+                    button.addClass('fa-exclamation-triangle');
                     button.css('color', 'red');
 
                     HCFunctions.notify('error', e);
