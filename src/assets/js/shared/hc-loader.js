@@ -338,7 +338,7 @@ HCLoader = new function ()
                 if (onFailure && scope)
                     onFailure.call (scope, message);
                 else
-                    HCFunctions.showToastrMessage ('error', message);
+                    HCFunctions.notify ('error', message);
             }
         };
     };
@@ -431,7 +431,7 @@ HCLoader = new function ()
                 if (request.status === 200)
                     scope.eventDispatcher.trigger ('complete', request.response);
                 else
-                    HCFunctions.showToastrMessage ('error', request.statusText);
+                    HCFunctions.notify ('error', request.statusText);
         }
     }
 };

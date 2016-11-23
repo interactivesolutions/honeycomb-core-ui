@@ -1,4 +1,5 @@
 HCService.List = {};
+HCService.List.Types = {};
 
 HCService.List.Core = function ()
 {
@@ -41,7 +42,7 @@ HCService.List.Core = function ()
         
         if (!configuration.div || configuration.div == '')
         {
-            HCFunctions.showToastrMessage('error', "No div", "No div specified!", "error");
+            HCFunctions.notify('error', "No div", "No div specified!", "error");
             return false;
         }
         
@@ -482,6 +483,6 @@ HCService.List.Core = function ()
     this.handleError = function (e)
     {
         //TODO: check if all beeing displayed good
-        HCFunctions.showToastrMessage('error', e);
+        HCFunctions.notify('error', e);
     }
 };

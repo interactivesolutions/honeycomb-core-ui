@@ -14,13 +14,21 @@ HCService.List.SimpleList = function (configuration)
     this.createContentList = function ()
     {
         listElementsHolder = {};
-        createTableHeader();
 
-       /* endlessScroll = new HCObjects.EndlessScroll({
-            url: configuration.url,
-            onLoadComplete: createTableHeader,
-            createElement: createListElement
-        });*/
+        switch (configuration.type)
+        {
+            case 'endless':
+
+                dataList = new HCService.List.Types.Endless({
+                    url: configuration.contentURL,
+                    onLoadComplete: createTableHeader,
+                    createElement: createListElement
+                });
+
+                break;
+        }
+
+       /* endlessScroll = */
     };
 
     /**
@@ -165,7 +173,7 @@ HCService.List.SimpleList = function (configuration)
         if (disabledFully)
             disabledPartially = '';
 
-        var record = $('<div id="' + currentID + '"class="is-list-item is-list-item-color ' + disabledFully + ' ' + disabledPartially + '"></div>');
+        var record = $('<div id="' + currentID + '"class="list-group-item hc-list-item' + disabledFully + ' ' + disabledPartially + '"></div>');
 
         if (scope.actionListItems.delete || scope.actionListItems.merge || scope.actionListItems.custom)
         {
@@ -174,7 +182,7 @@ HCService.List.SimpleList = function (configuration)
             if (disabledFully != '' || disabledPartially != '')
                 checkBox.attr('disabled', true);
 
-            checkBox = $('<div style="width:1px; text-align:center;" class="is-list-item-value independent hover">' + checkBox.outerHTML() + '</div>');
+            checkBox = $('<div class="hc-list-item-value independent hover">' + checkBox.outerHTML() + '</div>');
             checkBox.bind('click', handleCheckBoxClick);
             checkBox.bind('change', handleCheckBoxChange);
             record.append(checkBox);
@@ -185,7 +193,7 @@ HCService.List.SimpleList = function (configuration)
         $.each(configuration.headers, function (key, value)
         {
             if (key.indexOf('.') != -1)
-                value = HCFunctionss.pathIndex(data, key);
+                value = HCFunctions.pathIndex(data, key);
             else if (configuration.headers)
                 value = data[key];
 
@@ -199,6 +207,8 @@ HCService.List.SimpleList = function (configuration)
 
             record.append(createRecordItem(key, value, disabledFully));
         });
+
+        record.append ('<div class="hc-list-item-value"></div>');
 
         if (disabledFully == '' && disabledPartially == '')
             enableListItemChildren(currentID);
@@ -236,11 +246,11 @@ HCService.List.SimpleList = function (configuration)
          */
         function createRecordItem(key, value, disabled)
         {
-            if (!HCFunctionss.isArray(value))
-                value = HCFunctionss.stripHTML(value);
+            if (!HCFunctions.isArray(value))
+                value = HCFunctions.stripHTML(value);
 
             var cell = getValue(key, value, disabled);
-            var holder = $('<div class="is-list-item-value"></div>');
+            var holder = $('<div data-id="' + key + '" class="hc-list-item-value"></div>');
             holder.append(cell.cell);
             holder.addClass(cell.parentClass);
             return holder;
@@ -267,7 +277,7 @@ HCService.List.SimpleList = function (configuration)
                         if (value != null && value != '' && value != '-')
                             value = '<img src="' + configuration.imagesURL + '/' + value + '/' + config.options.w + '/' + config.options.h + ' "style="max-width: ' + config.options.w + 'px;">';
                         else
-                            value = '<img style="opacity: 0.5" src="/octopus/img/no_image.svg" width="' + config.options.w + 'px" height="' + config.options.h + '">';
+                            value = '<i class="fa fa-picture-o" aria-hidden="true" style="opacity: 0.5" width="' + config.options.w + 'px" height="' + config.options.h + '"></i>';
                         break;
 
                     case 'text':
@@ -380,7 +390,7 @@ HCService.List.SimpleList = function (configuration)
                 function handleError(e)
                 {
                     checkBox.removeClass('disabled');
-                    HCFunctionss.showToastrMessage('error', e);
+                    HCFunctions.notify('error', e);
                 }
             }
 
@@ -455,7 +465,7 @@ HCService.List.SimpleList = function (configuration)
                     button.addClass('fa-exclamation-triangle');
                     button.css('color', 'red');
 
-                    HCFunctionss.showToastrMessage('error', e);
+                    HCFunctions.notify('error', e);
                 }
 
                 function handleSilentLoaded(data)
@@ -492,9 +502,6 @@ HCService.List.SimpleList = function (configuration)
             var canUpdate = (configuration.actions && configuration.actions.indexOf('update') >= 0);
 
             record.removeClass('disabled');
-
-            if (canUpdate)
-                record.addClass('active');
 
             $.each(record.children(), function (key, child)
                 {
@@ -638,11 +645,11 @@ HCService.List.SimpleList = function (configuration)
 
         $.each(config, function (config_key, config_value)
         {
-            if (HCFunctionss.isString(config_value))
+            if (HCFunctions.isString(config_value))
             {
                 if (config_key.indexOf('.') >= 0)
                 {
-                    if (HCFunctionss.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == config_value)
@@ -659,13 +666,13 @@ HCService.List.SimpleList = function (configuration)
                 // Checking if value is an array
                 if (cf.indexOf(',') >= 0)
                 {
-                    if (config_value.indexOf(HCFunctionss.pathIndex(data, config_key)) >= 0)
+                    if (config_value.indexOf(HCFunctions.pathIndex(data, config_key)) >= 0)
                         disabled = true;
                 }
                 // Checking if key has multiple params
                 else if (config_key.indexOf('.') >= 0)
                 {
-                    if (HCFunctionss.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) == config_value)
                         disabled = true;
                 }
                 else if (data[config_key] == cf)
