@@ -173,7 +173,7 @@ HCService.List.Core = function ()
      */
     function createActionDelete()
     {
-        localScope.actionListItems.delete = $('<div class="btn btn-danger hc-action-list-button"><i class="fa fa-fw fa-trash"></i><div class="counter"></div></div>');
+        localScope.actionListItems.delete = $('<div class="btn btn-danger hc-action-list-button" style="display: flex"><i class="fa fa-fw fa-trash"></i><div class="counter"></div></div>');
         localScope.actionListItems.delete.bind('click', localScope.handleDeleteButtonClick);
         
         return localScope.actionListItems.delete;

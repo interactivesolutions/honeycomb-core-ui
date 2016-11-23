@@ -81,6 +81,12 @@ select {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    border-left: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.hc-list-item-value:last-child {
+    border-right: 1px solid #eee;
 }
 
 .hc-list-headers {
@@ -116,4 +122,9 @@ select {
     margin: 0 10px 0 0;
     padding: 0;
     display: table-row;
+}
+
+.hc-list-item:nth-child(odd)
+{
+    background-color: #e3e3e3;
 }

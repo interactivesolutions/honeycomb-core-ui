@@ -549,12 +549,12 @@ HCService.List.SimpleList = function (configuration)
         {
             if ($(':checkbox', checkBox).prop('checked'))
             {
-                record.addClass('is-admin-list-item-selected');
+                //record.addClass('active');
                 leScope.isSelected = true;
             }
             else
             {
-                record.removeClass('is-admin-list-item-selected');
+                //record.removeClass('active');
                 leScope.isSelected = false;
             }
 
