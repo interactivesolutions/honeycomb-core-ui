@@ -1,5 +1,4 @@
 HCService.List = {};
-HCService.List.Types = {};
 
 HCService.List.Core = function ()
 {

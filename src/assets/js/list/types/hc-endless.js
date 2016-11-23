@@ -1,4 +1,4 @@
-HCService.List.Types.Endless = function (coreData)
+HCService.List.Endless = function (coreData)
 {
     /**
      * Endless scroll for laravel pagination
