@@ -132,27 +132,29 @@ HCService.List.SimpleList = function (configuration)
          * When settings is clicked hide / show row
          * @param e
          */
-        function handleHeaderSettingsClick(e)
-        {
+        function handleHeaderSettingsClick(e) {
             //TODO save status for each list to cookie!
             //TODO Allow min 1 selected item!
             var target = $(e.target);
             var data = target.data();
 
-            if (Object.size(data) != 0)
-            {
+            if (Object.size(data) != 0) {
                 if (target.is(':checked'))
                 {
+                    hiddenColumns.remove(data.id);
+
                     listContainer.find('.hc-list-item-value').filter(
-                        function(){
+                        function () {
                             return $(this).data('id') === data.id;
                         })
                         .show();
                 }
                 else
                 {
+                    hiddenColumns.push(data.id);
+
                     listContainer.find('.hc-list-item-value').filter(
-                        function(){
+                        function () {
                             return $(this).data('id') === data.id;
                         })
                         .hide();
@@ -160,6 +162,8 @@ HCService.List.SimpleList = function (configuration)
             }
         }
     }
+
+    var hiddenColumns = [];
 
     /**
      * LIST ITEM ELEMENT
@@ -179,7 +183,7 @@ HCService.List.SimpleList = function (configuration)
         if (disabledFully)
             disabledPartially = '';
 
-        var record = $('<div id="' + currentID + '"class="list-group-item hc-list-item' + disabledFully + ' ' + disabledPartially + '"></div>');
+        var record = $('<div id="' + currentID + '"class="list-group-item hc-list-item ' + disabledFully + ' ' + disabledPartially + '"></div>');
 
         if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
@@ -259,6 +263,10 @@ HCService.List.SimpleList = function (configuration)
             var holder = $('<div data-id="' + key + '" class="hc-list-item-value"></div>');
             holder.append(cell.cell);
             holder.addClass(cell.parentClass);
+
+            if (hiddenColumns.indexOf(key) >= 0)
+                holder.hide();
+
             return holder;
         }
 

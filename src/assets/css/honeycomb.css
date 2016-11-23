@@ -128,3 +128,9 @@ select {
 {
     background-color: #e3e3e3;
 }
+
+.hc-list-item .disabled
+{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
