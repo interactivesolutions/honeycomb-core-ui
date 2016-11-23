@@ -9,6 +9,13 @@ HCService.List.SimpleList = function (configuration)
     var dataList;
 
     /**
+     * Total selected rows
+     *
+     * @type {number}
+     */
+    var totalSelectedRows = 0;
+
+    /**
      * Creating content
      */
     this.createContentList = function ()
@@ -19,7 +26,7 @@ HCService.List.SimpleList = function (configuration)
         {
             case 'endless':
 
-                dataList = new HCService.List.Types.Endless({
+                dataList = new HCService.List.Endless({
                     url: configuration.contentURL,
                     onLoadComplete: createTableHeader,
                     createElement: createListElement
@@ -70,6 +77,7 @@ HCService.List.SimpleList = function (configuration)
 
             mainCheckBox.bind('change', function ()
             {
+                totalSelectedRows = 0;
                 var checkStatus = $(':checked', mainCheckBox).prop('checked');
 
                 $.each(listElementsHolder, function (key, value)
@@ -595,8 +603,6 @@ HCService.List.SimpleList = function (configuration)
         };
     };
 
-    var total = 0;
-
     /**
      * Update count in the buttons
      *
@@ -605,15 +611,16 @@ HCService.List.SimpleList = function (configuration)
     function updateSelected(increase)
     {
         if (increase)
-            total++;
+            totalSelectedRows++;
         else
-            total--;
+            if (totalSelectedRows > 0)
+                totalSelectedRows--;
 
-        if (total > 0)
+        if (totalSelectedRows > 0)
         {
             $('.counter', scope.actionListItems.delete).show();
 
-            if (total >= Object.size(listElementsHolder))
+            if (totalSelectedRows >= Object.size(listElementsHolder))
                 $(':not(:checked)', mainCheckBox).prop("checked", true);
             else
                 $(':checked', mainCheckBox).prop("checked", false);
@@ -624,7 +631,7 @@ HCService.List.SimpleList = function (configuration)
             $('.counter', scope.actionListItems.delete).hide();
         }
 
-        $('.counter', scope.actionListItems.delete).html('(' + total + ')');
+        $('.counter', scope.actionListItems.delete).html('(' + totalSelectedRows + ')');
     }
 
     /**
@@ -683,9 +690,13 @@ HCService.List.SimpleList = function (configuration)
         return disabled;
     }
 
+    /**
+     * Creating table header
+     * @param url
+     */
     this.handleReloadAction = function (url)
     {
-        createTableHeader();
+        //createTableHeader();
     };
 
     /**
