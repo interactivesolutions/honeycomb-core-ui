@@ -178,21 +178,17 @@ HCService.List.SimpleList = function (configuration)
         var currentID = data.id;
 
         var disabledFully = isDisabled(data, configuration.disableByFieldsFully) ? 'disabled' : '';
-        var disabledPartially = isDisabled(data, configuration.disableByFieldsPartially) ? 'independent' : '';
 
-        if (disabledFully)
-            disabledPartially = '';
-
-        var record = $('<div id="' + currentID + '"class="list-group-item hc-list-item ' + disabledFully + ' ' + disabledPartially + '"></div>');
+        var record = $('<div id="' + currentID + '" class="list-group-item hc-list-item ' + disabledFully + '"></div>');
 
         if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
             var checkBox = $('<input type="checkbox" value="" name="checkbox" class="">');
 
-            if (disabledFully != '' || disabledPartially != '')
+            if (disabledFully != '')
                 checkBox.attr('disabled', true);
 
-            checkBox = $('<div class="hc-list-item-value independent hover">' + checkBox.outerHTML() + '</div>');
+            checkBox = $('<div class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</div>');
             checkBox.bind('click', handleCheckBoxClick);
             checkBox.bind('change', handleCheckBoxChange);
             record.append(checkBox);
@@ -219,32 +215,6 @@ HCService.List.SimpleList = function (configuration)
         });
 
         record.append ('<div class="hc-list-item-value"></div>');
-
-        if (disabledFully == '' && disabledPartially == '')
-            enableListItemChildren(currentID);
-        else
-            disableListItemChildren(currentID);
-
-        /**
-         * If item is disabled, disabling all divs except independent
-         *
-         * @param id
-         */
-        function disableListItemChildren(id)
-        {
-            var record = $('#' + id);
-
-            record.removeClass('disabled');
-
-            $.each(record.children(), function (key, child)
-                {
-                    if ($(child).attr('class').split(' ').indexOf('independent') == -1)
-                    {
-                        $(child).addClass('disabled');
-                    }
-                }
-            );
-        }
 
         /**
          * Creating record item
@@ -556,7 +526,6 @@ HCService.List.SimpleList = function (configuration)
                 $(':checkbox', checkBox).prop('checked', true);
                 handleCheckBoxChange();
             }
-
         }
 
         function handleCheckBoxChange()
@@ -582,7 +551,7 @@ HCService.List.SimpleList = function (configuration)
 
         this.selectItem = function ()
         {
-            if (isVisible)
+            if (isVisible && !$(':checkbox', checkBox).attr('disabled'))
             {
                 $(':checkbox', checkBox).prop('checked', true);
                 handleCheckBoxChange();
