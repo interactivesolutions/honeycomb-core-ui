@@ -34,8 +34,6 @@ HCService.List.SimpleList = function (configuration)
 
                 break;
         }
-
-       /* endlessScroll = */
     };
 
     /**
@@ -68,10 +66,10 @@ HCService.List.SimpleList = function (configuration)
         if (!configuration.headers)
         {
             useTranslations = false;
-            configuration.headers = endlessScroll.getLoadedData().data[0];
+            configuration.headers = dataList.getLoadedData().data[0];
         }
 
-        if (scope.actionListItems.delete || scope.actionListItems.merge || scope.actionListItems.custom)
+        if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
             headers.append(mainCheckBox);
 
@@ -183,7 +181,7 @@ HCService.List.SimpleList = function (configuration)
 
         var record = $('<div id="' + currentID + '"class="list-group-item hc-list-item' + disabledFully + ' ' + disabledPartially + '"></div>');
 
-        if (scope.actionListItems.delete || scope.actionListItems.merge || scope.actionListItems.custom)
+        if (scope.actionListItems.delete || scope.actionListItems.merge)
         {
             var checkBox = $('<input type="checkbox" value="" name="checkbox" class="">');
 
@@ -762,37 +760,6 @@ HCService.List.SimpleList = function (configuration)
     this.handleSuccessCreation = function (url)
     {
         this.handleReloadAction(url);
-    };
-
-    /**
-     * Creating custom actions
-     *
-     * @param data
-     */
-    this.createCustomAction = function (data)
-    {
-        var customButton = '<div class="btn btn-success hc-action-list-button">';
-
-        if (data.icon && data.icon != '')
-            customButton += '<i class="fa ' + data.icon + '"></i>';
-
-        customButton += '<div class="counter"></div>';
-
-        if (data.label && data.label != '')
-            customButton += '<div class="label">' + data.label + '</div>';
-
-        customButton += '</div>';
-
-        customButton = $(customButton);
-
-        scope.actionListItems.custom = true;
-
-        customButton.bind('click', function (e)
-        {
-            data.callback(getSelectedListItems());
-        });
-
-        return customButton;
     };
 
     this.initializeCore(configuration);
