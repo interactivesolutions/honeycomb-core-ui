@@ -369,6 +369,7 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     function validateIndex (index)
     {
+
         if (!localScope.form.content.translations[index])
         {
             localScope.form.content.translations[index]                  = {};
@@ -591,23 +592,12 @@ HCService.FormManager.Objects.BasicField = function ()
     /**
      * Finding index of translations array, based on currentLanguage
      *
-     * @returns {undefined}
+     * @returns {string}
      */
     this.getContentLanguageElementIndex = function ()
     {
-        var _key = undefined;
-
-        $.each (localScope.form.content.translations, function (key, value)
-        {
-            if (value.language_code == localScope.form.currentLanguage)
-                _key = key;
-        });
-
-        if (_key == undefined)
-            _key = Object.size (localScope.form.content.translations);
-
-        return _key;
-    }
+        return HCFunctions.getTranslationsLanguageElementIndex(localScope.form.currentLanguage, localScope.form.content.translations);
+    };
 
     /**
      * hide field parent
