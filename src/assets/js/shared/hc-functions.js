@@ -136,6 +136,13 @@ HCFunctions = new function ()
      */
     this.replaceBrackets = function (text, args)
     {
+        if (args instanceof Object)
+        {
+            $.each (args, function (key, value) {
+                text = text.replace('{' + key + '}', value);
+            })
+        }
+
         if (args instanceof Array)
             for (var i = 0; i < args.length; i++)
                 text = text.replace ('{' + i + '}', args[i]);
@@ -143,6 +150,30 @@ HCFunctions = new function ()
             text = text.replace ('{0}', args);
 
         return text;
+    };
+
+    /**
+     * /**
+     * Finding index of translations array, based on currentLanguage
+     *
+     * @param language
+     * @param translations
+     * @returns {*}
+     */
+    this.getTranslationsLanguageElementIndex = function (language, translations)
+    {
+        var _key = undefined;
+
+        $.each (translations, function (key, value)
+        {
+            if (value.language_code == language)
+                _key = key;
+        });
+
+        if (_key == undefined)
+            _key = Object.size (translations);
+
+        return _key;
     };
 
     /**

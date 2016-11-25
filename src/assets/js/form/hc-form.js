@@ -150,7 +150,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
             scope.currentLanguage = availableLanguages[0];
             scope.content.translations = {};
         }
-        
+
         createForm ();
     }
     
@@ -198,7 +198,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
             value.populateContent ();
         });
         
-        this.enableSubmit ('data-management');
+        scope.enableSubmit ('data-management');
     }
     
     /**

@@ -199,7 +199,12 @@ HCService.List.SimpleList = function (configuration)
         $.each(configuration.headers, function (key, value)
         {
             if (key.indexOf('.') != -1)
+            {
+                if (key.indexOf('{lang}') != -1)
+                    key = HCFunctions.replaceBrackets(key, {'lang' : HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, data.translations)});
+
                 value = HCFunctions.pathIndex(data, key);
+            }
             else if (configuration.headers)
                 value = data[key];
 
@@ -215,6 +220,7 @@ HCService.List.SimpleList = function (configuration)
         });
 
         record.append ('<div class="hc-list-item-value"></div>');
+        enableListItemChildren(currentID);
 
         /**
          * Creating record item
