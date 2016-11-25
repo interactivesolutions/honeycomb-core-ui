@@ -1,5 +1,12 @@
-HCService.FormManager.ISForm = function (data, availableFields)
+HCService.FormManager.HCForm = function (data, availableFields)
 {
+    /**
+     * OnComplete
+     *
+     * type{function}
+     */
+    this.onFormCreation = undefined;
+
     /**
      * Event dispatcher
      *
@@ -239,7 +246,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
         if ($ (data.divID).length === 0)
             $ ('body').append ('<div id="' + data.divID.substring (1) + '"></div>');
         
-        $ (data.divID).append ('<form class="formContent" id="' + id + '"></form>');
+        $ (data.divID).html ('<form class="formContent" id="' + id + '"></form>');
     }
     
     /**
@@ -568,7 +575,7 @@ HCService.FormManager.ISForm = function (data, availableFields)
     function handleError (e)
     {
         HCFunctions.notify ('error', e);
-        this.enableSubmit ('data-management');
+        scope.enableSubmit ('data-management');
     }
     
     initialize ();

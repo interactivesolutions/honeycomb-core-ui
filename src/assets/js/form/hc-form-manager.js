@@ -62,6 +62,6 @@ HCService.FormManager = new function ()
         if (!initializedLocal)
             this.initialize();
         
-        return new HCService.FormManager.ISForm(data, availableFields);
+        return new HCService.FormManager.HCForm(data, availableFields);
     };
 };

@@ -141,3 +141,11 @@ select {
     background-color: #53707F !important;
     color: #FFF !important;
 }
+
+.hc-loader
+{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: cadetblue;
+}
