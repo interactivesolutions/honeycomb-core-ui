@@ -8,23 +8,19 @@ HCService.PopUp = new function ()
          */
 
         var id = HCFunctions.createUUID();
+        var modal;
 
         var popUpContent;
         var body;
-        var closeButton;
         var footer;
-        var header;
         var content;
-        var overlay;
-        var inside;
 
         function initialize()
         {
             createContentHolders();
-            createTitle();
-            createCloseButton();
-            createContent();
-            createBottomButtons();
+            //    createCloseButton();
+            //    createContent();
+            //    createBottomButtons();
         }
 
         /**
@@ -108,8 +104,8 @@ HCService.PopUp = new function ()
             {
                 case 'form':
 
-                    inside.addClass('form');
-                    data.config.divID = '#' + id;
+                    data.config.divID = '#' + id + ' .modal-dialog .modal-content .modal-body';
+                    data.config.buttonsDivID = '#' + id + ' .modal-dialog .modal-content .modal-footer';
 
                     var form = HCService.FormManager.createForm(data.config);
                     form.successCallBack = closePopUp;
@@ -119,7 +115,7 @@ HCService.PopUp = new function ()
                     _content = data.content.getHTML();
             }
 
-            inside.append(_content);
+            return _content;
         }
 
         /**
@@ -130,19 +126,36 @@ HCService.PopUp = new function ()
         function createContentHolders()
         {
             body = $('body');
-            body.addClass('stop-scrolling');
 
-            overlay = $('<div class="is-popup-overlay"></div>');
-            body.append(overlay);
+            modal = $('<div class="modal fade" id="' + id + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">' +
+                '<div class="modal-dialog" role="document">' +
+                '<div class="modal-content"></div>' +
+                '</div>' +
+                '</div>');
 
-            popUpContent = $('<div class="is-popup-content"></div>');
-            body.append(popUpContent);
+            var modalContent = $(modal.find('.modal-content'));
 
-            header = $('<div class="row is-popup-header col-md-12"></div>');
-            inside = $('<div id="' + id + '" class="row is-popup-inside"></div>');
-            footer = $('<div class="row is-popup-footer"></div>');
+            var modalHeader = $('<div class="modal-header">' +
+                '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">' + createTitle() + ' </h4>' +
+                '</div>');
 
-            popUpContent.append([header, inside, footer]);
+            var modalBody = $('<div class="modal-body"><div class="hc-loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div></div>');
+                modalBody.append(createContent());
+
+            var modalFooter = $('<div class="modal-footer"></div>');
+
+            modalContent.append(modalHeader);
+            modalContent.append(modalBody);
+            modalContent.append(modalFooter);
+
+            body.append(modal);
+
+            modal.modal();
+
+            modal.on('hidden.bs.modal', function () {
+                modal.remove();
+            })
         }
 
         /**
@@ -152,43 +165,12 @@ HCService.PopUp = new function ()
          */
         function createTitle()
         {
-            header.append('<div class="is-popup-title">' + data.label + '</div>');
+            return '<div class="is-popup-title">' + data.label + '</div>';
         }
 
-        /**
-         * Creating Close button
-         *
-         * @method createCloseButton
-         */
-        function createCloseButton()
+        function closePopUp()
         {
-            closeButton = $('<div class="is-popup-close close fa fa-close"></div>');
-            header.append(closeButton);
-            closeButton.unbind().bind('click', function (e)
-            {
-                closePopUp();
-            });
-        }
-
-        /**
-         * Closing popup
-         *
-         * @method closePopUp
-         */
-        function closePopUp(e)
-        {
-            if (e && data.callBack)
-                data.callBack(e);
-
-            body.removeClass('stop-scrolling');
-            overlay.remove();
-            overlay = undefined;
-            popUpContent.remove();
-            popUpContent = undefined;
-            body = undefined;
-            closeButton = undefined;
-            footer = undefined;
-            content = undefined;
+            $(modal.find('.close')).click();
         }
 
         initialize();
