@@ -22,18 +22,6 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-                @if(isPackageEnabled(\interaktyvussprendimai\ocv3payments\providers\OCPaymentsServiceProvider::class) && env('WALLET_SHOWS', true))
-
-                    @include('ocv3payments::wallet')
-
-                @endif
-
-                @if(isPackageEnabled(\interaktyvussprendimai\ocv3companies\providers\OCCompaniesServiceProvider::class) && env('OC_COMPANIES_DROPDOWN', true))
-
-                    @include('companies::dropdown')
-
-                @endif
-
                 @if(isPackageEnabled(\interaktyvussprendimai\ocv3languages\providers\OCLanguagesServiceProvider::class))
 
                     @include('languages::select')
