@@ -36,7 +36,7 @@
                         </a>
                     </li>
 
-                    @include('honeycombcoreui::admin.partials.submenu', ['menuItems' => $item['children']])
+                    @include('HCCoreUI::admin.partials.submenu', ['menuItems' => $item['children']])
                 </ul>
             @else
 

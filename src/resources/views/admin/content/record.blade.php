@@ -1,4 +1,4 @@
-@extends('honeycombcoreui::admin.layout')
+@extends('HCCoreUI::admin.layout')
 
 @if ( isset( $config['title'] ) &&  ! empty($config['title']))
     @section('content-header',  $config['title'] )

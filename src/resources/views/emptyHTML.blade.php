@@ -8,15 +8,15 @@
         <meta name="author" content="{{ array_get($content, 'author') }}">
     @endif
 
-    @include('honeycombcoreui::css.core')
-    @include('honeycombcoreui::css.global')
+    @include('HCCoreUI::css.core')
+    @include('HCCoreUI::css.global')
 
 </head>
 
 <body>
-@include('honeycombcoreui::js.global')
-@include('honeycombcoreui::js.shared')
-@include('honeycombcoreui::js.form')
-@include('honeycombcoreui::js.list')
+@include('HCCoreUI::js.global')
+@include('HCCoreUI::js.shared')
+@include('HCCoreUI::js.form')
+@include('HCCoreUI::js.list')
 </body>
 </html>
