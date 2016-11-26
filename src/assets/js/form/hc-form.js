@@ -323,6 +323,9 @@ HCService.FormManager.HCForm = function (data, availableFields)
         });
         
         createTabs (tabHolder);
+
+        if (scope.onFormCreation)
+            scope.onFormCreation();
     }
 
     /**
