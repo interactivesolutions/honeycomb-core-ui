@@ -33,8 +33,8 @@ class HCCoreUiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'honeycombcoreui');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'honeycombcoreui');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'HCCoreUI');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'HCCoreUI');
 
         // Publish your migrations
         $this->publishes([
