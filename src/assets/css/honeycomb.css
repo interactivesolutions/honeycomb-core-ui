@@ -120,26 +120,22 @@ select {
     display: table-row;
 }
 
-.hc-list-item:nth-child(odd)
-{
+.hc-list-item:nth-child(odd) {
     background-color: #e3e3e3;
 }
 
-.hc-list-item .disabled
-{
+.hc-list-item .disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background-color: #e3e3e3;
 }
 
-.hc-active
-{
+.hc-active {
     background-color: #53707F !important;
     color: #FFF !important;
 }
 
-.hc-loader
-{
+.hc-loader {
     text-align: center;
     margin-top: 40px;
     margin-bottom: 40px;
@@ -147,36 +143,34 @@ select {
 }
 
 /*---- Admin LTE bootstrap 4 fix -----*/
-.navbar-static-top
-{
-    padding:0;
+.navbar-static-top {
+    padding: 0;
     display: flex;
 }
 
-.main-header .sidebar-toggle
-{
-    padding:13px;
+.main-header .sidebar-toggle {
+    padding: 13px;
 }
 
-.navbar-custom-menu
-{
+.navbar-custom-menu {
     margin-left: auto;
 }
 
-.navbar-custom-menu>ul
-{
+.navbar-custom-menu > ul {
     display: flex;
     margin-top: 13px;
 }
 
-.navbar-custom-menu>ul>li>a
-{
-    padding:13px;
+.navbar-custom-menu > ul > li > a {
+    padding: 13px;
 }
 
-.form-control
-{
+.form-control {
     border-radius: 4px;
+}
+
+.select2-dropdown .select2-search__field:focus, .select2-search--inline .select2-search__field:focus {
+    border: none;
 }
 
 /*---- Admin LTE bootstrap 4 fix END -*/
