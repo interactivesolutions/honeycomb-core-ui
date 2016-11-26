@@ -9,14 +9,14 @@
     @include('honeycombcoreui::admin.includes.rollbar')
 
     @include('honeycombcoreui::css.global')
-    @include('honeycombcoreui::css.core');
+    @include('honeycombcoreui::css.core')
 </head>
 <body class="skin-blue">
 <div class="wrapper">
 
     <!-- if dev environment activate this div -->
     @if(app()->environment() == "local")
-        <div class="devEnv">
+        <div style="position: absolute">
             {!! trans('honeycombcoreui::core.dev_env') !!}
         </div>
     @endif
