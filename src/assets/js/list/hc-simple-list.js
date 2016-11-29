@@ -27,7 +27,7 @@ HCService.List.SimpleList = function (configuration)
             case 'endless':
 
                 dataList = new HCService.List.Endless({
-                    url: configuration.contentURL,
+                    url: this.getDataURL(''),
                     onLoadComplete: createTableHeader,
                     createElement: createListElement
                 });
