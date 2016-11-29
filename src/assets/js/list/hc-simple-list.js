@@ -662,12 +662,12 @@ HCService.List.SimpleList = function (configuration)
      */
     this.handleFilterButtonActionClick = function (value)
     {
-        $.each($('.is-list-container .is-list-item-color'), function (key, element)
+        $.each($('.hc-list-container .hc-list-item'), function (key, element)
         {
             listElementsHolder[$(element).attr('id')].showElement();
         });
 
-        $.each($('.is-list-item-color:not(:contains_ci(' + value + '))'), function (key, element)
+        $.each($('.hc-list-container .hc-list-item:not(:contains_ci(' + value + '))'), function (key, element)
         {
             listElementsHolder[$(element).attr('id')].hideElement();
         });
