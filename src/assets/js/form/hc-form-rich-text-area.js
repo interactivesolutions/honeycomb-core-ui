@@ -43,7 +43,7 @@ HCService.FormManager.Objects.RichTextArea = function ()
      */
     this.updateWhenOnStageLocal = function ()
     {
-        var plugins =  this.getFieldData().plugins || ["image media fullscreen wordcount preview"];
+        var plugins = this.getFieldData().plugins || ["image media fullscreen wordcount preview"];
         var toolbar = this.getFieldData().toolbar || 'undo redo | bold italic underline | styleselect fullscreen preview | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | media image';
 
         tinymce.init(
@@ -95,9 +95,12 @@ HCService.FormManager.Objects.RichTextArea = function ()
      */
     this.setContentData = function (data)
     {
-        if (tinymce.editors[this.uniqueFieldID]) {
-            data = data ? data : '';
-            tinymce.editors[this.uniqueFieldID].setContent(data);
-        }
+        //TODO figure out when tinymce is fully on stage
+        setTimeout(function (){
+            if (tinymce.editors[scope.uniqueFieldID]) {
+                data = data ? data : '';
+                tinymce.editors[scope.uniqueFieldID].setContent(data);
+            }
+        }, 100);
     }
 };
