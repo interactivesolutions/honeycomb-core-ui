@@ -205,7 +205,7 @@ HCService.List.Core = function ()
         localScope.actionListItems.searchB = $('<div class="btn btn-warning hc-action-list-button"><i class="fa fa-fw fa-search-plus"></i></div>');
         elements.push(localScope.actionListItems.searchB);
         
-        localScope.actionListItems.searchF.keydown(function (e)
+        localScope.actionListItems.searchF.keyup(function (e)
         {
             if (e.keyCode == 13)
                 startSearch();
@@ -446,7 +446,7 @@ HCService.List.Core = function ()
      */
     this.getDataURL = function (search)
     {
-        var url = configuration.url;
+        var url = configuration.contentURL;
         var cValue;
         
         if (search)

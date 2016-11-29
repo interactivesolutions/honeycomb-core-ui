@@ -652,7 +652,8 @@ HCService.List.SimpleList = function (configuration)
      */
     this.handleReloadAction = function (url)
     {
-        //createTableHeader();
+        listContainer.find('.hc-list-item').remove();
+        dataList.reload(url);
     };
 
     /**
