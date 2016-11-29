@@ -86,6 +86,17 @@ HCService.FormManager.Objects.BasicField = function ()
     var readonly;
 
     /**
+     * Dependency values which might be used in other fields
+     */
+    this.dependencyValues = {};
+
+    /**
+     * jQuery object of input field;
+     * @type Object
+     */
+    this.inputField = null;
+
+    /**
      * Setting field metadata and field properties
      *
      * @method setFieldData
@@ -643,244 +654,117 @@ HCService.FormManager.Objects.BasicField = function ()
         this.invisibleValue = undefined;
     };
 
-    /*/!**
-     * jQuery object of input field;
-     * @type Object
-     *!/
-     this.inputField = null;
+    /**
+    *
+    * Updating dependencies
+    *
+    * @param value
+    * @returns {boolean}
+        */
+    this.updateDependencies = function (value)
+    {
+        this.dependencyUpdated = true;
 
+        var contentData = value.getContentData();
+        var dependencies = this.getFieldData().dependencies;
+        var success = true;
 
-     /!**
-     * Field identification name
-     * @type String
-     *!/
-     this.fieldName = null;
+        if (HCFunctions.isArray(dependencies))
+        {
+            $.each(dependencies, function (key, dependency)
+            {
+                if (dependency.field_id == value.getFieldID())
+                    localScope.dependencyArray[value.getFieldID()] = validateDependency(dependency);
+            });
 
-     /!**
-     * Form ID where this field belongs
-     * @type String
-     *!/
-     this.formID = null;
+            $.each(localScope.dependencyArray, function (successKey, successValue)
+            {
+                if (!successValue)
+                    success = false;
+            });
+        }
+        else
+            success = validateDependency(dependencies);
 
-     /!**
-     * ISForm object
-     *!/
-     this.form = null;
+        this.dependencyAllow = success;
 
-     /!**
-     * Form structure
-     *!/
-     this.formFields = null;
+        return success;
 
-     /!**
-     * user seted form wrapper
-     * @type String
-     *!/
-     this.formWrapper = null;
+        /**
+         * Validating dependency
+         *
+         * @param dependency
+         * @returns {boolean}
+         */
+        function validateDependency(dependency)
+        {
+            var success = false;
 
-     /!**
-     * innerHeight HTML
-     * @type string|jQuery object
-     *!/
-     this.innerHTML = null;
+            if (dependency.value_id)
+            {
+                if (HCFunctions.isArray(dependency.value_id))
+                    $.each(dependency.value_id, function (key, value)
+                    {
+                        if (value == contentData)
+                            success = true;
+                    });
+                else if (dependency.value_id == contentData)
+                    success = true;
+            }
+            else
+                success = true;
 
-     /!**
-     * destroy all form
-     * @type function
-     *!/
-     this.destroyForm = null;
+            if (success && dependency.options_url)
+                localScope.loadOptions(dependency.options_url, value);
 
-     /!**
-     * Input field holder
-     *!/
-     this.parent = null;
+            //TODO figure out why this is needed here?
+           /* if (success && !(contentData && contentData != ''))
+                success = false;*/
 
-     /!**
-     * Saving invisible value
-     *!/
-     this.invisibleValue = null;
+            if (success)
+                localScope.dependencyValues[value.getFieldID()] = value.getContentData();
+            else
+                delete localScope.dependencyAllow[value.getFieldID()];
 
-     /!**
-     * Dependency values which might be used in other fields
-     *!/
-     this.dependencyValues = {};
+            return success;
+        }
+    };
 
-     /!**
-     * Returns value string
-     *
-     * @method getValue
-     * @return {string} Value
-     *!/
-     this.getValue = function () {
-     return this.inputField.val();
-     }
-
-
-     /!**
-     * This function should format the field, based on provided properties.
-     * This function might be overridden
-     *
-     * @method handleProperties
-     *!/
-     this.handleProperties = function () {
-     };
-
-     /!**
-     * This function should add selection options, based on provided options.
-     * This function might be overridden
-     *
-     * @method handleProperties
-     *!/
-     this.handleOptions = function () {
-     };
-
-
-
-     /!**
-     * This function is destroying content variables
-     *
-     * @method destroy
-     *!/
-     this.destroy = function ()
-     {
-     this.inputField.unbind();
-     this.destroySubClass();
-     };
-
-     /!**
-     * This function should destroy parameters of the subClass
-     * This function might be overridden
-     *
-     * @method destroySubClass
-     *!/
-     this.destroySubClass = function ()
-     {
-     this.inputField.remove();
-     };
-
-
-
-
-
-     this.dependencyUpdated = this.dependencyAllow = false;
-
-     /!**
-     *
-     * Updating dependencies
-     *
-     * @param value
-     * @returns {boolean}
-     *!/
-     this.updateDependencies = function (value)
-     {
-     this.dependencyUpdated = true;
-
-     var contentData = value.getContentData();
-     var dependencies = this.fieldData.dependencies;
-
-     function validateDependency(dependency)
-     {
-     var success = false;
-
-     if (dependency.value_id)
-     {
-     if (HCFunctions.isArray(dependency.value_id))
-     $.each(dependency.value_id, function (key, value)
-     {
-     if (value == contentData)
-     success = true;
-     });
-     else if (dependency.value_id == contentData)
-     success = true;
-     }
-     else
-     success = true;
-
-     if (success && dependency.options_url)
-     localScope.loadOptions(dependency.options_url, value);
-
-     if (success && !(contentData && contentData != ''))
-     success = false;
-
-     if (success)
-     localScope.dependencyValues[value.fieldID] = value.getContentData();
-     else
-     delete localScope.dependencyAllow[value.fieldID];
-     return success;
-     }
-
-     var success = true;
-
-     if (HCFunctions.isArray(dependencies))
-     {
-     $.each(dependencies, function (key, dependencyValue)
-     {
-     if (dependencyValue.field_id == value.fieldID)
-     localScope.dependencyArray[value.fieldID] = validateDependency(dependencyValue);
-     });
-
-     $.each(localScope.dependencyArray, function (successKey, successValue)
-     {
-     if (!successValue)
-     success = false;
-     });
-     }
-     else
-     success = validateDependency(dependencies);
-
-     this.dependencyAllow = success;
-
-     return success;
-     };
-
-     /!**
-     * Executing additional tasks in main field
-     *!/
-     this.updateDependenciesLocal = function (value)
-     {
-
-     };
-
-     /!**
+    /**
      * Loading options
-     *!/
-     this.loadOptions = function (url, sourceField)
-     {
-     var variable = sourceField.getContentData();
+     */
+    this.loadOptions = function (url, sourceField)
+    {
+        var variable = sourceField.getContentData();
 
-     if (variable && !HCFunctions.isString(variable))
-     variable = variable.toString();
+        if (variable && !HCFunctions.isString(variable))
+            variable = variable.toString();
 
-     var loader;
-     loader = new ISLoader.BasicLoader();
-     loader.dataTypeJSON();
+        var loader;
+        loader = new ISLoader.BasicLoader();
+        loader.dataTypeJSON();
 
-     if (variable)
-     loader.addVariable(sourceField.fieldID, variable);
+        if (variable)
+            loader.addVariable(sourceField.fieldID, variable);
 
-     loader.load(optionsLoaded, handleError, this, url);
-     };
+        loader.load(optionsLoaded, handleError, this, url);
+    };
 
-     /!**
+    /**
      * Options has been loaded
      *
      * @param value
-     *!/
-     function optionsLoaded(value)
-     {
-     this.fieldOptions = value;
-     this.handleOptions();
-     }
+     */
+    function optionsLoaded(value)
+    {
+        fieldOptions = value;
+        localScope.handleOptions();
+    }
 
-     /!**
-     * Loading has failed
-     *
-     * @method handleError
-     * @param e error information
-     *!/
-     function handleError(e)
-     {
-     HCFunctions.notify('error', e);
-     submitButton.enable();
-     }*/
+    /**
+     * Executing additional tasks in main field
+     */
+    this.updateDependenciesLocal = function (value)
+    {
+    };
 };

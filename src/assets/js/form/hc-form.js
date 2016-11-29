@@ -376,7 +376,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
          */
         function updateDependencies (value)
         {
-            $.each (dependencyList[value.fieldID], function (i, field)
+            $.each (dependencyList[value.getFieldID()], function (i, field)
             {
                 if (field.updateDependencies (value))
                 {
