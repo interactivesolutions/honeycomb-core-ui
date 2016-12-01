@@ -34,6 +34,12 @@ HCService.FormManager.HCForm = function (data, availableFields)
     this.successCallBack = undefined;
 
     /**
+     *  Function to call when submitting data
+     * @type {undefined}
+     */
+    this.submitData = undefined;
+
+    /**
      * Generating unique form id
      * @type {string}
      */
@@ -521,6 +527,12 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (!scope.content)
             return;
+
+        if (scope.submitData)
+        {
+            scope.submitData(scope.content);
+            return;
+        }
 
         scope.disableSubmit ('data-management');
         
