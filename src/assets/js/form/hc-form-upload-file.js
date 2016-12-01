@@ -297,6 +297,8 @@ HCService.FormManager.Objects.UploadFile = function ()
                 existingHTML.append(closeButton);
                 closeButton.unbind().bind('click', removeThumbnail)
             }
+
+            scope.triggerContentChange();
         }
 
         /**
