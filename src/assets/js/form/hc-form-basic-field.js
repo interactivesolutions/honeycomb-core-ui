@@ -368,8 +368,8 @@ HCService.FormManager.Objects.BasicField = function ()
             }
         }
         else
-            if (this.form)
-                this.form.content[this.getFieldID ()] = this.getContentData ();
+        if (this.form)
+            this.form.content[this.getFieldID ()] = this.getContentData ();
 
         this.eventDispatcher.trigger ('contentDataChange', this);
     };
@@ -655,12 +655,12 @@ HCService.FormManager.Objects.BasicField = function ()
     };
 
     /**
-    *
-    * Updating dependencies
-    *
-    * @param value
-    * @returns {boolean}
-        */
+     *
+     * Updating dependencies
+     *
+     * @param value
+     * @returns {boolean}
+     */
     this.updateDependencies = function (value)
     {
         this.dependencyUpdated = true;
@@ -718,8 +718,8 @@ HCService.FormManager.Objects.BasicField = function ()
                 localScope.loadOptions(dependency.options_url, value);
 
             //TODO figure out why this is needed here?
-           /* if (success && !(contentData && contentData != ''))
-                success = false;*/
+            /* if (success && !(contentData && contentData != ''))
+             success = false;*/
 
             if (success)
                 localScope.dependencyValues[value.getFieldID()] = value.getContentData();
@@ -741,13 +741,13 @@ HCService.FormManager.Objects.BasicField = function ()
             variable = variable.toString();
 
         var loader;
-        loader = new ISLoader.BasicLoader();
+        loader = new HCLoader.BasicLoader();
         loader.dataTypeJSON();
 
         if (variable)
-            loader.addVariable(sourceField.fieldID, variable);
+            loader.addVariable(sourceField.getFieldID(), variable);
 
-        loader.load(optionsLoaded, handleError, this, url);
+        loader.load(optionsLoaded, null, this, url);
     };
 
     /**
