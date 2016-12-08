@@ -586,6 +586,9 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.populateContent = function ()
     {
+        if (fieldData.ignoreContent)
+            return;
+        
         if (fieldData.multiLanguage)
         {
             var index = this.getContentLanguageElementIndex ();
