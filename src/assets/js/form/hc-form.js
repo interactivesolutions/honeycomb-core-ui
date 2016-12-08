@@ -250,7 +250,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function createFormDiv ()
     {
         if ($ (data.divID).length === 0)
-            $ ('body').append ('<div id="' + data.divID.substring (1) + '"></div>');
+            $ ('body').append ('<div id=" ' + data.divID.substring (1) + '"></div>');
         
         $ (data.divID).html ('<form class="formContent" id="' + id + '"></form>');
     }
@@ -268,7 +268,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         {
             if (availableFields[fieldData.type])
             {
-                _class = 'form-group ';
+                _class = '';
                 
                 if (fieldData.tabID)
                 {
@@ -301,7 +301,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 var finalField = {field: field, html: html, destination: $ (data.divID + ' .formContent')};
                 
                 placeFieldOnStage (finalField);
-                
+
                 // saving form fields into a array
                 if (!formFields[field.getFieldID ()])
                     formFields[field.getFieldID ()] = field;
@@ -351,7 +351,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             var dependency;
             var field_id;
             dependencyList = [];
-            
+
             $.each (list, function (key, field)
             {
                 dependency = field.getFieldData ().dependencies;
