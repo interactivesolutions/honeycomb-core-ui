@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav">
             <li>
                 <a href="{{ url('/')}}" target="_blank">
-                    {{ trans('honeycombcoreui::core.users.nav.index-page') }}
+                    {{ trans('HCCoreUI::global.index') }}
                 </a>
             </li>
         </ul>

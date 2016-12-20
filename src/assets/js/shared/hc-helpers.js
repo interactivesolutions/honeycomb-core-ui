@@ -29,6 +29,19 @@ jQuery.fn.outerHTML = function (s)
 };
 
 /**
+ * Helper for list filtering to be case insensitive
+ *
+ * @param a
+ * @param i
+ * @param m
+ * @returns {boolean}
+ */
+jQuery.expr[':'].contains_ci = function(a, i, m) {
+    return jQuery(a).text().toUpperCase()
+            .indexOf(m[3].toUpperCase()) >= 0;
+};
+
+/**
  * Removing item from array by value
  *
  * @credit http://stackoverflow.com/a/3955096/657451

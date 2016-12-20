@@ -1,4 +1,4 @@
-@extends('honeycombcoreui::admin.layout')
+@extends('HCCoreUI::admin.layout')
 
 @if ( isset( $config['title'] ) &&  ! empty($config['title']))
     @section('content-header',  $config['title'] )
@@ -16,7 +16,7 @@
             new HCService.List.SimpleList({
                 div: '#here-comes-list',
 
-                @include('honeycombcoreui::admin.partials.list-settings')
+                @include('HCCoreUI::admin.partials.list-settings')
             });
         });
     </script>

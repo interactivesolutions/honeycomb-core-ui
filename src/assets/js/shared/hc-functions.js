@@ -284,36 +284,57 @@ HCFunctions = new function ()
 
         this.toMB = function (value)
         {
+            if (value < MB)
+                return this.toKB(value);
+
             return formatAnswer (value / MB) + ' MB';
         };
 
         this.toGB = function (value)
         {
+            if (value < GB)
+                return this.toMB(value);
+
             return formatAnswer (value / GB) + ' GB';
         };
 
         this.toTB = function (value)
         {
+            if (value < TB)
+                return this.toGB(value);
+
             return formatAnswer (value / TB) + ' TB';
         };
 
         this.toPB = function (value)
         {
+            if (value < PB)
+                return this.toTB(value);
+
             return formatAnswer (value / PB) + ' PB';
         };
 
         this.toEB = function (value)
         {
+            if (value < PB)
+                return this.toPB(value);
+
             return formatAnswer (value / EB) + ' EB';
         };
 
         this.toZB = function (value)
         {
+            if (value < ZB)
+                return this.toEB(value);
+
             return formatAnswer (value / ZB) + ' ZB';
         };
 
         this.toYB = function (value)
         {
+            if (value < YB)
+                return this.toZB(value);
+
             return formatAnswer (value / YB) + ' YB';
         };
 

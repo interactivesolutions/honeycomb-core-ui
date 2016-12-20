@@ -1,4 +1,4 @@
-@extends('honeycombcoreui::admin.layout')
+@extends('HCCoreUI::admin.layout')
 
 @section('content')
     <div class="row">

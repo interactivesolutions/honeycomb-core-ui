@@ -11,4 +11,5 @@ return [
     'description' => 'Description',
     'images' => 'Images',
     'gallery' => 'Gallery',
+    'index' => 'Index',
 ];

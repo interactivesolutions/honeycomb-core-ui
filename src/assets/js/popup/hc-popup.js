@@ -18,77 +18,6 @@ HCService.PopUp = new function ()
         function initialize()
         {
             createContentHolders();
-            //    createCloseButton();
-            //    createContent();
-            //    createBottomButtons();
-        }
-
-        /**
-         * Creating bottom buttons
-         *
-         * @method createBottomButtons
-         */
-        function createBottomButtons()
-        {
-            var buttonsHolderID = HCFunctions.createUUID();
-            var buttonsHolder = $('<div id="' + buttonsHolderID + '"></div>');
-            footer.append(buttonsHolder);
-
-            var buttons = [];
-            var button;
-            var buttonInfo;
-
-            switch (data.type)
-            {
-                case 'select':
-                    buttons.push({
-                        'class': 'btn btn-default btn-sm',
-                        'label': 'Cancel',
-                        'scope': this,
-                        'callBack': function (e)
-                        {
-                            closePopUp();
-                        }
-                    });
-
-                    buttons.push({
-                        'class': 'btn btn-primary btn-sm',
-                        'label': 'Select',
-                        'scope': this,
-                        'callBack': submitData
-                    });
-                    break;
-
-                case 'form':
-
-                    data.config.buttonsDivID = '#' + buttonsHolderID;
-                    break;
-            }
-
-            for (var i = 0; i < buttons.length; i++)
-            {
-                buttonInfo = buttons[i];
-                button = $('<button type="button" class="' + buttonInfo.class + '">' + buttonInfo.label + '</button>');
-
-                addButtonAction(button, buttonInfo);
-                buttonsHolder.append(button);
-            }
-
-            popUpContent.append(footer);
-        }
-
-        function addButtonAction(button, data)
-        {
-            button.bind('click', function ()
-            {
-                data.callBack.call(data.scope, data.args);
-            });
-        }
-
-        function submitData()
-        {
-            data.callBack(data.content.getData());
-            closePopUp();
         }
 
         /**
@@ -155,7 +84,7 @@ HCService.PopUp = new function ()
 
             modal.on('hidden.bs.modal', function () {
                 modal.remove();
-            })
+            });
         }
 
         /**

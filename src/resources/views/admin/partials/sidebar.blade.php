@@ -7,7 +7,7 @@
         <!-- search form (Optional) -->
         <div class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="q" class="form-control search-menu-box" placeholder="{{ trans('honeycombcoreui::core.input.value.filter') }}"/>
+                <input type="text" name="q" class="form-control search-menu-box" placeholder="{{ trans('HCCoreUI::core.input.value.filter') }}"/>
                 <span class="input-group-btn">
                   <button name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                 </span>
@@ -19,7 +19,7 @@
         <ul class="sidebar-menu">
 
             @if( isset($adminMenu) )
-                @include('honeycombcoreui::admin.partials.submenu', ['menuItems' => $adminMenu])
+                @include('HCCoreUI::admin.partials.submenu', ['menuItems' => $adminMenu])
             @endif
 
         </ul><!-- /.sidebar-menu -->

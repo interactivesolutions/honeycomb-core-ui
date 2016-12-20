@@ -27,7 +27,7 @@ HCService.List.SimpleList = function (configuration)
             case 'endless':
 
                 dataList = new HCService.List.Endless({
-                    url: configuration.contentURL,
+                    url: this.getDataURL(''),
                     onLoadComplete: createTableHeader,
                     createElement: createListElement
                 });
@@ -652,7 +652,8 @@ HCService.List.SimpleList = function (configuration)
      */
     this.handleReloadAction = function (url)
     {
-        //createTableHeader();
+        listContainer.find('.hc-list-item').remove();
+        dataList.reload(url);
     };
 
     /**
@@ -662,12 +663,12 @@ HCService.List.SimpleList = function (configuration)
      */
     this.handleFilterButtonActionClick = function (value)
     {
-        $.each($('.is-list-container .is-list-item-color'), function (key, element)
+        $.each($('.hc-list-container .hc-list-item'), function (key, element)
         {
             listElementsHolder[$(element).attr('id')].showElement();
         });
 
-        $.each($('.is-list-item-color:not(:contains_ci(' + value + '))'), function (key, element)
+        $.each($('.hc-list-container .hc-list-item:not(:contains_ci(' + value + '))'), function (key, element)
         {
             listElementsHolder[$(element).attr('id')].hideElement();
         });
@@ -683,7 +684,7 @@ HCService.List.SimpleList = function (configuration)
         var loader = new HCLoader.BasicLoader();
         loader.addVariable('list', listToDelete);
         loader.methodDELETE();
-        loader.load(null, null, null, configuration.url, 'delete');
+        loader.load(null, null, null, configuration.contentURL, 'delete');
 
         $.each(listToDelete, function (key, value)
         {

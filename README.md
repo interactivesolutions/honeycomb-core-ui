@@ -15,7 +15,7 @@ Begin by installing this package through Composer.
 ```
 
 ```js
-    composer require interactivesolutions/honeycomb-core-uii "0.1.*"
+    composer require interactivesolutions/honeycomb-core-ui "0.1.*"
 ```
 
 ## Laravel installation

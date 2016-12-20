@@ -205,7 +205,7 @@ HCService.List.Core = function ()
         localScope.actionListItems.searchB = $('<div class="btn btn-warning hc-action-list-button"><i class="fa fa-fw fa-search-plus"></i></div>');
         elements.push(localScope.actionListItems.searchB);
         
-        localScope.actionListItems.searchF.keydown(function (e)
+        localScope.actionListItems.searchF.keyup(function (e)
         {
             if (e.keyCode == 13)
                 startSearch();
@@ -253,11 +253,6 @@ HCService.List.Core = function ()
             localScope.actionListItems.searchF.val('');
             localScope.actionListItems.searchC.hide();
             localScope.handleReloadAction(localScope.getDataURL());
-            
-            $.each(filterListItems, function (key, value)
-            {
-                value.setContentData(null);
-            });
         });
         
         localScope.actionListItems.searchC.hide();
@@ -349,7 +344,9 @@ HCService.List.Core = function ()
             value.updateWhenOnStage();
             value.updateWhenOnStageLocal();
             value.setDefaultValue();
-            
+
+            localScope.filterParameters[value.getFieldID()] = value;
+
             if (value.fieldName == 'dateTimePicker')
                 $('#' + value.uniqueFieldID).css('width', 130);
         });
@@ -362,8 +359,6 @@ HCService.List.Core = function ()
      */
     function handleFilterChange(e)
     {
-        return;
-
         var id = e.getFieldID();
 
         if (e.getFieldData().customURL)
@@ -446,10 +441,10 @@ HCService.List.Core = function ()
      */
     this.getDataURL = function (search)
     {
-        var url = configuration.url;
+        var url = configuration.contentURL;
         var cValue;
         
-        if (search)
+        if (search && search != '')
             url += '?q=' + search;
         
         if (Object.size(localScope.filterParameters) > 0)
@@ -459,7 +454,6 @@ HCService.List.Core = function ()
             
             $.each(localScope.filterParameters, function (key, value)
             {
-                
                 if (!value.getFieldData().customURL)
                 {
                     cValue = value.getContentData();
@@ -467,7 +461,8 @@ HCService.List.Core = function ()
                     if (value.getFieldData().ignoreFieldID)
                         url += cValue;
                     else
-                        url += '&' + key + '=' + cValue;
+                        if (cValue)
+                            url += '&' + key + '=' + cValue;
                 }
             });
         }
