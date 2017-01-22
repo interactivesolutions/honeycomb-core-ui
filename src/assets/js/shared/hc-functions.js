@@ -316,7 +316,7 @@ HCFunctions = new function ()
 
         this.toEB = function (value)
         {
-            if (value < PB)
+            if (value < EB)
                 return this.toPB(value);
 
             return formatAnswer (value / EB) + ' EB';
