@@ -32,7 +32,7 @@
                     <li @if(request()->path() == $item['path']) class="active" @endif>
                         <a href="{{ url($item['path']) }}">
                             <i class="fa fa-list-ul fa-fw"></i>
-                            {{ trans('core::core.list') }}
+                            {{ trans('HCTranslations::core.list') }}
                         </a>
                     </li>
 
