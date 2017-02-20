@@ -133,16 +133,16 @@ HCService.FormManager.Objects.CheckBoxList = function ()
             deselectAllOptions();
             return;
         }
-
+        
         if (Object.keys(idsHolder).length == 0)
         {
             contentData = value;
             return;
         }
-
-        if (value && HCFunctions.isObject(value))
+        
+        if (value && !HCFunctions.isArray(value))
             value = [value];
-
+        
         for (var i = 0; i < value.length; i++)
             if (HCFunctions.isObject(value[i]))
                 $('#' + idsHolder[value[i]['id']], this.innerHTML).prop('checked', true);
