@@ -151,6 +151,8 @@ HCService.FormManager.Objects.CheckBoxList = function ()
 
         if (this.getProperties())
             addBindsToLabel();
+    
+        this.triggerContentChange();
     };
 
     /**

@@ -179,6 +179,8 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         if (this.getContentData() == null && data)
             this.getFieldData().value = data;
+    
+        this.triggerContentChange();
     };
 
     /**
