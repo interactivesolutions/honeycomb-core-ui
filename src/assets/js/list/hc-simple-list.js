@@ -348,7 +348,7 @@ HCService.List.SimpleList = function (configuration)
             function createListCheckBox(value)
             {
                 var checkBox = $('<input type="checkbox">');
-                var url = config.url + '/' + data.id;
+                var url = config.url.replace('/id/', '/' + data.id + '/');
 
                 if (value == 1)
                     checkBox.prop('checked', true);
