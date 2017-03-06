@@ -6,96 +6,96 @@ HCService.FormManager.Objects.BasicField = function ()
      * @type {HCService.FormManager.Objects.BasicField}
      */
     var localScope = this;
-
+    
     /**
      * Parent scope
      *
      * @type {HCService.FormManager.Objects.BasicField}
      */
     this.parentScrope = this;
-
+    
     /**
      * Events dispatcher
      * @type jQuery Object
      */
     this.eventDispatcher = new HCObjects.HCEventDispatcher ();
-
+    
     /**
      * Unique identification number for a field
      * @type String
      */
     this.uniqueFieldID = HCFunctions.createUUID ();
-
+    
     /**
      * Label wrapper used for checkbox list
      *
      * @type {undefined}
      */
     this.labelWrapper = undefined;
-
+    
     /**
      * Field metadata
      * @type Object
      */
     var fieldData = null;
-
+    
     /**
      * Field Properties
      * @type Object
      */
     var fieldProperties = null;
-
+    
     /**
      * Field Options (used by lists)
      * @type Object
      */
     var fieldOptions = null;
-
+    
     /**
      * Used in dependencies to restore its previous state
      */
     var innerRequired;
-
+    
     /**
      * Parent DIV field holder
      */
     var parent;
-
+    
     /**
      * When field has multiple dependencies, storing validation for each of the field
      *
      * @type {Object}
      */
     this.dependencyArray = {};
-
+    
     /**
      * indicating field data availability in case of dependencies
      * @type Object
      */
     this.available = true;
-
+    
     /**
      * Multi Language select options
      */
     var multiLanguageSelect;
-
+    
     /**
      * Is field readonly
      * @type Boolean
      */
     var readonly;
-
+    
     /**
      * Dependency values which might be used in other fields
      */
     this.dependencyValues = {};
-
+    
     /**
      * jQuery object of input field;
      * @type Object
      */
     this.inputField = null;
-
+    
     /**
      * Setting field metadata and field properties
      *
@@ -109,15 +109,15 @@ HCService.FormManager.Objects.BasicField = function ()
         fieldOptions    = data.options;
         innerRequired   = data.required;
         readonly        = data.readonly;
-
+        
         this.updateDependencyArray ();
         this.handleProperties ();
         this.handleOptions ();
-
+        
         if (this.fieldName != 'button')
             this.handleReadonly ();
     };
-
+    
     /**
      * Returning field data
      *
@@ -127,7 +127,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldData;
     };
-
+    
     /**
      * Returns Field id
      *
@@ -138,7 +138,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldData.fieldID;
     };
-
+    
     /**
      * Returning field properties
      *
@@ -148,7 +148,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldProperties;
     };
-
+    
     /**
      * Returning field options
      *
@@ -158,7 +158,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldOptions;
     };
-
+    
     /**
      * Initial dependency, set all to false
      */
@@ -169,7 +169,7 @@ HCService.FormManager.Objects.BasicField = function ()
             localScope.dependencyArray[value.field_id] = false;
         })
     };
-
+    
     /**
      * This function should format the field, based on provided properties.
      * This function might be overridden
@@ -179,7 +179,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.handleProperties = function ()
     {
     };
-
+    
     /**
      * This function should add selection options, based on provided options.
      * This function might be overridden
@@ -189,7 +189,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.handleOptions = function ()
     {
     };
-
+    
     /**
      * Checking if field can be edited
      */
@@ -198,7 +198,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (readonly)
             this.inputField.attr ('disabled', true);
     };
-
+    
     /**
      * Get the placeholder name
      *
@@ -209,10 +209,10 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         if (fieldData.placeholder)
             return this.getLabel ();
-
+        
         return '';
     };
-
+    
     /**
      * Returns Label string
      *
@@ -223,7 +223,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldData.label;
     };
-
+    
     /**
      * Getting annotation
      *
@@ -234,10 +234,10 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         if (fieldData.note)
             return '<div style="width: 100%;"><small class="text-muted pull-right">' + fieldData.note + '</small></div>';
-
+        
         return '';
     };
-
+    
     /**
      * Returns generated Field HTML div
      *
@@ -247,7 +247,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.getHTML = function ()
     {
         var array = [this.getLabelHTML ()];
-
+        
         if (this.innerHTML instanceof Array)
         {
             for (var i = 0; i < this.innerHTML.length; i++)
@@ -255,10 +255,10 @@ HCService.FormManager.Objects.BasicField = function ()
         }
         else
             array.push (this.innerHTML);
-
+        
         return array;
     };
-
+    
     /**
      * Returns generated Field label HTML div
      *
@@ -269,16 +269,16 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         //TODO annotations on click / rollover
         var placeholder = '';
-
+        
         if (!this.getLabel ())
             return '';
-
+        
         if (fieldData.placeholder)
             placeholder = 'hidden';
-
+        
         return this.labelWrapper = $ ('<label class="hc-fo-field-label ' + placeholder + '">' + this.getLabel () + ' ' + getRequiredHTML() + '</label>');
     };
-
+    
     /**
      * Getting required html
      *
@@ -288,10 +288,10 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         if (fieldData.required && fieldData.requiredVisible)
             return '<span class="text-danger">*</span>';
-
+        
         return '';
     }
-
+    
     /**
      * Returns value if the field required or not
      *
@@ -302,7 +302,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return fieldData.required;
     };
-
+    
     /**
      * Set field parent
      *
@@ -313,7 +313,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         parent = value;
     };
-
+    
     /**
      * Getting parent
      * @returns {Object|*|Window}
@@ -322,7 +322,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return parent;
     };
-
+    
     /**
      * When field needs to be on stage, to be created
      * this function will be called.
@@ -336,7 +336,7 @@ HCService.FormManager.Objects.BasicField = function ()
         this.inputField = $ ('#' + this.uniqueFieldID);
         this.addEvents ();
     };
-
+    
     /**
      * Adding event listeners for field content to change
      *
@@ -348,7 +348,7 @@ HCService.FormManager.Objects.BasicField = function ()
         HCFunctions.bind (this, this.inputField, 'blur', this.validateContentData);
         HCFunctions.bind (this, this.inputField, 'change', this.triggerContentChange);
     };
-
+    
     /**
      * Function which triggers event for ContentChange
      *
@@ -359,7 +359,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (fieldData.multiLanguage)
         {
             var index = this.getContentLanguageElementIndex ();
-
+            
             if (index >= 0)
             {
                 validateIndex (index);
@@ -370,24 +370,24 @@ HCService.FormManager.Objects.BasicField = function ()
         else
         if (this.form)
             this.form.content[this.getFieldID ()] = this.getContentData ();
-
+        
         this.eventDispatcher.trigger ('contentDataChange', this);
     };
-
+    
     /**
      * Checking if multi language index exists, if not creating one
      * @param index
      */
     function validateIndex (index)
     {
-
+        
         if (!localScope.form.content.translations[index])
         {
             localScope.form.content.translations[index]                  = {};
             localScope.form.content.translations[index]['language_code'] = localScope.form.currentLanguage;
         }
     }
-
+    
     /**
      * This function validates the data.
      * This function might be overridden, else it will show a Warning
@@ -395,25 +395,25 @@ HCService.FormManager.Objects.BasicField = function ()
      * @method validateContentData
      * @return {Boolean} is content valid
      */
-
+    
     this.validateContentData = function ()
     {
         if (!this.form)
             return true;
-
+        
         if (fieldData.requiredLanguages)
         {
             var missingLanguages = HCFunctions.clone (fieldData.requiredLanguages);
             var languagePosition;
-
+            
             $.each (this.form.content.translations, function (key, value)
             {
                 languagePosition = missingLanguages.indexOf (value.language_code);
-
+                
                 if (languagePosition >= 0 && value[localScope.getFieldID ()])
                     missingLanguages.splice (languagePosition, 1);
             });
-
+            
             if (missingLanguages.length > 0)
             {
                 this.showFieldError (this.getLabel () + ' missing languages: ' + missingLanguages.toString ());
@@ -425,11 +425,11 @@ HCService.FormManager.Objects.BasicField = function ()
             this.showFieldError (this.getLabel () + ' is empty!');
             return false;
         }
-
+        
         this.hideFieldError ();
         return true;
     };
-
+    
     /**
      * Method will be called after a field is on stage and field
      * needs to be updated when updateWhenOnStage is not enough.
@@ -439,7 +439,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.updateWhenOnStageLocal = function ()
     {
     };
-
+    
     /**
      * Adding default value
      *
@@ -450,7 +450,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (fieldData.value)
             this.setContentData (fieldData.value);
     };
-
+    
     /**
      * Setting data for the field
      *
@@ -463,11 +463,11 @@ HCService.FormManager.Objects.BasicField = function ()
             this.invisibleValue = data;
         else
             this.inputField.val (data);
-
+        
         this.triggerContentChange ();
-
+        
     };
-
+    
     /**
      * Getting content data
      *
@@ -477,16 +477,16 @@ HCService.FormManager.Objects.BasicField = function ()
     this.getContentData = function ()
     {
         var data = this.inputField.val ();
-
+        
         if (!data && this.invisibleValue)
             data = this.invisibleValue;
-
+        
         if (data == "")
             return null;
-
+        
         return data;
     };
-
+    
     /**
      * When field is required and entered after the Error has been showed, this function will remove highlight
      * This function might be overridden
@@ -497,14 +497,14 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         //TODO make possibility for fields to have warning and danger types
         parent.removeClass ('has-danger');
-
+        
         if (fieldData.required)
             parent.addClass('has-success');
-
+        
         this.inputField.addClass('form-control-success');
         this.form.enableSubmit('field_' + this.uniqueFieldID);
     };
-
+    
     /**
      * When field is required but not entered, this function will highlight it
      * This function might be overridden.
@@ -518,10 +518,10 @@ HCService.FormManager.Objects.BasicField = function ()
         this.inputField.removeClass('form-control-success');
         this.inputField.removeClass('has-success');
         this.showErrorMessage (value);
-
+        
         this.form.disableSubmit('field_' + this.uniqueFieldID);
     };
-
+    
     /**
      * This function will show ERROR message inside the field or FORM
      * This function might be overridden
@@ -533,27 +533,27 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         HCFunctions.notify ('warning', value);
     };
-
+    
     /**
      * Checking for multi language
      */
     this.checkForMultiLanguage = function ()
     {
         var availableLanguages = this.form.getAvailableLanguages ();
-
+        
         if (availableLanguages.length == 0 || !fieldData.multiLanguage)
             return;
-
+        
         multiLanguageSelect = $ ('<select id="multi-language-selector" class="form-control col-xs-2"></select>');
-
+        
         if (readonly)
             multiLanguageSelect.attr('disabled', true);
-
+        
         $.each (availableLanguages, function (key, value)
         {
             multiLanguageSelect.append ('<option>' + value + '</option>');
         });
-
+        
         multiLanguageSelect.change (function (e)
         {
             if (e.originalEvent)
@@ -562,16 +562,16 @@ HCService.FormManager.Objects.BasicField = function ()
                 localScope.form.eventDispatcher.trigger ('languageChanged');
             }
         });
-
+        
         localScope.form.eventDispatcher.bind (localScope, 'languageChanged', this.languageSelectionChanged);
-
+        
         this.inputField.addClass('col-xs-10');
-
+        
         this.innerHTML.addClass('row form-group');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
         this.innerHTML.append (multiLanguageSelect);
     };
-
+    
     /**
      * MultiLanguage option changed
      */
@@ -580,7 +580,7 @@ HCService.FormManager.Objects.BasicField = function ()
         multiLanguageSelect.val (localScope.form.currentLanguage);
         this.populateContent ();
     };
-
+    
     /**
      * Populating content, retrieving data from form content
      */
@@ -591,11 +591,11 @@ HCService.FormManager.Objects.BasicField = function ()
             this.triggerContentChange();
             return;
         }
-
+        
         if (fieldData.multiLanguage)
         {
             var index = this.getContentLanguageElementIndex ();
-
+            
             if (index >= 0)
             {
                 validateIndex (index);
@@ -605,7 +605,7 @@ HCService.FormManager.Objects.BasicField = function ()
         else
             localScope.setContentData (localScope.form.content[localScope.getFieldID ()]);
     };
-
+    
     /**
      * Finding index of translations array, based on currentLanguage
      *
@@ -615,7 +615,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         return HCFunctions.getTranslationsLanguageElementIndex(localScope.form.currentLanguage, localScope.form.content.translations);
     };
-
+    
     /**
      * hide field parent
      *
@@ -624,16 +624,16 @@ HCService.FormManager.Objects.BasicField = function ()
     this.hideParent = function ()
     {
         this.available = false;
-
+        
         fieldOptions = null;
-        parent.addClass ('hc-hidden');
-
+        parent.addClass ('hidden');
+        
         if (innerRequired == 1)
             this.getFieldData ().required = false;
-
+        
         this.setContentData (null);
     };
-
+    
     /**
      * show field parent
      *
@@ -645,21 +645,21 @@ HCService.FormManager.Objects.BasicField = function ()
             return;
         else if (this.getFieldData ().dependencies && !this.dependencyAllow)
             return;
-
+        
         this.available = true;
         // display table for design purpose
-        parent.removeClass ('hc-hidden');
+        parent.removeClass ('hidden');
         parent.removeAttr ('style');
-
+        
         if (innerRequired == 1)
             this.getFieldData ().required = true;
-
+        
         if (this.invisibleValue)
             this.setContentData (this.invisibleValue);
-
+        
         this.invisibleValue = undefined;
     };
-
+    
     /**
      *
      * Updating dependencies
@@ -670,11 +670,11 @@ HCService.FormManager.Objects.BasicField = function ()
     this.updateDependencies = function (value)
     {
         this.dependencyUpdated = true;
-
+        
         var contentData = value.getContentData();
         var dependencies = this.getFieldData().dependencies;
         var success = true;
-
+        
         if (HCFunctions.isArray(dependencies))
         {
             $.each(dependencies, function (key, dependency)
@@ -682,7 +682,7 @@ HCService.FormManager.Objects.BasicField = function ()
                 if (dependency.field_id == value.getFieldID())
                     localScope.dependencyArray[value.getFieldID()] = validateDependency(dependency);
             });
-
+            
             $.each(localScope.dependencyArray, function (successKey, successValue)
             {
                 if (!successValue)
@@ -691,11 +691,10 @@ HCService.FormManager.Objects.BasicField = function ()
         }
         else
             success = validateDependency(dependencies);
-
+        
         this.dependencyAllow = success;
-
         return success;
-
+        
         /**
          * Validating dependency
          *
@@ -705,7 +704,7 @@ HCService.FormManager.Objects.BasicField = function ()
         function validateDependency(dependency)
         {
             var success = false;
-
+            
             if (dependency.value_id)
             {
                 if (HCFunctions.isArray(dependency.value_id))
@@ -718,44 +717,41 @@ HCService.FormManager.Objects.BasicField = function ()
                     success = true;
             }
             else
+            if (contentData != null && contentData != '')
                 success = true;
-
+            
             if (success && dependency.options_url)
                 localScope.loadOptions(dependency.options_url, value);
-
-            //TODO figure out why this is needed here?
-            /* if (success && !(contentData && contentData != ''))
-             success = false;*/
-
+            
             if (success)
                 localScope.dependencyValues[value.getFieldID()] = value.getContentData();
             else
-                delete localScope.dependencyAllow[value.getFieldID()];
-
+                delete localScope.dependencyValues[value.getFieldID()];
+            
             return success;
         }
     };
-
+    
     /**
      * Loading options
      */
     this.loadOptions = function (url, sourceField)
     {
         var variable = sourceField.getContentData();
-
+        
         if (variable && !HCFunctions.isString(variable))
             variable = variable.toString();
-
+        
         var loader;
         loader = new HCLoader.BasicLoader();
         loader.dataTypeJSON();
-
+        
         if (variable)
             loader.addVariable(sourceField.getFieldID(), variable);
-
+        
         loader.load(optionsLoaded, null, this, url);
     };
-
+    
     /**
      * Options has been loaded
      *
@@ -766,7 +762,7 @@ HCService.FormManager.Objects.BasicField = function ()
         fieldOptions = value;
         localScope.handleOptions();
     }
-
+    
     /**
      * Executing additional tasks in main field
      */
