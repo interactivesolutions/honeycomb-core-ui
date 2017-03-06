@@ -2,15 +2,15 @@
 
     @foreach($menuItems as $item)
 
-        {{-- this submenu creation is depends on octopus.json packages files parameter aclPermission --}}
+        {{-- this submenu creation is depends on honeycomb config.json packages files parameter aclPermission --}}
         {{-- if the given user role has access to this permission than user can see that menu --}}
 
         <li
                 @if(isset($item['children']) && is_array($item['children']) && request()->path() == $item['path'])
-                    class="treeview active"
+                class="treeview active"
 
                 @elseif(str_contains(request()->path(), $item['path']) || isset($item['children']) && collect($item['children'])->where('parent', $item['path'])->where('path', request()->path())->count())
-                    class="active"
+                class="active"
                 @endif
         >
             @if(isset($item['children']) && is_array($item['children']))
@@ -31,8 +31,21 @@
                 <ul class="treeview-menu">
                     <li @if(request()->path() == $item['path']) class="active" @endif>
                         <a href="{{ url($item['path']) }}">
-                            <i class="fa fa-list-ul fa-fw"></i>
-                            {{ trans('HCTranslations::core.list') }}
+                            @if(isset($item['listTranslation']))
+                                @if(isset($item['listIconPath']) && ! empty($item['listIconPath']))
+                                    <img src="{{ $item['listIconPath'] }}" width="15" alt=""/>
+                                @else
+                                    @if (isset($item['listIcon']) && ! empty($item['listIcon']))
+                                        <i class="fa {{ $item['listIcon'] }} fa-fw"></i>
+                                    @else
+                                        <i class="fa fa-list-ul fa-fw"></i>
+                                    @endif
+                                @endif
+                                {{ trans($item['listTranslation']) }}
+                            @else
+                                <i class="fa fa-list-ul fa-fw"></i>
+                                {{ trans('HCTranslations::core.list') }}
+                            @endif
                         </a>
                     </li>
 
