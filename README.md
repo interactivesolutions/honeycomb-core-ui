@@ -1,32 +1,11 @@
 # honeycomb-core-ui
 HoneyComb coreui repository
 
-## Installation
+## Attention
 
-Begin by installing this package through Composer.
+This is part of HoneyComb CMS package.
 
+It will not work alone.
 
-```js
-	{
-	    "require": {
-	    	"interactivesolutions/honeycomb-core-ui": "*"
-		}
-	}
-```
-
-```js
-    composer require interactivesolutions/honeycomb-core-ui "0.1.*"
-```
-
-## Laravel installation
-
-Then register the service provider and Facade by opening `config/app.php`
-
-    interactivesolutions\honeycombcoreui\providers\HCCoreUiServiceProvider::class
-
-Publish the files:
-
-```
-	php artisan vendor:publish
-
-```
+You cna find it in:
+https://github.com/interactivesolutions/honeycomb-cms
