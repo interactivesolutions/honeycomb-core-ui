@@ -55,6 +55,8 @@ HCService.FormManager.Objects.RadioList = function ()
 
         if (contentData)
             this.setContentData(contentData);
+    
+        this.triggerContentChange();
     };
 
 

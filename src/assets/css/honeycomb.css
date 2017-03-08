@@ -113,7 +113,6 @@ select {
 }
 
 .hc-list-item {
-    text-transform: capitalize;
     color: #333;
     margin: 0 10px 0 0;
     padding: 0;
@@ -166,6 +165,7 @@ select {
     width: 100px;
     height: 100px;
     background: center no-repeat;
+    background-size: contain;
 }
 
 .hc-image-holder {
@@ -207,6 +207,10 @@ select {
     text-align: center;
     margin: -25px 0 0 0;
     position: absolute;
+}
+
+.form-check-label {
+    padding-left: 0;
 }
 
 /*---- Admin LTE bootstrap 4 fix -----*/

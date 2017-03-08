@@ -114,7 +114,6 @@ HCService.FormManager.Objects.UploadFile = function ()
         }
         else
             scope.checkThumbnail(data);
-
     };
 
     /**

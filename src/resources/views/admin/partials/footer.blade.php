@@ -4,6 +4,6 @@
         {{--Anything you want--}}
     {{--</div>--}}
 
-    <div id="copyright"> {{ trans('core::core.copyright') }} </div>
+    <div id="copyright"> {{ trans('HCTranslations::core.copyright') }} </div>
 
 </footer>

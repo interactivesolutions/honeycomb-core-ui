@@ -101,6 +101,8 @@ HCService.FormManager.Objects.RichTextArea = function ()
                 data = data ? data : '';
                 tinymce.editors[scope.uniqueFieldID].setContent(data);
             }
+    
+            scope.triggerContentChange();
         }, 100);
     }
 };

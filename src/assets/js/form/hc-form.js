@@ -6,44 +6,44 @@ HCService.FormManager.HCForm = function (data, availableFields)
      * type{function}
      */
     this.onFormCreation = undefined;
-
+    
     /**
      * Event dispatcher
      *
      * @type {HCObjects.HCEventDispatcher}
      */
     this.eventDispatcher = new HCObjects.HCEventDispatcher ();
-
+    
     /**
      * Currently selected language
      */
     this.currentLanguage = undefined;
-
+    
     /**
      * Form content data stored in one place for field to use it
      *
      * @type Object
      */
     this.content = {};
-
+    
     /**
      *  Function to call after successful data commit
      *
      * @type {function}
      */
     this.successCallBack = undefined;
-
+    
     /**
      *  Function to call when submitting data
      * @type {undefined}
      */
     this.submitData = undefined;
-
+    
     /**
      * Generating unique form id
      * @type {string}
      */
-
+    
     var id = HCFunctions.createUUID ();
     
     /**
@@ -163,7 +163,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             scope.currentLanguage = availableLanguages[0];
             scope.content.translations = {};
         }
-
+        
         createForm ();
     }
     
@@ -274,7 +274,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 {
                     if (!tabHolder[fieldData.tabID])
                         tabHolder[fieldData.tabID] = 'tab_' + HCFunctions.createUUID ();
-
+                    
                     _class += tabHolder[fieldData.tabID];
                 }
                 else
@@ -283,7 +283,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
                     {
                         if (!tabHolder['undefined'])
                             tabHolder['undefined'] = 'tab_' + HCFunctions.createUUID();
-
+                        
                         _class += tabHolder['undefined'];
                         fieldData.tabID = 'undefined';
                     }
@@ -293,15 +293,15 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 field.form        = scope;
                 field.formWrapper = data.divID;
                 field.setFieldData (fieldData);
-
+                
                 if (fieldData.hidden)
                     _class += ' hidden';
-
+                
                 var html       = $ ('<div class="' + _class + '"></div>').append (field.getHTML ());
                 var finalField = {field: field, html: html, destination: $ (data.divID + ' .formContent')};
                 
                 placeFieldOnStage (finalField);
-
+                
                 // saving form fields into a array
                 if (!formFields[field.getFieldID ()])
                     formFields[field.getFieldID ()] = field;
@@ -329,11 +329,11 @@ HCService.FormManager.HCForm = function (data, availableFields)
         });
         
         createTabs (tabHolder);
-
+        
         if (scope.onFormCreation)
             scope.onFormCreation();
     }
-
+    
     /**
      * Dependency manager for showing / hiding form fields based on their dependencies
      *
@@ -351,7 +351,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             var dependency;
             var field_id;
             dependencyList = [];
-
+            
             $.each (list, function (key, field)
             {
                 dependency = field.getFieldData ().dependencies;
@@ -415,7 +415,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         
         if (totalTabs <= 1)
             return;
-
+        
         var html = $ ('<div class="form-tabs"></div>');
         var menu = $ ('<ul class="nav nav-pills"></ul>');
         var li;
@@ -424,13 +424,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
         $.each (tabInfo, function (key, value)
         {
             li = $ ('<li class="nav-item">' + '<a class="nav-link" data-toggle="tab" href="' + value + '">' + key + '</a>' + '</li>');
-
+            
             if (!firstLi)
             {
                 firstLi = li;
                 firstLi.find('a').addClass('active');
             }
-
+            
             li.bind ('click', function (e)
             {
                 changeTabContent ($ (this).find ('a').attr ('href'));
@@ -496,7 +496,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         //TODO multi language
         if (!buttons)
             buttons = [{class: "col-centered", label: "Submit", type: "submit"}];
-
+        
         var buttonsHolder = $ ('<div class="hc-form-buttons-holder"></div>');
         var length        = buttons.length;
         var button;
@@ -527,13 +527,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (!scope.content)
             return;
-
+        
         if (scope.submitData)
         {
             scope.submitData(scope.content);
             return;
         }
-
+        
         scope.disableSubmit ('data-management');
         
         var dataLoader = new HCLoader.BasicLoader ();
