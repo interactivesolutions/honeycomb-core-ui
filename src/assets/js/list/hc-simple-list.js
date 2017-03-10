@@ -239,12 +239,8 @@ HCService.List.SimpleList = function (configuration) {
             if (configuration.headers[key]) {
                 var config = configuration.headers[key];
 
-                console.log(config.type);
-
                 switch (config.type) {
                     case 'image':
-
-                        console.log(value);
 
                         if (value != null && value != '' && value != '-')
                             value = '<div style="width: ' + config.options.w + 'px; height:' + config.options.h + 'px; background: center no-repeat url(' + configuration.imagesURL + '/' + value + '/' + config.options.w + '/' + config.options.h + '); background-size:contain; margin: 0 auto;"></div>';
