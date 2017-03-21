@@ -67,8 +67,10 @@
 @include('HCCoreUI::js.form')
 @include('HCCoreUI::js.list')
 
+
 <script>
-    HCService.FRONTENDLanguage = HCService.CONTENTLanguage = '{{ app()->getLocale() }}';
+    //TODO read from cache
+    HCService.FRONTENDLanguage = HCService.CONTENTLanguage = '{{ \interactivesolutions\honeycomblanguages\app\models\HCLanguages::where('iso_639_1', app()->getLocale())->select('iso_639_2')->first()['iso_639_2'] }}';
 </script>
 
 <script>
