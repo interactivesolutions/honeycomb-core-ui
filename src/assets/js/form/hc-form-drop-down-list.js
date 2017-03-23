@@ -179,7 +179,7 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         if (this.getContentData() == null && data)
             this.getFieldData().value = data;
-    
+
         this.triggerContentChange();
     };
 
@@ -237,10 +237,17 @@ HCService.FormManager.Objects.DropDownList = function ()
                         {
                             if (nodeNames.indexOf(key) >= 0)
                                 text += value + ' | ';
-                            else if (HCFunctions.isObject(value))
+                            else if (HCFunctions.isArray(value))
                             {
                                 $.each(nodeNames, function (node_key, node_value)
                                 {
+                                    if (node_value.indexOf('{lang}') != -1)
+                                    {
+                                        node_value = HCFunctions.replaceBrackets(node_value, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, data.translations)});
+                                        text += HCFunctions.pathIndex(obj, node_value) + ' | ';
+                                        return false;
+                                    }
+                                    else
                                     if (value[node_value] && value[node_value] != '' && value[node_value] != null)
                                         text += value[node_value] + ' | ';
                                 });
