@@ -6,103 +6,103 @@ HCService.FormManager.HCForm = function (data, availableFields)
      * type{function}
      */
     this.onFormCreation = undefined;
-    
+
     /**
      * Event dispatcher
      *
      * @type {HCObjects.HCEventDispatcher}
      */
     this.eventDispatcher = new HCObjects.HCEventDispatcher ();
-    
+
     /**
      * Currently selected language
      */
     this.currentLanguage = undefined;
-    
+
     /**
      * Form content data stored in one place for field to use it
      *
      * @type Object
      */
     this.content = {};
-    
+
     /**
      *  Function to call after successful data commit
      *
      * @type {function}
      */
     this.successCallBack = undefined;
-    
+
     /**
      *  Function to call when submitting data
      * @type {undefined}
      */
     this.submitData = undefined;
-    
+
     /**
      * Generating unique form id
      * @type {string}
      */
-    
+
     var id = HCFunctions.createUUID ();
-    
+
     /**
      * Form fields storage
      *
      * @type {Object}
      */
     var formFields = {};
-    
+
     /**
      * Submit button
      *
      */
     var submitButton;
-    
+
     /**
      * Form structure information
      */
     var formConfiguration;
-    
+
     /**
      * Form Available languages for all multi language fields
      * @type {Array}
      */
     var availableLanguages = [];
-    
+
     /**
      * Submit buttons reasons, why it should or should not be disabled
      *
      * @type Object
      */
     var disableSubmitButtonReasons = {};
-    
+
     /**
      * Tab holder, contains all information about form tabs
      */
     var tabHolder;
-    
+
     /**
      * Currently selected tab
      */
     var currentTab;
-    
+
     /**
      * Total tabs count
      */
     var totalTabs;
-    
+
     /**
      * setting scope for functions
      * @type {Object}
      */
     var scope = this;
-    
+
     /**
      * Where to the data should be submitted
      */
     var storageURL;
-    
+
     /**
      * Initializing FORM
      */
@@ -115,7 +115,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         else
             console.log ('structureURL is missing.');
     }
-    
+
     /**
      * Returning available languages
      *
@@ -125,7 +125,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         return availableLanguages;
     };
-    
+
     /**
      * Returning form all available form fields
      *
@@ -135,7 +135,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         return formFields;
     };
-    
+
     /**
      * Loading structure
      */
@@ -146,7 +146,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         loader.dataTypeJSON ();
         loader.load (structureLoaded, null, this, data.structureURL);
     }
-    
+
     /**
      * Create form structure
      *
@@ -156,32 +156,32 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function structureLoaded (response)
     {
         formConfiguration = response;
-        
+
         if (formConfiguration.availableLanguages)
         {
             availableLanguages    = formConfiguration.availableLanguages;
             scope.currentLanguage = availableLanguages[0];
             scope.content.translations = {};
         }
-        
+
         createForm ();
     }
-    
+
     /**
      * Actual creation of form
      */
     function createForm ()
     {
         storageURL = formConfiguration.storageURL;
-        
+
         createFormDiv ();
         createFormFields (formConfiguration.structure);
         createFormButtons (formConfiguration.buttons);
-        
+
         if (data.contentID)
             loadContent ();
     }
-    
+
     /**
      * After loading form structure
      * @method loadContent
@@ -189,13 +189,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function loadContent ()
     {
         scope.disableSubmit ('data-management');
-        
+
         var loader;
         loader = new HCLoader.BasicLoader ();
         loader.dataTypeJSON ();
         loader.load (contentLoaded, handleError, this, storageURL + '/' + data.contentID);
     }
-    
+
     /**
      * Fill form
      *
@@ -205,15 +205,15 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function contentLoaded (response)
     {
         scope.content = response;
-        
+
         $.each (formFields, function (key, value)
         {
             value.populateContent ();
         });
-        
+
         scope.enableSubmit ('data-management');
     }
-    
+
     /**
      * Disable submit button
      */
@@ -221,13 +221,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (!key)
             return;
-        
+
         disableSubmitButtonReasons[key] = 1;
-        
+
         if (submitButton)
             submitButton.disable ();
     };
-    
+
     /**
      * Enable submit button
      */
@@ -235,14 +235,14 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (!key)
             return;
-        
+
         delete disableSubmitButtonReasons[key];
-        
+
         if (Object.size (disableSubmitButtonReasons) == 0)
             if (submitButton)
                 submitButton.enable ();
     };
-    
+
     /**
      * Creating DIV DOM object for the form to be stored
      * @method createFormDiv
@@ -251,10 +251,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if ($ (data.divID).length === 0)
             $ ('body').append ('<div id=" ' + data.divID.substring (1) + '"></div>');
-        
+
         $ (data.divID).html ('<form class="formContent" id="' + id + '"></form>');
     }
-    
+
     /**
      * Creating form fields
      * @method createFormFields
@@ -263,18 +263,18 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         var _class;
         tabHolder = {};
-        
+
         $.each (structure, function (i, fieldData)
         {
             if (availableFields[fieldData.type])
             {
                 _class = '';
-                
+
                 if (fieldData.tabID)
                 {
                     if (!tabHolder[fieldData.tabID])
                         tabHolder[fieldData.tabID] = 'tab_' + HCFunctions.createUUID ();
-                    
+
                     _class += tabHolder[fieldData.tabID];
                 }
                 else
@@ -283,25 +283,25 @@ HCService.FormManager.HCForm = function (data, availableFields)
                     {
                         if (!tabHolder['undefined'])
                             tabHolder['undefined'] = 'tab_' + HCFunctions.createUUID();
-                        
+
                         _class += tabHolder['undefined'];
                         fieldData.tabID = 'undefined';
                     }
                 }
-                
+
                 var field         = new availableFields[fieldData.type] ();
                 field.form        = scope;
                 field.formWrapper = data.divID;
                 field.setFieldData (fieldData);
-                
+
                 if (fieldData.hidden)
                     _class += ' hidden';
-                
+
                 var html       = $ ('<div class="' + _class + '"></div>').append (field.getHTML ());
                 var finalField = {field: field, html: html, destination: $ (data.divID + ' .formContent')};
-                
+
                 placeFieldOnStage (finalField);
-                
+
                 // saving form fields into a array
                 if (!formFields[field.getFieldID ()])
                     formFields[field.getFieldID ()] = field;
@@ -312,28 +312,28 @@ HCService.FormManager.HCForm = function (data, availableFields)
                     var list = [];
                     list.push (formFields[field.getFieldID ()]);
                     list.push (field);
-                    
+
                     formFields[field.getFieldID ()] = list;
                 }
             }
             else
                 HCFunctions.notify ('warning', 'No form field with type: ' + fieldData.type + ', is not registered.');
         });
-        
+
         scope.DependencyManager.setFields (formFields);
-        
+
         $.each (formFields, function (key, value)
         {
             value.formFields = formFields;
             value.setDefaultValue ();
         });
-        
+
         createTabs (tabHolder);
-        
+
         if (scope.onFormCreation)
             scope.onFormCreation();
     }
-    
+
     /**
      * Dependency manager for showing / hiding form fields based on their dependencies
      *
@@ -343,38 +343,38 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         var fullList;
         var dependencyList;
-        
+
         this.setFields = function (list)
         {
             fullList = list;
-            
+
             var dependency;
             var field_id;
             dependencyList = [];
-            
+
             $.each (list, function (key, field)
             {
                 dependency = field.getFieldData ().dependencies;
-                
+
                 if (dependency)
                 {
                     $.each (dependency, function (key, data)
                     {
                         field_id = data.field_id;
-                        
+
                         if (!dependencyList[field_id])
                         {
                             dependencyList[field_id] = [];
                             list[field_id].eventDispatcher.bind (scope, 'contentDataChange', updateDependencies);
                         }
-                        
+
                         dependencyList[field_id].push (field);
                         field.hideParent ();
                     });
                 }
             });
         };
-        
+
         /**
          * Updating dependencies based on field that has changed.
          *
@@ -396,13 +396,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 }
                 else
                     field.hideParent ();
-                
+
                 field.updateDependenciesLocal (value);
             });
         }
     };
-    
-    
+
+
     /**
      *
      * Creating tabs
@@ -412,38 +412,38 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function createTabs (tabInfo)
     {
         totalTabs = Object.size (tabInfo);
-        
+
         if (totalTabs <= 1)
             return;
-        
+
         var html = $ ('<div class="form-tabs"></div>');
         var menu = $ ('<ul class="nav nav-pills"></ul>');
         var li;
         var firstLi;
-        
+
         $.each (tabInfo, function (key, value)
         {
             li = $ ('<li class="nav-item">' + '<a class="nav-link" data-toggle="tab" href="' + value + '">' + key + '</a>' + '</li>');
-            
+
             if (!firstLi)
             {
                 firstLi = li;
                 firstLi.find('a').addClass('active');
             }
-            
+
             li.bind ('click', function (e)
             {
                 changeTabContent ($ (this).find ('a').attr ('href'));
             });
-            
+
             menu.append (li);
         });
-        
+
         $ (data.divID).prepend (html.append(menu));
-        
+
         firstLi.trigger ('click');
     }
-    
+
     /**
      * Changing tab content
      *
@@ -461,19 +461,19 @@ HCService.FormManager.HCForm = function (data, availableFields)
                     {
                         if (form_value.getFieldData ().tabID == key)
                             form_value.showParent ();
-                        
+
                     }
                     else
                         form_value.showParent ();
                 });
-                
+
                 currentTab = value;
             }
             else
                 $ ('.' + value).hide ();
         });
     }
-    
+
     /**
      * Placing single field on stage
      *
@@ -487,7 +487,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         fieldData.field.updateWhenOnStage ();
         fieldData.field.updateWhenOnStageLocal ();
     }
-    
+
     /**
      * Creating form buttons
      */
@@ -496,30 +496,30 @@ HCService.FormManager.HCForm = function (data, availableFields)
         //TODO multi language
         if (!buttons)
             buttons = [{class: "col-centered", label: "Submit", type: "submit"}];
-        
+
         var buttonsHolder = $ ('<div class="hc-form-buttons-holder"></div>');
         var length        = buttons.length;
         var button;
-        
+
         for (var i = 0; i < length; i++)
         {
             button = new HCService.FormManager.Objects.Button ();
             button.setFieldData (buttons[i]);
             buttonsHolder.append (button.getHTML ());
-            
+
             if (buttons[i].type == 'submit')
             {
                 submitButton             = button;
                 submitButton.handleClick = submitData;
             }
         }
-        
+
         if (!data.buttonsDivID)
             data.buttonsDivID = data.divID;
-        
+
         $ (data.buttonsDivID).append (buttonsHolder);
     }
-    
+
     /**
      * Submitting data
      */
@@ -527,26 +527,41 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (!scope.content)
             return;
-        
+
+        // adjusting translations values
+        if (scope.content.translations)
+            $.each(scope.content.translations, function(key, value)
+            {
+                $.each(value, function (translation_key, translation_value)
+                {
+                    if(translation_key.indexOf('translations.') >= 0)
+                    {
+                        var keys = translation_key.split('.');
+                        scope.content.translations[key][keys[1]] = translation_value;
+                        delete(scope.content.translations[key][translation_key]);
+                    }
+                });
+            });
+
         if (scope.submitData)
         {
             scope.submitData(scope.content);
             return;
         }
-        
+
         scope.disableSubmit ('data-management');
-        
+
         var dataLoader = new HCLoader.BasicLoader ();
-        
+
         $.each (scope.content, function (key, value)
         {
             if (value != null || value != {})
                 dataLoader.addVariable (key, value)
         });
-        
+
         var headers = 'new';
         var url     = storageURL;
-        
+
         if (data.contentID)
         {
             headers = 'update';
@@ -555,10 +570,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
         }
         else
             dataLoader.methodPOST ();
-        
+
         dataLoader.load (handleSubmitSuccess, handleError, scope, url, headers);
     }
-    
+
     /**
      *
      * Handling successful form data submition
@@ -571,7 +586,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             handleError (response);
         else if (response.redirectURL)
             window.location.href = response.redirectURL;
-        
+
         // response is from backend and from dd() method
         else if (HCFunctions.isString (response) && response.indexOf ("<script> Sfdump = window.Sfdump || (function (doc)") > -1)
             handleError (response);
@@ -580,7 +595,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         else if (response.success == true)
             HCFunctions.notify ('success', response);
     }
-    
+
     /**
      * Loading has failed
      *
@@ -592,6 +607,6 @@ HCService.FormManager.HCForm = function (data, availableFields)
         HCFunctions.notify ('error', e);
         scope.enableSubmit ('data-management');
     }
-    
+
     initialize ();
 };

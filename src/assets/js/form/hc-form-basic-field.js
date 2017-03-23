@@ -422,6 +422,7 @@ HCService.FormManager.Objects.BasicField = function () {
      * @param {object} data The available data for Field.
      */
     this.setContentData = function (data) {
+
         if (!this.available && data)
             this.invisibleValue = data;
         else
@@ -539,6 +540,7 @@ HCService.FormManager.Objects.BasicField = function () {
      * Populating content, retrieving data from form content
      */
     this.populateContent = function () {
+
         if (fieldData.ignoreContent) {
             this.triggerContentChange();
             return;
@@ -549,7 +551,8 @@ HCService.FormManager.Objects.BasicField = function () {
 
             if (index >= 0) {
                 validateIndex(index);
-                localScope.setContentData(localScope.form.content.translations[index][localScope.getFieldID()]);
+
+                localScope.setContentData(localScope.form.content.translations[index][localScope.getFieldID().replace('translations.', '')]);
             }
         }
         else
