@@ -1,5 +1,5 @@
 # honeycomb-core-ui
-HoneyComb coreui repository. Please check [WIKI.](https://github.com/interactivesolutions/honeycomb-core-ui/wiki/Formbuilder)
+HoneyComb coreui repository. Please check [WIKI.](https://github.com/interactivesolutions/honeycomb-core-ui/wiki/)
 
 ## Description
 
