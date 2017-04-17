@@ -276,7 +276,7 @@ HCService.FormManager.Objects.DropDownList = function ()
                 this.enableSortable(selectItem);
 
         if (this.getFieldData().new)
-            this.addNewOption(this.getFieldData().new.url, this.newOptionCreated);
+            this.addNewOption(this.getFieldData().new, this.newOptionCreated);
         else
             this.getParent().find('.select2-container').removeAttr('style');
     };
@@ -302,10 +302,9 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Adding new Option button
      */
-    this.addNewOption = function (url, callBack)
+    this.addNewOption = function (options, callBack)
     {
         var newOption = $('<div class="btn btn-success is-list-action-item btn-add-new-option"><i class="fa fa-fw fa-plus"></i></div>');
-
         newOption.bind('click', handleNewOption);
 
         this.getParent().find('.select2-container').css('width', 'calc(100% - 60px)');
@@ -318,10 +317,25 @@ HCService.FormManager.Objects.DropDownList = function ()
                 label   : 'New Record',
                 type    : 'form',
                 config  : {
-                    structureURL: url
+                    structureURL: getStructureURL()
                 },
                 callBack: callBack
             });
+        }
+
+        function getStructureURL ()
+        {
+            var url = options.url;
+
+            if (options.require)
+                $.each(options.require, function (key, value){
+                    if (url.indexOf('?') === -1)
+                        url += '?' + value + '=' + scope.form.content[value];
+                    else
+                        url += '&' + value + '=' + scope.form.content[value];
+                });
+
+            return url;
         }
     };
 
