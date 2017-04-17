@@ -308,7 +308,8 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         newOption.bind('click', handleNewOption);
 
-        this.getParent().find('.select2-container').css('width', 'calc(100% - 50px)');
+        this.getParent().find('.select2-container').css('width', 'calc(100% - 60px)');
+        this.getParent().find('.select2-container').css('margin-right', '5px');
         this.getParent().append(newOption);
 
         function handleNewOption()
