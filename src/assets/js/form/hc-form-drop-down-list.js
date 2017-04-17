@@ -295,8 +295,11 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!$option.length)
             selectItem.append($('<option/>', {value: response.id, text: response.text}));
 
-        selectItem.trigger("update");
-        selectItem.val(response.id).trigger("change");
+        var newList = selectItem.val();
+        newList.push(response.id);
+
+        selectItem.trigger("change");
+        selectItem.val(newList).trigger("change");
     };
 
     /**
