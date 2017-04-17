@@ -10,7 +10,6 @@ HCService.PopUp = new function ()
         var id = HCFunctions.createUUID();
         var modal;
 
-        var popUpContent;
         var body;
         var footer;
         var content;
@@ -97,8 +96,16 @@ HCService.PopUp = new function ()
             return '<div class="is-popup-title">' + data.label + '</div>';
         }
 
-        function closePopUp()
+        /**
+         * Closing pop up and forwarding response if there is where to forward data
+         *
+         * @param response
+         */
+        function closePopUp(response)
         {
+            if (data.callBack)
+                data.callBack(response);
+
             $(modal.find('.close')).click();
         }
 
