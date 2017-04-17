@@ -659,7 +659,7 @@ HCService.FormManager.Objects.BasicField = function () {
                 success = true;
 
             if (success && dependency.options_url)
-                localScope.loadOptions(dependency.options_url, value);
+                localScope.loadOptions(dependency, value);
 
             if (success)
                 localScope.dependencyValues[value.getFieldID()] = value.getContentData();
@@ -673,18 +673,25 @@ HCService.FormManager.Objects.BasicField = function () {
     /**
      * Loading options
      */
-    this.loadOptions = function (url, sourceField) {
+    this.loadOptions = function (dependency, sourceField) {
         var variable = sourceField.getContentData();
+        var url = dependency.options_url;
+        var variableID;
 
         if (variable && !HCFunctions.isString(variable))
             variable = variable.toString();
+
+        if (dependency.send_as)
+            variableID = dependency.send_as;
+        else
+            variableID = sourceField.getFieldID();
 
         var loader;
         loader = new HCLoader.BasicLoader();
         loader.dataTypeJSON();
 
         if (variable)
-            loader.addVariable(sourceField.getFieldID(), variable);
+            loader.addVariable(variableID, variable);
 
         loader.load(optionsLoaded, null, this, url);
     };
