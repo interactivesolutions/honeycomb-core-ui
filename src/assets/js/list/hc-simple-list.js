@@ -242,6 +242,9 @@ HCService.List.SimpleList = function (configuration) {
                 switch (config.type) {
                     case 'image':
 
+                        if (!config.options)
+                            config.options = {w:100, h:100};
+
                         if (value != null && value != '' && value != '-')
                             value = '<div style="width: ' + config.options.w + 'px; height:' + config.options.h + 'px; background: center no-repeat url(' + configuration.imagesURL + '/' + value + '/' + config.options.w + '/' + config.options.h + '); background-size:contain; margin: 0 auto;"></div>';
                         else
