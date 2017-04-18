@@ -565,8 +565,16 @@ HCService.FormManager.Objects.BasicField = function ()
 
         localScope.form.eventDispatcher.bind(localScope, 'languageChanged', this.languageSelectionChanged);
 
-        this.inputField.addClass('col-xs-10');
+        this.appendMultiLanguage(multiLanguageSelect);
+    };
 
+    /**
+     * Appending multi language changes
+     * @param multiLanguageSelect
+     */
+    this.appendMultiLanguage = function (multiLanguageSelect)
+    {
+        this.inputField.addClass('col-xs-10');
         this.innerHTML.addClass('row form-group');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
         this.innerHTML.append(multiLanguageSelect);
@@ -595,13 +603,14 @@ HCService.FormManager.Objects.BasicField = function ()
 
         if (fieldData.multiLanguage)
         {
+            this.setContentData(null);
+
             var index = this.getContentLanguageElementIndex();
 
             if (index >= 0)
             {
                 validateIndex(index);
-
-                localScope.setContentData(localScope.form.content.translations[index][localScope.getFieldID().replace('translations.', '')]);
+                localScope.setContentData(localScope.form.content.translations[index][localScope.getFieldID()]);
             }
         }
         else
