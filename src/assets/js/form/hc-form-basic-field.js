@@ -379,7 +379,6 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     function validateIndex(index)
     {
-
         if (!localScope.form.content.translations[index])
         {
             localScope.form.content.translations[index]                  = {};
@@ -458,7 +457,6 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.setContentData = function (data)
     {
-
         if (!this.available && data)
             this.invisibleValue = data;
         else
@@ -541,7 +539,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         var availableLanguages = this.form.getAvailableLanguages();
 
-        if (availableLanguages.length == 0 || !fieldData.multiLanguage)
+        if (availableLanguages.length === 0 || !fieldData.multiLanguage)
             return;
 
         multiLanguageSelect = $('<select id="multi-language-selector" class="form-control col-xs-2"></select>');
@@ -594,7 +592,6 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.populateContent = function ()
     {
-
         if (fieldData.ignoreContent)
         {
             this.triggerContentChange();
@@ -603,13 +600,16 @@ HCService.FormManager.Objects.BasicField = function ()
 
         if (fieldData.multiLanguage)
         {
-            this.setContentData(null);
-
             var index = this.getContentLanguageElementIndex();
 
             if (index >= 0)
             {
                 validateIndex(index);
+
+                //transforming values for multi language purposes
+                if (localScope.form.content.translations[index][localScope.getFieldID()] === undefined)
+                    localScope.form.content.translations[index][localScope.getFieldID()] = localScope.form.content.translations[index][localScope.getFieldID().replace('translations.', '')];
+
                 localScope.setContentData(localScope.form.content.translations[index][localScope.getFieldID()]);
             }
         }
