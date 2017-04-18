@@ -25,7 +25,7 @@ HCService.FormManager.Objects.UploadFile = function ()
         label = $('<label class="hc-file-upload-label"></label>');
 
         var multiple = 'multiple';
-        var accept = '';
+        var accept   = '';
         var disabled = '';
 
         if (this.getFieldData().readonly)
@@ -46,7 +46,7 @@ HCService.FormManager.Objects.UploadFile = function ()
         this.innerHTML.append(label);
         this.innerHTML.append(this.getAnnotation());
 
-        inputNode = $('<input ' + disabled + ' type="file" ' + multiple + ' id="' + this.uniqueFieldID + '"' + accept +'/><span>Upload file</span></label>');
+        inputNode = $('<input ' + disabled + ' type="file" ' + multiple + ' id="' + this.uniqueFieldID + '"' + accept + '/><span>Upload file</span></label>');
 
         label.append(inputNode);
 
@@ -162,7 +162,7 @@ HCService.FormManager.Objects.UploadFile = function ()
      */
     this.contentChange = function (e)
     {
-        var files = e.currentTarget.files;
+        var files  = e.currentTarget.files;
         var length = files.length + totalFiles;
         var thumbnail;
 
@@ -174,7 +174,7 @@ HCService.FormManager.Objects.UploadFile = function ()
             {
                 if (isValid(files[i]))
                 {
-                    thumbnail = new this.ThumbHolder(files[i], true);
+                    thumbnail                  = new this.ThumbHolder(files[i], true);
                     imageHolder[thumbnail._id] = thumbnail;
                     this.images.append(thumbnail.getHTML());
                     totalFiles++;
@@ -222,7 +222,7 @@ HCService.FormManager.Objects.UploadFile = function ()
     /**
      * Checking the file count
      */
-    function checkFileCount ()
+    function checkFileCount()
     {
         if (scope.getFieldData().fileCount <= totalFiles)
         {
@@ -250,7 +250,7 @@ HCService.FormManager.Objects.UploadFile = function ()
 
         this._id = HCFunctions.createUUID();
 
-        var thumbScope = this;
+        var thumbScope  = this;
         var html;
         var image;
         var _isSelected = false, name, progressLine, progressText;
@@ -316,7 +316,7 @@ HCService.FormManager.Objects.UploadFile = function ()
          */
         function uploadView()
         {
-            html = $('<div class="hc-image-holder"></div>');
+            html  = $('<div class="hc-image-holder"></div>');
             image = $('<div class="image "></div>');
 
             name = $('<div class="wordwrap"></div>');
@@ -340,12 +340,12 @@ HCService.FormManager.Objects.UploadFile = function ()
          */
         function uploadFile()
         {
-            var uploader = new HCLoader.FileUploader();
+            var uploader        = new HCLoader.FileUploader();
             uploader.updateType = ['new', 'object'];
             uploader.eventDispatcher.bind(scope, 'complete', uploadDone);
             uploader.eventDispatcher.bind(scope, 'progress', loadProgress);
 
-            var url = scope.getFieldData().uploadURL ? scope.getFieldData().uploadURL : data.uploadURL;
+            var url  = scope.getFieldData().uploadURL ? scope.getFieldData().uploadURL : data.uploadURL;
             var file = data.file ? data.file : data;
 
             uploader.upload(url, file);
@@ -384,7 +384,8 @@ HCService.FormManager.Objects.UploadFile = function ()
                 try
                 {
                     e = JSON.parse(e);
-                } catch (error)
+                }
+                catch (error)
                 {
                     HCFunctions.notify('error', error);
                 }
@@ -396,7 +397,7 @@ HCService.FormManager.Objects.UploadFile = function ()
                 }
                 else
                 {
-                    data.id = e.id;
+                    data.id  = e.id;
                     data.url = e.url;
                     placeOnStage();
                 }
