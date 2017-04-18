@@ -165,6 +165,7 @@ HCService.FormManager.Objects.UploadFile = function ()
         delete(imageHolder[id]);
         totalFiles--;
         checkFileCount();
+        scope.triggerContentChange();
     };
 
     var imageHolder = [];
@@ -301,7 +302,7 @@ HCService.FormManager.Objects.UploadFile = function ()
             else
                 html = existingHTML = $('<div class="hc-image-holder ' + sortable + '" id="' + data.id + ' "></div>');
 
-            image = $('<div class="hc-form-input-image" style="background-image:url(' + data.url.replace(/\s/g,'') + '/100/100)"></div>');
+            image = $('<div class="hc-form-input-image" style="background-image:url(' + data.url.replace(' ', '') + '/100/100)"></div>');
 
             existingHTML.append(image);
 
@@ -320,10 +321,10 @@ HCService.FormManager.Objects.UploadFile = function ()
          */
         function removeThumbnail()
         {
+            html.remove();
+
             if (scope.eventDispatcher)
                 scope.eventDispatcher.trigger('remove', thumbScope._id);
-
-            html.remove();
         }
 
         /**
