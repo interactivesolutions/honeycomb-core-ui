@@ -113,6 +113,7 @@ HCService.FormManager.Objects.UploadFile = function ()
      */
     this.setContentData = function (data)
     {
+
         totalFiles = 0;
         this.images.html('');
         checkFileCount();
