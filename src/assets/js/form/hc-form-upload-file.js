@@ -50,6 +50,8 @@ HCService.FormManager.Objects.UploadFile = function ()
 
         label.append(inputNode);
 
+        this.checkForMultiLanguage();
+
         this.images = $('<div id="hc-file-upload-thumb-holder" class="ui-sortable"></div>');
         this.innerHTML.append(this.images);
     };
@@ -69,6 +71,18 @@ HCService.FormManager.Objects.UploadFile = function ()
             if (this.getFieldData().sortable)
                 this.images.sortable();
         }
+    };
+
+    /**
+     * Appending multi language changes
+     * @param multiLanguageSelect
+     */
+    this.appendMultiLanguage = function (multiLanguageSelect)
+    {
+        $(this.innerHTML).find('label').addClass('col-xs-10');
+        this.innerHTML.addClass('row form-group');
+        this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
+        this.innerHTML.append(multiLanguageSelect);
     };
 
     /**
@@ -99,12 +113,12 @@ HCService.FormManager.Objects.UploadFile = function ()
      */
     this.setContentData = function (data)
     {
+        totalFiles = 0;
+        this.images.html('');
+        checkFileCount();
+
         if (!data)
-        {
-            totalFiles = 0;
-            this.images.html('');
             return;
-        }
 
         if (HCFunctions.isArray(data))
         {
@@ -286,7 +300,7 @@ HCService.FormManager.Objects.UploadFile = function ()
             else
                 html = existingHTML = $('<div class="hc-image-holder ' + sortable + '" id="' + data.id + ' "></div>');
 
-            image = $('<div class="hc-form-input-image" style="background-image:url(' + data.url + '/100/100)"></div>');
+            image = $('<div class="hc-form-input-image" style="background-image:url(' + data.url.replace(/\s/g,'') + '/100/100)"></div>');
 
             existingHTML.append(image);
 
