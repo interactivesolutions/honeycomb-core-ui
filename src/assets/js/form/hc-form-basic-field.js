@@ -686,7 +686,7 @@ HCService.FormManager.Objects.BasicField = function ()
         {
             $.each(dependencies, function (key, dependency)
             {
-                if (dependency.field_id == value.getFieldID())
+                if (dependency.field_id === value.getFieldID())
                     localScope.dependencyArray[value.getFieldID()] = validateDependency(dependency);
             });
 
@@ -712,18 +712,18 @@ HCService.FormManager.Objects.BasicField = function ()
         {
             var success = false;
 
-            if (dependency.value_id)
+            if (dependency.field_value)
             {
-                if (HCFunctions.isArray(dependency.value_id))
-                    $.each(dependency.value_id, function (key, value)
+                if (HCFunctions.isArray(dependency.field_value))
+                    $.each(dependency.field_value, function (key, value)
                     {
-                        if (value == contentData)
+                        if (value === contentData)
                             success = true;
                     });
-                else if (dependency.value_id == contentData)
+                else if (dependency.field_value === contentData)
                     success = true;
             }
-            else if (contentData != null && contentData != '')
+            else if (contentData !== null && contentData !== '')
                 success = true;
 
             if (success && dependency.options_url)
