@@ -132,7 +132,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             var selectItem = $('#' + this.uniqueFieldID);
             var values     = [];
 
-            if (this.getFieldData().search.maximumSelectionLength == 1)
+            if (this.getFieldData().search.maximumSelectionLength === 1)
             {
                 if (HCFunctions.isObject(data))
                 {
@@ -159,7 +159,7 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                     if ($option.length)
                     {
-                        if (value.text == '' || value.text != $option.text())
+                        if (value.text === '' || value.text !== $option.text())
                             value.text = $option.text();
 
                         $option.remove();
@@ -177,7 +177,7 @@ HCService.FormManager.Objects.DropDownList = function ()
         else
             $(this.inputField).val(data);
 
-        if (this.getContentData() == null && data)
+        if (this.getContentData() === null && data)
             this.getFieldData().value = data;
 
         this.triggerContentChange();
@@ -232,7 +232,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             {
                 $.each(obj, function (key, value)
                 {
-                    if (key != 'id' && value)
+                    if (key !== 'id' && value)
                         if (nodeNames)
                         {
                             if (nodeNames.indexOf(key) >= 0)
@@ -241,14 +241,15 @@ HCService.FormManager.Objects.DropDownList = function ()
                             {
                                 $.each(nodeNames, function (node_key, node_value)
                                 {
-                                    if (node_value.indexOf('{lang}') != -1)
+                                    if (node_value.indexOf('{lang}') !== -1)
                                     {
-                                        node_value = HCFunctions.replaceBrackets(node_value, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, data.translations)});
+
+                                        node_value = HCFunctions.replaceBrackets(node_value, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, value)});
                                         text += HCFunctions.pathIndex(obj, node_value) + ' | ';
                                         return false;
                                     }
                                     else
-                                    if (value[node_value] && value[node_value] != '' && value[node_value] != null)
+                                    if (value[node_value] && value[node_value] !== '' && value[node_value] !== null)
                                         text += value[node_value] + ' | ';
                                 });
                             }
@@ -271,7 +272,7 @@ HCService.FormManager.Objects.DropDownList = function ()
         var selectItem = $('#' + this.uniqueFieldID);
         selectItem.select2(this.getFieldData().search);
 
-        if (this.getFieldData().editType != 1)
+        if (this.getFieldData().editType !== 1)
             if (this.getFieldData().sortable)
                 this.enableSortable(selectItem);
 
@@ -417,10 +418,10 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         var data = this.inputField.val();
 
-        if (data && this.getFieldData().search && this.getFieldData().search.maximumSelectionLength == 1)
+        if (data && this.getFieldData().search && this.getFieldData().search.maximumSelectionLength === 1)
             data = data.toString();
 
-        if (data == "")
+        if (data === "")
             data = null;
 
         if (this.getFieldData().search && this.getFieldData().sortable)
@@ -435,7 +436,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             {
                 $.each(sequenceIds, function (seqKey, seqValue)
                 {
-                    if ('×' + $(seqValue).text() == value.innerText)
+                    if ('×' + $(seqValue).text() === value.innerText)
                         data.push(seqValue.value);
                 });
             });
