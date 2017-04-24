@@ -209,14 +209,35 @@ select {
     position: absolute;
 }
 
+.hc-form-buttons-holder
+{
+    margin-top: 25px;
+    width: auto;
+    text-align: center;
+}
+
 .form-check-label {
     padding-left: 0;
+}
+
+.text-center
+{
+    text-align: center;
 }
 
 /*---- Admin LTE bootstrap 4 fix -----*/
 .navbar-static-top {
     padding: 0;
     display: flex;
+}
+
+.login-page, .register-page {
+    background: cadetblue;
+}
+
+.login-box-body
+{
+    border-radius: 10px;
 }
 
 .main-header .sidebar-toggle {
