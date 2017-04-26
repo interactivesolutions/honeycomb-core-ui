@@ -17,7 +17,7 @@
   "require": {
     "php": ">=7.0.0",
     "devfactory/minify": "^1.0",
-    "interactivesolutions/honeycomb-languages/": "~0.1.2"
+    "interactivesolutions/honeycomb-languages": "~0.1.2"
   },
   "autoload": {
     "psr-4": {
