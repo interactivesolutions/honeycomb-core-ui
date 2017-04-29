@@ -310,8 +310,10 @@ HCLoader = new function ()
                     if (onSuccess)
                         onSuccess.call (scope, r);
                 },
-                error: function (request, status, error)
+                error: function (response, status, error)
                 {
+                    var r = JSON.parse(response.responseText);
+
                     if (r.success === false || r.success === 'false')
                     {
                         if (HCFunctions.isStringJson (r.message))
@@ -330,7 +332,7 @@ HCLoader = new function ()
                             executeErrorFunction (r.message);
                     }
                     else
-                        executeErrorFunction (error + ' [' + request.status + ']')
+                        executeErrorFunction (error + ' [' + response.status + ']')
                 }
             });
 
