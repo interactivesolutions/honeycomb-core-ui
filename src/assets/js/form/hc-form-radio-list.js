@@ -55,8 +55,21 @@ HCService.FormManager.Objects.RadioList = function ()
 
         if (contentData)
             this.setContentData(contentData);
-    
+
         this.triggerContentChange();
+    };
+
+    /**
+     * Adding event listeners for field content to change
+     *
+     * @method addEvents
+     */
+    this.addEvents = function ()
+    {
+        var $selectGroup = $('input[type=radio][name=' + this.uniqueFieldID + ']');
+
+        $selectGroup.unbind();
+        HCFunctions.bind(this, $selectGroup, 'change', this.triggerContentChange);
     };
 
 
@@ -78,7 +91,7 @@ HCService.FormManager.Objects.RadioList = function ()
      */
     this.setContentData = function (value)
     {
-        if (Object.keys(idHolder).length == 0)
+        if (Object.keys(idHolder).length === 0)
         {
             contentData = value;
             return;
