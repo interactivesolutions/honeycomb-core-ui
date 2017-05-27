@@ -126,7 +126,7 @@ HCService.List.SimpleList = function (configuration) {
             var target = $(e.target);
             var data = target.data();
 
-            if (Object.size(data) != 0) {
+            if (Object.size(data) !== 0) {
                 if (target.is(':checked')) {
                     hiddenColumns.remove(data.id);
 
@@ -169,7 +169,7 @@ HCService.List.SimpleList = function (configuration) {
         if (scope.actionListItems.delete || scope.actionListItems.merge) {
             var checkBox = $('<input type="checkbox" value="" name="checkbox" class="">');
 
-            if (disabledFully != '')
+            if (disabledFully !== '')
                 checkBox.attr('disabled', true);
 
             checkBox = $('<div class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</div>');
@@ -181,8 +181,8 @@ HCService.List.SimpleList = function (configuration) {
         listContainer.append(record);
 
         $.each(configuration.headers, function (key, value) {
-            if (key.indexOf('.') != -1) {
-                if (key.indexOf('{lang}') != -1)
+            if (key.indexOf('.') !== -1) {
+                if (key.indexOf('{lang}') !== -1)
                     key = HCFunctions.replaceBrackets(key, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, data.translations)});
 
                 value = HCFunctions.pathIndex(data, key);
@@ -193,7 +193,7 @@ HCService.List.SimpleList = function (configuration) {
             if (!value)
                 value = '-';
 
-            if (disabledFully == '')
+            if (disabledFully === '')
                 disabledFully = false;
             else
                 disabledFully = true;
@@ -245,7 +245,7 @@ HCService.List.SimpleList = function (configuration) {
                         if (!config.options)
                             config.options = {w:100, h:100};
 
-                        if (value != null && value != '' && value != '-')
+                        if (value !== null && value !== '' && value !== '-')
                             value = '<div style="width: ' + config.options.w + 'px; height:' + config.options.h + 'px; background: center no-repeat url(' + configuration.imagesURL + '/' + value + '/' + config.options.w + '/' + config.options.h + '); background-size:contain; margin: 0 auto;"></div>';
                         else
                             value = '<i class="fa fa-picture-o" aria-hidden="true" style="opacity: 0.5" width="' + config.options.w + 'px" height="' + config.options.h + '"></i>';
@@ -276,11 +276,7 @@ HCService.List.SimpleList = function (configuration) {
                     case 'silent-button':
 
                         parentClass = isIndependent(disabled);
-
-                        if (disabled || value == '-')
-                            value = '-';
-                        else
-                            value = createSilentButton(value);
+                        value = createSilentButton();
                         break;
 
                     case 'external-button':
@@ -329,7 +325,7 @@ HCService.List.SimpleList = function (configuration) {
                 var checkBox = $('<input type="checkbox">');
                 var url = config.url.replace('/id/', '/' + data.id + '/');
 
-                if (value == 1)
+                if (value === 1)
                     checkBox.prop('checked', true);
 
                 if (config.url)
@@ -383,8 +379,10 @@ HCService.List.SimpleList = function (configuration) {
                 return button;
             }
 
-            function createSilentButton(value) {
-                var button = $('<i class="fa fa-refresh is-silent-button" aria-hidden="true"></i>');
+            function createSilentButton() {
+                var button = $('<i class="fa fa-refresh hc-silent-button" aria-hidden="true"></i>');
+                var url = config.url.replace('/id/', '/' + data.id + '/');
+
                 button.bind('click', function () {
                     handleButton();
                 });
@@ -393,7 +391,7 @@ HCService.List.SimpleList = function (configuration) {
                     button.addClass('fa-spin');
                     button.addClass('fa-fw');
                     button.unbind();
-                    new HCLoader.BasicLoader().load(handleSilentLoaded, handleError, this, value);
+                    new HCLoader.BasicLoader().load(handleSilentLoaded, handleError, this, url);
                 }
 
                 function handleError(e) {
@@ -407,12 +405,15 @@ HCService.List.SimpleList = function (configuration) {
                 }
 
                 function handleSilentLoaded(data) {
-                    if (data.success == true) {
+                    if (data.success === true) {
                         button.removeClass('fa-spin');
                         button.removeClass('fa-refresh');
                         button.removeClass('fa-fw');
                         button.addClass('fa-check');
                         button.css('color', 'green');
+
+                        if (config.refresh === true)
+                            markUpdatedItem(data);
                     }
                 }
 
@@ -421,7 +422,6 @@ HCService.List.SimpleList = function (configuration) {
 
             function createExternalButton(value) {
                 return $('<a href="' + value + '" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>');
-                ;
             }
         }
 
@@ -437,7 +437,7 @@ HCService.List.SimpleList = function (configuration) {
             record.removeClass('disabled');
 
             $.each(record.children(), function (key, child) {
-                    if ($(child).attr('class').split(' ').indexOf('independent') == -1) {
+                    if ($(child).attr('class').split(' ').indexOf('independent') === -1) {
                         if (canUpdate)
                             $(child).bind('click', function () {
                                 if (configuration.forms.newRecord)
@@ -487,8 +487,8 @@ HCService.List.SimpleList = function (configuration) {
             updateSelected(leScope.isSelected);
         }
 
-        function markUpdatedItem() {
-            console.log('TODO: mark me', currentID)
+        function markUpdatedItem(data) {
+            console.log('TODO: mark me', data)
         }
 
         this.selectItem = function () {
@@ -558,13 +558,13 @@ HCService.List.SimpleList = function (configuration) {
         $.each(config, function (config_key, config_value) {
             if (HCFunctions.isString(config_value)) {
                 if (config_key.indexOf('.') >= 0) {
-                    if (HCFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) === config_value)
                         disabled = true;
                 }
-                else if (data[config_key] == config_value)
+                else if (data[config_key] === config_value)
                     disabled = true;
 
-                if (config_value == 'IS_NOT_NULL')
+                if (config_value === 'IS_NOT_NULL')
                     if (data[config_key])
                         disabled = true;
             }
@@ -578,10 +578,10 @@ HCService.List.SimpleList = function (configuration) {
                 }
                 // Checking if key has multiple params
                 else if (config_key.indexOf('.') >= 0) {
-                    if (HCFunctions.pathIndex(data, config_key) == config_value)
+                    if (HCFunctions.pathIndex(data, config_key) === config_value)
                         disabled = true;
                 }
-                else if (data[config_key] == cf)
+                else if (data[config_key] === cf)
                     disabled = true;
             }
         });
@@ -616,7 +616,7 @@ HCService.List.SimpleList = function (configuration) {
     this.handleDeleteButtonClick = function () {
         var listToDelete = getSelectedListItems();
 
-        if (listToDelete.length == 0)
+        if (listToDelete.length === 0)
             return;
 
         var loader = new HCLoader.BasicLoader();
