@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav">
             <li>
                 <a href="{{ url('/')}}" target="_blank">
-                    {{ trans('HCCoreUI::global.index') }}
+                    {{ trans('HCTranslations::core.index') }}
                 </a>
             </li>
         </ul>
@@ -22,6 +22,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
+                <!-- TODO include existing HoneyComb packages -->
                 @if(isPackageEnabled(\interaktyvussprendimai\ocv3languages\providers\OCLanguagesServiceProvider::class))
 
                     @include('languages::select')
