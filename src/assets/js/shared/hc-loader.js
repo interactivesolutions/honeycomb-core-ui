@@ -312,27 +312,30 @@ HCLoader = new function ()
                 },
                 error: function (response, status, error)
                 {
-                    var r = JSON.parse(response.responseText);
-
-                    if (r.success === false || r.success === 'false')
+                    if (dataType === 'json')
                     {
-                        if (HCFunctions.isStringJson (r.message))
-                        {
-                            var list = JSON.parse (r.message);
+                        var r = JSON.parse(response.responseText);
 
-                            $.each (list, function (key, value)
+                        if (r.success === false || r.success === 'false')
+                        {
+                            if (HCFunctions.isStringJson (r.message))
                             {
-                                $.each (value, function (key, message)
+                                var list = JSON.parse (r.message);
+
+                                $.each (list, function (key, value)
                                 {
-                                    executeErrorFunction (message);
+                                    $.each (value, function (key, message)
+                                    {
+                                        executeErrorFunction (message);
+                                    });
                                 });
-                            });
+                            }
+                            else
+                                executeErrorFunction (r.message);
                         }
                         else
-                            executeErrorFunction (r.message);
+                            executeErrorFunction (error + ' [' + response.status + ']')
                     }
-                    else
-                        executeErrorFunction (error + ' [' + response.status + ']')
                 }
             });
 
@@ -430,7 +433,7 @@ HCLoader = new function ()
 
         this.handleReadyStateChange = function ()
         {
-            if (request.readyState == 4)
+            if (request.readyState === 4)
                 if (request.status === 200)
                     scope.eventDispatcher.trigger ('complete', request.response);
                 else
