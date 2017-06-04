@@ -232,7 +232,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             {
                 $.each(obj, function (key, value)
                 {
-                    if (key !== 'id' && value)
+                    if (Object.size(obj) === 1 || key !== 'id' && value)
                         if (nodeNames)
                         {
                             if (nodeNames.indexOf(key) >= 0)
