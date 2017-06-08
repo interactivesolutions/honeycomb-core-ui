@@ -25,7 +25,7 @@ HCService.FormManager.Objects.Button = function ()
      */
     this.handleProperties = function ()
     {
-        this.innerHTML = this.inputField = $('<button tabindex="0" type="button" id="' + this.uniqueFieldID + '"></button>');
+        this.innerHTML = this.inputField = $('<button tabindex="0" class="btn-primary" type="button" id="' + this.uniqueFieldID + '"></button>');
 
         if (this.getFieldData().attributes)
         {

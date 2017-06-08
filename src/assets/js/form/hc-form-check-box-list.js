@@ -114,7 +114,7 @@ HCService.FormManager.Objects.CheckBoxList = function ()
      */
     function addBindsToLabel()
     {
-        if ($('input', scope.innerHTML).filter(':not(:checked)').length == 0)
+        if ($('input', scope.innerHTML).filter(':not(:checked)').length === 0)
             scope.labelWrapper.unbind().bind('click', deselectAllOptions);
         else
             scope.labelWrapper.unbind().bind('click', selectAllOptions);
@@ -134,7 +134,7 @@ HCService.FormManager.Objects.CheckBoxList = function ()
             return;
         }
         
-        if (Object.keys(idsHolder).length == 0)
+        if (Object.keys(idsHolder).length === 0)
         {
             contentData = value;
             return;

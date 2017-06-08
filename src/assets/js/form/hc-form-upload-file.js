@@ -39,7 +39,7 @@ HCService.FormManager.Objects.UploadFile = function ()
             if (this.getFieldData().uploadDataTypes)
                 accept = 'accept="' + this.getFieldData().uploadDataTypes.toString() + '"';
 
-        if (this.getFieldData().fileCount == 1)
+        if (this.getFieldData().fileCount === 1)
             multiple = '';
 
         this.innerHTML = $('<span></span>');
@@ -82,7 +82,11 @@ HCService.FormManager.Objects.UploadFile = function ()
         $(this.innerHTML).find('label').addClass('col-xs-10');
         this.innerHTML.addClass('row form-group');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
-        this.innerHTML.append(multiLanguageSelect);
+
+        var $multi = $('<div style="width:70px; float: right"></div>');
+        $multi.append(multiLanguageSelect);
+
+        this.innerHTML.append($multi);
     };
 
     /**

@@ -575,7 +575,11 @@ HCService.FormManager.Objects.BasicField = function ()
         this.inputField.addClass('col-xs-10');
         this.innerHTML.addClass('row form-group');
         this.innerHTML.css({'margin-right': 0, 'margin-left': 0});
-        this.innerHTML.append(multiLanguageSelect);
+
+        var $multi = $('<div style="width:70px; float: right"></div>');
+        $multi.append(multiLanguageSelect);
+
+        this.innerHTML.append($multi);
     };
 
     /**
