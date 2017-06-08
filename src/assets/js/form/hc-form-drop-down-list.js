@@ -86,6 +86,8 @@ HCService.FormManager.Objects.DropDownList = function ()
         {
             addAjax();
             this.updateSelectComponent();
+
+            this.getParent().append('<span style="position:relative;pointer-events: none;float: right;"><span style="position: absolute;right: 10px;top: 6px;"><i class="fa fa-caret-down" aria-hidden="true"></i></span></span>');
         }
     };
 
