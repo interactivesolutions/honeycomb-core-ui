@@ -23,15 +23,15 @@
             <ul class="nav navbar-nav">
 
                 <!-- TODO include existing HoneyComb packages -->
-                @if(isPackageEnabled(\interaktyvussprendimai\ocv3languages\providers\OCLanguagesServiceProvider::class))
+                @if(isPackageEnabled(\interactivesolutions\honeycomblanguages\app\providers\HCLanguagesServiceProvider::class))
 
-                    @include('languages::select')
+                    @include('HCLanguages::lang-select')
 
                 @endif
 
-                @if(isPackageEnabled(\interaktyvussprendimai\ocv3users\providers\OCUsersServiceProvider::class))
+                @if(isPackageEnabled(\interactivesolutions\honeycombacl\app\providers\HCACLServiceProvider::class))
 
-                    @include('users::admin.menu.dropdown')
+                    @include('HCACL::admin.dropdown')
 
                 @endif
 
