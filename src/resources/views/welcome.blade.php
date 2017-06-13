@@ -68,7 +68,8 @@
 <div class="flex-center position-ref full-height">
         <div class="top-right links">
             @if (Auth::check())
-                <a href="{{ url(env('HC_ADMIN_URL', 'admin')) }}">Admin</a>
+                <a href="{{ url(config('hc.admin_url')) }}">Admin</a>
+                <a href="{{ route('auth.logout') }}">Logout</a>
             @else
                 <a href="{{ route('auth.login') }}">Login</a>
                 <a href="{{ route('auth.register') }}">Register</a>
