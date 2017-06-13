@@ -552,6 +552,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         scope.disableSubmit ('data-management');
 
         var dataLoader = new HCLoader.BasicLoader ();
+        dataLoader.dataTypeJSON ();
 
         $.each (scope.content, function (key, value)
         {

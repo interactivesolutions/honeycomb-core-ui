@@ -333,6 +333,17 @@ HCLoader = new function ()
                             else
                                 executeErrorFunction (r.message);
                         }
+                        // if error is returned from laravel validator
+                        else if (HCFunctions.isObject(r))
+                        {
+                            $.each (r, function (key, value)
+                            {
+                                $.each (value, function (key, message)
+                                {
+                                    executeErrorFunction (message);
+                                });
+                            });
+                        }
                         else
                             executeErrorFunction (error + ' [' + response.status + ']')
                     }
