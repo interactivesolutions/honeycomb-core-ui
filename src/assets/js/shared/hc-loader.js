@@ -314,41 +314,59 @@ HCLoader = new function ()
                 {
                     if (dataType === 'json')
                     {
-                        var r = JSON.parse(response.responseText);
-
-                        if (r.success === false || r.success === 'false')
-                        {
-                            if (HCFunctions.isStringJson (r.message))
-                            {
-                                var list = JSON.parse (r.message);
-
-                                $.each (list, function (key, value)
-                                {
-                                    $.each (value, function (key, message)
-                                    {
-                                        executeErrorFunction (message);
-                                    });
-                                });
-                            }
-                            else
-                                executeErrorFunction (r.message);
-                        }
-                        // if error is returned from laravel validator
-                        else if (HCFunctions.isObject(r))
-                        {
-                            $.each (r, function (key, value)
-                            {
-                                $.each (value, function (key, message)
-                                {
-                                    executeErrorFunction (message);
-                                });
-                            });
-                        }
-                        else
-                            executeErrorFunction (error + ' [' + response.status + ']')
+                        getCorrectErrorResponse(response, error);
+                    }
+                    else if (dataType === 'text' && response.responseText && HCFunctions.isStringJson (response.responseText))
+                    {
+                        getCorrectErrorResponse(response, error);
+                    }
+                    else
+                    {
+                        executeErrorFunction (error + ' [' + response.status + ']')
                     }
                 }
             });
+
+            function getCorrectErrorResponse(response, error) {
+                var r = JSON.parse(response.responseText);
+
+                if (r.success === false || r.success === 'false')
+                {
+                    if (HCFunctions.isStringJson (r.message))
+                    {
+                        var list = JSON.parse (r.message);
+
+                        $.each (list, function (key, value)
+                        {
+                            $.each (value, function (key, message)
+                            {
+                                executeErrorFunction (message);
+                            });
+                        });
+                    }
+                    else
+                    {
+                        var m = r.message.replace(/\n/g, "<br>");
+
+                        executeErrorFunction (m);
+                    }
+                }
+                // if error is returned from laravel validator
+                else if (HCFunctions.isObject(r))
+                {
+                    $.each (r, function (key, value)
+                    {
+                        $.each (value, function (key, message)
+                        {
+                            executeErrorFunction (message);
+                        });
+                    });
+                }
+                else
+                {
+                    executeErrorFunction (error + ' [' + response.status + ']')
+                }
+            }
 
             function executeErrorFunction (message)
             {
