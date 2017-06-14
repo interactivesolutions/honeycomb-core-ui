@@ -17,7 +17,7 @@
   "require": {
     "php": ">=7.0.0",
     "devfactory/minify": "^1.0",
-    "interactivesolutions/honeycomb-core": "~0.3.1"
+    "interactivesolutions/honeycomb-core": "~0.4.0"
   },
   "autoload": {
     "psr-4": {
