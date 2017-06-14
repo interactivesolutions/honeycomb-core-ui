@@ -27,7 +27,6 @@ class HCCoreUiServiceProvider extends ServiceProvider
      */
     protected $namespace = 'interactivesolutions\honeycombcoreui\http\controllers';
 
-
     /**
      * Bootstrap the application services.
      */
@@ -39,7 +38,7 @@ class HCCoreUiServiceProvider extends ServiceProvider
         // Publish your migrations
         $this->publishes([
             __DIR__ . '/../assets/' => public_path('/'),
-        ]);
+        ], 'public');
 
         // register minify class facade
         AliasLoader::getInstance()->alias('Minify', MinifyFacade::class);
