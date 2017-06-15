@@ -10,6 +10,8 @@
 
     @include('HCCoreUI::css.global')
     @include('HCCoreUI::css.core')
+
+    @yield('css')
 </head>
 <body class="skin-blue">
 <div class="wrapper">
