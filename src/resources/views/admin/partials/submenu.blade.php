@@ -6,11 +6,11 @@
         {{-- if the given user role has access to this permission than user can see that menu --}}
 
         <li
-                @if(isset($item['children']) && is_array($item['children']) && request()->path() == $item['path'])
-                class="treeview active"
+                @if(isset($item['children']) && is_array($item['children']) && checkActiveMenuItems($item, request()->path()))
+                    class="treeview active"
 
-                @elseif(str_contains(request()->path(), $item['path']) || isset($item['children']) && collect($item['children'])->where('parent', $item['path'])->where('path', request()->path())->count())
-                class="active"
+                @elseif(str_contains(request()->path(), $item['path']) || isset($item['children']) && checkActiveMenuItems($item, request()->path()))
+                    class="active"
                 @endif
         >
             @if(isset($item['children']) && is_array($item['children']))
@@ -29,32 +29,34 @@
 
                 {{-- if menu item is available and children are available than display second level menu --}}
                 <ul class="treeview-menu">
-                    <li @if(request()->path() == $item['path']) class="active" @endif>
-                        <a href="{{ url($item['path']) }}">
-                            @if(isset($item['listTranslation']))
-                                @if(isset($item['listIconPath']) && ! empty($item['listIconPath']))
-                                    <img src="{{ $item['listIconPath'] }}" width="15" alt=""/>
-                                @else
-                                    @if (isset($item['listIcon']) && ! empty($item['listIcon']))
-                                        <i class="fa {{ $item['listIcon'] }} fa-fw"></i>
+                    @if($item['path'] != 'admin/hc')
+                        <li @if(request()->path() == $item['path']) class="active" @endif>
+                            <a href="{{ route($item['route']) }}">
+                                @if(isset($item['listTranslation']))
+                                    @if(isset($item['listIconPath']) && ! empty($item['listIconPath']))
+                                        <img src="{{ $item['listIconPath'] }}" width="15" alt=""/>
                                     @else
-                                        <i class="fa fa-list-ul fa-fw"></i>
+                                        @if (isset($item['listIcon']) && ! empty($item['listIcon']))
+                                            <i class="fa {{ $item['listIcon'] }} fa-fw"></i>
+                                        @else
+                                            <i class="fa fa-list-ul fa-fw"></i>
+                                        @endif
                                     @endif
+                                    {{ trans($item['listTranslation']) }}
+                                @else
+                                    <i class="fa fa-list-ul fa-fw"></i>
+                                    {{ trans('HCTranslations::core.list') }}
                                 @endif
-                                {{ trans($item['listTranslation']) }}
-                            @else
-                                <i class="fa fa-list-ul fa-fw"></i>
-                                {{ trans('HCTranslations::core.list') }}
-                            @endif
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    @endif
 
                     @include('HCCoreUI::admin.partials.submenu', ['menuItems' => $item['children']])
                 </ul>
             @else
 
                 {{--show without dropdown--}}
-                <a href="{{ url($item['path']) }}">
+                <a href="{{ route($item['route']) }}">
                     @if(isset($item['iconPath']) && ! empty($item['iconPath']))
                         <img src="{{ $item['iconPath'] }}" width="15" alt=""/>
                     @else
