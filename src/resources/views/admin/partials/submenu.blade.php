@@ -6,10 +6,10 @@
         {{-- if the given user role has access to this permission than user can see that menu --}}
 
         <li
-                @if(isset($item['children']) && is_array($item['children']) && checkActiveMenuItems($item, request()->path()))
+                @if(isset($item['children']) && is_array($item['children']) && checkActiveMenuItems($item, str_replace(config('hc.admin_url') . "/", "admin/", request()->path())))
                     class="treeview active"
 
-                @elseif(str_contains(request()->path(), $item['path']) || isset($item['children']) && checkActiveMenuItems($item, request()->path()))
+                @elseif(str_contains(str_replace(config('hc.admin_url') . "/", "admin/", request()->path()), $item['path']) || isset($item['children']) && checkActiveMenuItems($item, str_replace(config('hc.admin_url') . "/", "admin/", request()->path())))
                     class="active"
                 @endif
         >
@@ -30,7 +30,7 @@
                 {{-- if menu item is available and children are available than display second level menu --}}
                 <ul class="treeview-menu">
                     @if($item['path'] != 'admin/hc')
-                        <li @if(request()->path() == $item['path']) class="active" @endif>
+                        <li @if(str_replace(config('hc.admin_url') . "/", "admin/", request()->path()) == $item['path']) class="active" @endif>
                             <a href="{{ route($item['route']) }}">
                                 @if(isset($item['listTranslation']))
                                     @if(isset($item['listIconPath']) && ! empty($item['listIconPath']))
