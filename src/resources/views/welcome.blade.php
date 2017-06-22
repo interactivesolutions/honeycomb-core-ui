@@ -80,7 +80,7 @@
 
     <div class="content">
         <div class="title m-b-md">
-            Welcome to HoneyComb CMS
+            Welcome to {{ config('app.name') }} CMS
         </div>
 
         <div class="links">
