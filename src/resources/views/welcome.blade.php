@@ -80,7 +80,7 @@
 
     <div class="content">
         <div class="title m-b-md">
-            Welcome to {{ config('app.name') }} CMS
+            Welcome to {{ config('app.name') }}
         </div>
 
         <div class="links">
