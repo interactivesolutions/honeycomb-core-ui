@@ -75,6 +75,8 @@ HCService.FormManager.Objects.DropDownList = function ()
             var selectItem = $('#' + this.uniqueFieldID);
             selectItem.val(existingValue).trigger("change");
         }
+
+        this.triggerContentChange();
     };
 
     /**
