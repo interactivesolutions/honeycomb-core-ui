@@ -314,7 +314,11 @@ HCLoader = new function ()
                 {
                     if(status == 'parsererror')
                     {
-                        executeErrorFunction(error + ' [' + response.status + ']')
+                        if (response.responseText) {
+                            executeErrorFunction(response.responseText)
+                        } else {
+                            executeErrorFunction(error + ' [' + response.status + ']')
+                        }
                     }
                     else  if (dataType === 'json')
                     {

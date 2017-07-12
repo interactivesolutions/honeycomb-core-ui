@@ -595,6 +595,8 @@ HCService.FormManager.HCForm = function (data, availableFields)
             scope.successCallBack (response);
         else if (response.success == true)
             HCFunctions.notify ('success', response);
+
+        scope.enableSubmit('data-management');
     }
 
     /**
