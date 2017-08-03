@@ -11,13 +11,14 @@
             <span class="sr-only">Toggle navigation</span>
         </a>
 
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav pull-left">
             <li>
                 <a href="{{ url('/')}}" target="_blank">
                     {{ trans('HCTranslations::core.index') }}
                 </a>
             </li>
         </ul>
+        
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
