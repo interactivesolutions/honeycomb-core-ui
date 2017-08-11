@@ -43,8 +43,8 @@ HCService.FormManager.Objects.RichTextArea = function ()
      */
     this.updateWhenOnStageLocal = function ()
     {
-        var plugins = this.getFieldData().plugins || ["image media fullscreen wordcount preview"];
-        var toolbar = this.getFieldData().toolbar || 'undo redo | bold italic underline | styleselect fullscreen preview | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | media image';
+        var plugins = this.getFieldData().plugins || ["advlist autolink lists link image media fullscreen wordcount preview table paste textcolor colorpicker textpattern"];
+        var toolbar = this.getFieldData().toolbar || 'undo redo | bold italic underline | forecolor backcolor | styleselect fullscreen preview | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | media image';
 
         tinymce.init(
             {
@@ -101,7 +101,7 @@ HCService.FormManager.Objects.RichTextArea = function ()
                 data = data ? data : '';
                 tinymce.editors[scope.uniqueFieldID].setContent(data);
             }
-    
+
             scope.triggerContentChange();
         }, 100);
     }
