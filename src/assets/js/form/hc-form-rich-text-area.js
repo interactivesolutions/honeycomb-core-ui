@@ -44,7 +44,7 @@ HCService.FormManager.Objects.RichTextArea = function ()
     this.updateWhenOnStageLocal = function ()
     {
         var plugins = this.getFieldData().plugins || ["advlist autolink lists link image media fullscreen wordcount preview table paste textcolor colorpicker textpattern hr"];
-        var toolbar = this.getFieldData().toolbar || 'undo redo | bold italic underline | forecolor backcolor | styleselect fullscreen preview | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | media image';
+        var toolbar = this.getFieldData().toolbar || 'undo redo | bold italic underline | forecolor backcolor | styleselect fullscreen preview | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | media image | link';
 
         tinymce.init(
             {
