@@ -106,3 +106,15 @@ HCService.FormManager.Objects.RichTextArea = function ()
         }, 100);
     }
 };
+
+
+/**
+ * this workaround makes magic happen
+ *
+ * @link http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+ */
+$(document).on('focusin', function(e) {
+    if ($(event.target).closest(".mce-window").length) {
+        e.stopImmediatePropagation();
+    }
+});
