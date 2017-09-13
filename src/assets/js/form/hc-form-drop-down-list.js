@@ -201,6 +201,9 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!nodeNames)
             nodeNames = scope.getFieldData().search ? scope.getFieldData().search.showNodes : scope.getFieldData().showNodes;
 
+        if (!HCFunctions.isArray(data))
+            data = [data];
+
         return $.map(data, function (obj)
         {
             text = '';
