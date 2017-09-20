@@ -11,11 +11,12 @@ HCService.PopUp = new function ()
         var modal;
 
         var body;
-        var footer;
-        var content;
 
         function initialize()
         {
+            if (!data.label)
+                data.label = '';
+
             createContentHolders();
         }
 

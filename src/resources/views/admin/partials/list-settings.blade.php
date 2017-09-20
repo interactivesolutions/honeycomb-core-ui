@@ -51,5 +51,11 @@ forms: {
 @if(isset($config['type']) && ! empty($config['type']))
     type: {!! json_encode($config['type']) !!}
 @else
-    type: 'endless'
+    type: 'endless',
+@endif
+
+@if(isset($config['popUpLabel']) && ! empty($config['popUpLabel']))
+    popUpLabel: '{{ $config['popUpLabel']}}'
+@else
+    popUpLabel: 'id'
 @endif

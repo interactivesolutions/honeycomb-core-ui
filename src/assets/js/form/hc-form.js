@@ -204,6 +204,9 @@ HCService.FormManager.HCForm = function (data, availableFields)
      */
     function contentLoaded (response)
     {
+        if (data.labelFromData)
+            $('.is-popup-title').html(response[data.labelFromData]);
+
         scope.content = response;
 
         $.each (formFields, function (key, value)
@@ -238,7 +241,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
 
         delete disableSubmitButtonReasons[key];
 
-        if (Object.size (disableSubmitButtonReasons) == 0)
+        if (Object.size (disableSubmitButtonReasons) === 0)
             if (submitButton)
                 submitButton.enable ();
     };

@@ -444,11 +444,11 @@ HCService.List.SimpleList = function (configuration) {
                                     location.href = '//' + location.host + location.pathname + '/' + id;
                                 else
                                     HCService.PopUp.Pop({
-                                        label: 'Record ID: ' + id,
                                         type: 'form',
                                         config: {
                                             structureURL: configuration.forms.edit,
-                                            contentID: id
+                                            contentID: id,
+                                            labelFromData: configuration.popUpLabel
                                         },
                                         callBack: markUpdatedItem
                                     });
