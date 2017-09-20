@@ -205,7 +205,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function contentLoaded (response)
     {
         if (data.labelFromData)
-            $('.is-popup-title').html(response[data.labelFromData]);
+            $('.is-popup-title').html(HCFunctions.pathIndex(response, data.labelFromData));
 
         scope.content = response;
 
