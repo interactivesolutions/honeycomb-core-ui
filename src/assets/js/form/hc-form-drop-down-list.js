@@ -196,6 +196,9 @@ HCService.FormManager.Objects.DropDownList = function ()
      */
     function formatData(data, nodeNames)
     {
+        if (!data)
+            return '';
+
         var text;
         var multiLevel = scope.getFieldData().multiLevel;
 
