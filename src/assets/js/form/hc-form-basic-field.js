@@ -233,7 +233,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.getAnnotation = function ()
     {
         if (fieldData.note)
-            return '<div style="width: 100%;"><small class="text-muted pull-right">' + fieldData.note + '</small></div>';
+            return '<div style="width: 100%; padding-bottom:10px;"><small class="text-muted pull-right">' + fieldData.note + '</small></div>';
 
         return '';
     };
