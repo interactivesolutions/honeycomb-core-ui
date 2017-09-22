@@ -70,7 +70,7 @@ HCService.PopUp = new function ()
                 '</div>');
 
             var modalBody = $('<div class="modal-body"><div class="hc-loader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div></div>');
-                modalBody.append(createContent());
+            modalBody.append(createContent());
 
             var modalFooter = $('<div class="modal-footer"></div>');
 
@@ -84,6 +84,9 @@ HCService.PopUp = new function ()
 
             modal.on('hidden.bs.modal', function () {
                 modal.remove();
+
+                if ($('.modal-backdrop').length > 0)
+                    $('body').addClass('modal-open');
             });
         }
 
