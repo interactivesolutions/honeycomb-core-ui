@@ -17,19 +17,28 @@ HCService.FormManager.Objects.DropDownList = function ()
     var scope = this;
 
     /**
+     * Options for selectize
+     */
+    var selectizeOptions = {plugins:[]};
+
+    /**
      * Handling properties of the input field
      *
      * @method handleProperties
      */
     this.handleProperties = function ()
     {
-        var multiple = '';
-
         if (this.getFieldData().search)
-            if (!this.getFieldData().search.maximumSelectionLength || this.getFieldData().search.maximumSelectionLength > 0)
-                multiple = 'multiple';
+        {
+            selectizeOptions.plugins.push('remove_button');
 
-        this.innerHTML = this.inputField = $('<br/><select ' + multiple + ' id="' + this.uniqueFieldID + '" class="form-control" style="width:auto;"></select>');
+            if (this.getFieldData().search.maximumSelectionLength > 0)
+                selectizeOptions.maxItems = this.getFieldData().search.maximumSelectionLength;
+            else if (!this.getFieldData().search.maximumSelectionLength)
+                selectizeOptions.maxItems = 10000;
+        }
+
+        this.innerHTML = this.inputField = $('<br/><select id="' + this.uniqueFieldID + '" class="form-control" style="width:auto;"></select>');
     };
 
     /**
@@ -42,38 +51,60 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!this.getOptions())
             return;
 
+        var selectItem = $('#' + this.uniqueFieldID);
         var fieldOptions = formatData(this.getOptions());
+        var existingValue = filledValue ? filledValue : this.getFieldData().value;
 
-        var length_i      = fieldOptions.length;
-        var length_j;
-        var option;
-
-        var existingValue = this.getContentData() ? this.getContentData() : this.getFieldData().value;
-
-        this.inputField.html('');
-
-        for (var i = 0; i < length_i; i++)
+        if (theSelectItem)
         {
-            if (fieldOptions[i].children)
+            $.each(fieldOptions, function (key, value){
+                theSelectItem.addOption({value:value.id, text:value.text});
+            });
+
+            theSelectItem.refreshOptions(false);
+
+            if (existingValue)
             {
-                length_j = fieldOptions[i].children.length;
-                option   = '<optgroup label="' + fieldOptions[i].text + '">';
-
-                for (var j = 0; j < length_j; j++)
-                    option += '<option value="' + fieldOptions[i].children[j].id + '">' + fieldOptions[i].children[j].text + '&nbsp;&nbsp;</option>';
-
-                option += '</optgroup>';
+                if (HCFunctions.isArray(existingValue))
+                {
+                    $.each(existingValue, function (key, value){
+                        theSelectItem.addItem(value);
+                    });
+                }
+                else
+                    theSelectItem.setValue(existingValue);
             }
-            else
-                option = '<option value="' + fieldOptions[i].id + '">' + fieldOptions[i].text + '&nbsp;&nbsp;</option>';
-
-            this.inputField.append(option);
         }
-
-        if (existingValue)
+        else
         {
-            var selectItem = $('#' + this.uniqueFieldID);
-            selectItem.val(existingValue).trigger("change");
+            var length_i      = fieldOptions.length;
+            var length_j;
+            var option;
+
+            this.inputField.html('');
+
+            for (var i = 0; i < length_i; i++)
+            {
+                if (fieldOptions[i].children)
+                {
+                    length_j = fieldOptions[i].children.length;
+                    option   = '<optgroup label="' + fieldOptions[i].text + '">';
+
+                    for (var j = 0; j < length_j; j++)
+                        option += '<option value="' + fieldOptions[i].children[j].value + '">' + fieldOptions[i].children[j].text + '&nbsp;&nbsp;</option>';
+
+                    option += '</optgroup>';
+                }
+                else
+                    option = '<option value="' + fieldOptions[i].id + '">' + fieldOptions[i].text + '&nbsp;&nbsp;</option>';
+
+                this.inputField.append(option);
+            }
+
+            if (existingValue)
+            {
+                selectItem.val(existingValue).trigger("change");
+            }
         }
 
         this.triggerContentChange();
@@ -89,7 +120,6 @@ HCService.FormManager.Objects.DropDownList = function ()
             addAjax();
             this.updateSelectComponent();
 
-            this.getParent().append('<span style="position:relative;pointer-events: none;float: right;"><span style="position: absolute;right: 10px;top: 6px;"><i class="fa fa-caret-down" aria-hidden="true"></i></span></span>');
             this.getParent().append(this.getAnnotation());
         }
     };
@@ -124,6 +154,8 @@ HCService.FormManager.Objects.DropDownList = function ()
         };
     }
 
+    var filledValue;
+
     /**
      * Setting new data
      *
@@ -147,16 +179,15 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                     if (!$option.length)
                         selectItem.append($('<option/>', {value: data.id, text: data.text}));
-
-                    selectItem.trigger("update");
-                    selectItem.val(data.id).trigger("change");
                 }
-                else
-                    selectItem.val(data).trigger("change");
+
+                filledValue = data;
+                theSelectItem.setValue(data);
             }
             else
             {
                 data = formatData(data);
+                filledValue = [];
 
                 $.each(data, function (key, value)
                 {
@@ -171,12 +202,14 @@ HCService.FormManager.Objects.DropDownList = function ()
                     }
 
                     selectItem.append($('<option/>', {value: value.id, text: value.text}));
-                    selectItem.trigger("change");
-                    values.push(value.id);
+
+                    theSelectItem.refreshOptions();
+                    theSelectItem.addItem(data.id);
+                    filledValue.push(value.id);
                 });
 
-                //TODO: update not reaching the enableSortable() update eventHandler
-                selectItem.val(values.toString().split(',')).trigger("change").trigger('update');
+                /*//TODO: update not reaching the enableSortable() update eventHandler
+                selectItem.val(values.toString().split(',')).trigger("change").trigger('update');*/
             }
         }
         else
@@ -213,7 +246,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             text = '';
 
             if (HCFunctions.isString(obj))
-                obj = {id: obj, value: obj};
+                obj = {id: obj, text: obj};
 
             if (multiLevel)
             {
@@ -222,8 +255,8 @@ HCService.FormManager.Objects.DropDownList = function ()
                     var formatted = {};
                     var children  = data[multiLevel['field_children']];
 
-                    formatted.id   = data.id;
-                    formatted.text = data[multiLevel['field_name']];
+                    formatted.id    = data.id;
+                    formatted.text  = data[multiLevel['field_name']];
 
                     if (children && children.length > 0)
                     {
@@ -275,17 +308,23 @@ HCService.FormManager.Objects.DropDownList = function ()
         });
     }
 
+    var theSelectItem;
+
     /**
      * Enabling or updating select2 field
      */
     this.updateSelectComponent = function ()
     {
-        var selectItem = $('#' + this.uniqueFieldID);
-        selectItem.select2(this.getFieldData().search);
+        theSelectItem = $('#' + this.uniqueFieldID);
+        var options = this.getFieldData().search;
 
         if (this.getFieldData().editType !== 1)
             if (this.getFieldData().sortable)
-                this.enableSortable(selectItem);
+                selectizeOptions.plugins.push ('drag_drop');
+
+        $.extend(true, options, selectizeOptions);
+
+        theSelectItem = theSelectItem.selectize(options)[0].selectize;
 
         if (this.getFieldData().new)
             this.addNewOption(this.getFieldData().new, this.newOptionCreated);
@@ -300,18 +339,16 @@ HCService.FormManager.Objects.DropDownList = function ()
     this.newOptionCreated = function (response)
     {
         response = formatData([response], scope.getFieldData().new.showNodes)[0];
+        theSelectItem.addOption({value: response.id, text: response.text});
 
-        var selectItem = $('#' + scope.uniqueFieldID);
-        var $option    = $('#' + scope.uniqueFieldID + " option[value='" + response.id + "']");
+        if (scope.getFieldData().sortable)
+        {
+            theSelectItem.addItem(response.id);
+        }
+        else
+            theSelectItem.setValue(response.id);
 
-        if (!$option.length)
-            selectItem.append($('<option/>', {value: response.id, text: response.text}));
-
-        var newList = selectItem.val();
-        newList.push(response.id);
-
-        selectItem.trigger("change");
-        selectItem.val(newList).trigger("change");
+        scope.triggerContentChange();
     };
 
     /**
@@ -319,12 +356,14 @@ HCService.FormManager.Objects.DropDownList = function ()
      */
     this.addNewOption = function (options, callBack)
     {
-        var newOption = $('<div class="btn btn-success is-list-action-item btn-add-new-option"><i class="fa fa-fw fa-plus"></i></div>');
+        var newOption = $('<div class="btn btn-success btn-add-new-option" style="float:right"><i class="fa fa-fw fa-plus"></i></div>');
         newOption.bind('click', handleNewOption);
 
-        this.getParent().find('.select2-container').css('width', 'calc(100% - 60px)');
-        this.getParent().find('.select2-container').css('margin-right', '5px');
+        this.getParent().find('.form-control.selectize-control').css('width', 'calc(100% - 60px)');
+        this.getParent().find('.form-control.selectize-control').css('margin-right', '5px');
+        this.getParent().find('.form-control.selectize-control').css('float', 'left');
         this.getParent().append(newOption);
+        this.getParent().append('<div style="clear:both"></div>');
 
         function handleNewOption()
         {
@@ -355,52 +394,6 @@ HCService.FormManager.Objects.DropDownList = function ()
     };
 
     /**
-     * Enabling sorting
-     *
-     * @param selectItem
-     */
-    this.enableSortable = function (selectItem)
-    {
-        selectItem.parent().find("ul.select2-selection__rendered").sortable({
-            containment: 'parent',
-            update     : function ()
-            {
-                orderSortedValues();
-            }
-        });
-
-        function orderSortedValues()
-        {
-            selectItem.parent().find("ul.select2-selection__rendered").children("li[title]").each(function (i, obj)
-            {
-                var element = selectItem.children("option[value='" + obj.title + "']");
-                moveElementToEndOfParent(element)
-            });
-        }
-
-        function moveElementToEndOfParent(element)
-        {
-            var parent = element.parent();
-            element.detach();
-            parent.append(element);
-        }
-
-        function stopAutomaticOrdering()
-        {
-            selectItem.on("select2:select", function (evt)
-            {
-                var id      = evt.params.data.id;
-                var element = $(this).children("option[value=" + id + "]");
-
-                moveElementToEndOfParent(element);
-                $(this).trigger("change");
-            });
-        }
-
-        stopAutomaticOrdering();
-    };
-
-    /**
      * Returning field value
      *
      * @returns {*}
@@ -427,6 +420,9 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!this.inputField)
             return null;
 
+        if (theSelectItem)
+            return theSelectItem.getValue();
+
         var data = this.inputField.val();
 
         if (data && this.getFieldData().search && this.getFieldData().search.maximumSelectionLength === 1)
@@ -435,35 +431,6 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (data === "")
             data = null;
 
-        if (this.getFieldData().search && this.getFieldData().sortable)
-        {
-            data = [];
-
-            var selectItem  = $('#' + this.uniqueFieldID);
-            var sequence    = selectItem.parent().find("ul.select2-selection__rendered").children('.select2-selection__choice');
-            var sequenceIds = $(this.inputField[0]).children();
-
-            $.each(sequence, function (key, value)
-            {
-                $.each(sequenceIds, function (seqKey, seqValue)
-                {
-                    if ('×' + $(seqValue).text() === value.innerText)
-                        data.push(seqValue.value);
-                });
-            });
-        }
-
         return data;
     };
-
-    /**
-     * Focus on the dropdown list
-     */
-    this.focus = function ()
-    {
-        var selectItem = $('#' + this.uniqueFieldID);
-
-        if (this.getFieldData().search)
-            selectItem.select2('open');
-    }
 };

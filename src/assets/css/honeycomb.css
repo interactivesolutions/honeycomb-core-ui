@@ -21,10 +21,6 @@
     cursor: pointer;
 }
 
-.select2 {
-    width: 100%;
-}
-
 .hc-action-list-button {
     margin-right: 5px;
 }
@@ -227,10 +223,6 @@ input[type=checkbox], input[type=radio]
 
 .text-center {
     text-align: center;
-}
-
-.select2-dropdown .select2-search__field:focus, .select2-search--inline .select2-search__field:focus {
-    border: none;
 }
 
 .nav-pills > li > a
