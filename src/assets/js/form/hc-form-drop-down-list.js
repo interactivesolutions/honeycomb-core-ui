@@ -19,7 +19,7 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Options for selectize
      */
-    var selectizeOptions = {plugins:[]};
+    var selectizeOptions = {plugins:[], allowEmptyOption:true};
 
     /**
      * Handling properties of the input field
@@ -57,6 +57,8 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         if (theSelectItem)
         {
+            theSelectItem.clearOptions();
+
             $.each(fieldOptions, function (key, value){
                 theSelectItem.addOption({value:value.id, text:value.text});
             });
@@ -325,6 +327,8 @@ HCService.FormManager.Objects.DropDownList = function ()
         $.extend(true, options, selectizeOptions);
 
         theSelectItem = theSelectItem.selectize(options)[0].selectize;
+        theSelectItem.addOption({value:null, text:''});
+        theSelectItem.setValue(null);
 
         if (this.getFieldData().new)
             this.addNewOption(this.getFieldData().new, this.newOptionCreated);
