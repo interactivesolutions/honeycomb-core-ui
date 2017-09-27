@@ -168,20 +168,10 @@ HCService.FormManager.Objects.DropDownList = function ()
     {
         if (this.getFieldData().search)
         {
-            var selectItem = $('#' + this.uniqueFieldID);
-            var values     = [];
-
             if (this.getFieldData().search.maximumSelectionLength === 1)
             {
                 if (HCFunctions.isObject(data))
-                {
                     data = formatData([data])[0];
-
-                    var $option = $('#' + scope.uniqueFieldID + " option[value='" + data.id + "']");
-
-                    if (!$option.length)
-                        selectItem.append($('<option/>', {value: data.id, text: data.text}));
-                }
 
                 filledValue = data;
                 theSelectItem.setValue(data);
@@ -193,25 +183,9 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                 $.each(data, function (key, value)
                 {
-                    var $option = $('#' + scope.uniqueFieldID + " option[value='" + value.id + "']");
+                    theSelectItem.addItem(value.id);
 
-                    if ($option.length)
-                    {
-                        if (value.text === '' || value.text !== $option.text())
-                            value.text = $option.text();
-
-                        $option.remove();
-                    }
-
-                    selectItem.append($('<option/>', {value: value.id, text: value.text}));
-
-                    theSelectItem.refreshOptions();
-                    theSelectItem.addItem(data.id);
-                    filledValue.push(value.id);
                 });
-
-                /*//TODO: update not reaching the enableSortable() update eventHandler
-                selectItem.val(values.toString().split(',')).trigger("change").trigger('update');*/
             }
         }
         else
