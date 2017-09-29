@@ -183,8 +183,8 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                 $.each(data, function (key, value)
                 {
+                    filledValue.push (value.id);
                     theSelectItem.addItem(value.id);
-
                 });
             }
         }
