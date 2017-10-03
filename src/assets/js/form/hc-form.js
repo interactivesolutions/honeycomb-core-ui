@@ -559,9 +559,17 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 });
             });
 
+        var valid = true;
+
         $.each(formFields, function (key, value){
-            value.validateContentData();
+            var _valid = value.validateContentData();
+
+            if (valid)
+                valid = _valid;
         });
+
+        if (!valid)
+            return;
 
         if (scope.submitData)
         {
