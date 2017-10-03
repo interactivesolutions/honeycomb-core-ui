@@ -75,7 +75,7 @@ HCService.FormManager.Objects.DropDownList = function ()
                     });
                 }
                 else
-                    theSelectItem.setValue(existingValue);
+                    theSelectItem.addItem(existingValue);
             }
         }
         else
@@ -181,10 +181,11 @@ HCService.FormManager.Objects.DropDownList = function ()
             {
                 if (theSelectItem)
                 {
-                    this.handleOptions(data);
-
                     if (HCFunctions.isObject(data))
+                    {
+                        this.handleOptions(data);
                         filledValue = data.id;
+                    }
                     else
                         filledValue = data;
 
