@@ -334,6 +334,10 @@ HCService.FormManager.Objects.BasicField = function ()
     this.updateWhenOnStage = function ()
     {
         this.inputField = $('#' + this.uniqueFieldID);
+
+        if (fieldData.class)
+            this.getParent().addClass(fieldData.class);
+
         this.addEvents();
     };
 
