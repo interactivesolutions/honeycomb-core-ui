@@ -40,6 +40,12 @@ HCService.FormManager.HCForm = function (data, availableFields)
     this.submitData = undefined;
 
     /**
+     *  Function to call when data has been loaded
+     * @type {undefined}
+     */
+    this.dataLoaded = undefined;
+
+    /**
      * Generating unique form id
      * @type {string}
      */
@@ -205,7 +211,9 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function contentLoaded (response)
     {
         if (data.labelFromData)
+        {
             $('.is-popup-title').html(HCFunctions.pathIndex(response, data.labelFromData));
+        }
 
         scope.content = response;
 
@@ -213,6 +221,9 @@ HCService.FormManager.HCForm = function (data, availableFields)
         {
             value.populateContent ();
         });
+
+        if (scope.dataLoaded)
+            scope.dataLoaded();
 
         scope.enableSubmit ('data-management');
     }
@@ -391,7 +402,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
                 {
                     if (totalTabs > 1)
                     {
-                        if (currentTab == tabHolder[field.getFieldData ().tabID])
+                        if (currentTab === tabHolder[field.getFieldData ().tabID])
                             field.showParent ();
                     }
                     else
@@ -456,13 +467,13 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         $.each (tabHolder, function (key, value)
         {
-            if (value == id)
+            if (value === id)
             {
                 $.each (formFields, function (form_key, form_value)
                 {
                     if (totalTabs > 1)
                     {
-                        if (form_value.getFieldData ().tabID == key)
+                        if (form_value.getFieldData ().tabID === key)
                             form_value.showParent ();
 
                     }
@@ -510,7 +521,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             button.setFieldData (buttons[i]);
             buttonsHolder.append (button.getHTML ());
 
-            if (buttons[i].type == 'submit')
+            if (buttons[i].type === 'submit')
             {
                 submitButton             = button;
                 submitButton.handleClick = submitData;
@@ -559,7 +570,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
 
         $.each (scope.content, function (key, value)
         {
-            if (value != null || value != {})
+            if (value !== null || value !== {})
                 dataLoader.addVariable (key, value)
         });
 
@@ -586,7 +597,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
      */
     function handleSubmitSuccess (response)
     {
-        if (response.success == false)
+        if (response.success === false)
             handleError (response);
         else if (response.redirectURL)
             window.location.href = response.redirectURL;
@@ -596,7 +607,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
             handleError (response);
         else if (scope.successCallBack)
             scope.successCallBack (response);
-        else if (response.success == true)
+        else if (response.success === true)
             HCFunctions.notify ('success', response);
 
         scope.enableSubmit('data-management');
