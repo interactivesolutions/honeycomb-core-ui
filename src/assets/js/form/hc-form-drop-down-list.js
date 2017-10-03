@@ -46,7 +46,7 @@ HCService.FormManager.Objects.DropDownList = function ()
      *
      * @method handleOptions
      */
-    this.handleOptions = function (data)
+    this.handleOptions = function (data, focus)
     {
         if (!data && !scope.getOptions())
             return;
@@ -57,7 +57,8 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         if (theSelectItem)
         {
-            theSelectItem.clearOptions();
+            if (focus)
+                theSelectItem.clearOptions();
 
             $.each(fieldOptions, function (key, value){
                 theSelectItem.addOption({value:value.id, text:value.text});
@@ -107,7 +108,7 @@ HCService.FormManager.Objects.DropDownList = function ()
                 selectItem.val(existingValue).trigger("change");
         }
 
-        if (data)
+        if (data && focus)
             theSelectItem.focus();
 
         scope.triggerContentChange();
@@ -153,7 +154,7 @@ HCService.FormManager.Objects.DropDownList = function ()
                     callback();
                 },
                 success: function(data) {
-                    callback(data);
+                    callback(data, true);
                 }
             });
         }
@@ -169,25 +170,26 @@ HCService.FormManager.Objects.DropDownList = function ()
      */
     this.setContentData = function (data)
     {
+        if (!data)
+            return;
+
         if (this.getFieldData().search)
         {
             var selectItem = $('#' + this.uniqueFieldID);
-            var values     = [];
 
             if (this.getFieldData().search.maximumSelectionLength === 1)
             {
-                if (HCFunctions.isObject(data))
+                if (theSelectItem)
                 {
-                    data = formatData([data])[0];
+                    this.handleOptions(data);
 
-                    var $option = $('#' + scope.uniqueFieldID + " option[value='" + data.id + "']");
+                    if (HCFunctions.isObject(data))
+                        filledValue = data.id;
+                    else
+                        filledValue = data;
 
-                    if (!$option.length)
-                        selectItem.append($('<option/>', {value: data.id, text: data.text}));
+                    theSelectItem.addItem(filledValue);
                 }
-
-                filledValue = data;
-                theSelectItem.setValue(data);
             }
             else
             {
@@ -212,9 +214,6 @@ HCService.FormManager.Objects.DropDownList = function ()
                     theSelectItem.addItem(data.id);
                     filledValue.push(value.id);
                 });
-
-                /*//TODO: update not reaching the enableSortable() update eventHandler
-                selectItem.val(values.toString().split(',')).trigger("change").trigger('update');*/
             }
         }
         else
