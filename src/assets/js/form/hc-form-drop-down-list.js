@@ -46,14 +46,14 @@ HCService.FormManager.Objects.DropDownList = function ()
      *
      * @method handleOptions
      */
-    this.handleOptions = function ()
+    this.handleOptions = function (data)
     {
-        if (!this.getOptions())
+        if (!data && !scope.getOptions())
             return;
 
-        var selectItem = $('#' + this.uniqueFieldID);
-        var fieldOptions = formatData(this.getOptions());
-        var existingValue = filledValue ? filledValue : this.getFieldData().value;
+        var selectItem = $('#' + scope.uniqueFieldID);
+        var fieldOptions = data ? formatData(data) : formatData(scope.getOptions());
+        var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
         if (theSelectItem)
         {
@@ -83,7 +83,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             var length_j;
             var option;
 
-            this.inputField.html('');
+            scope.inputField.html('');
 
             for (var i = 0; i < length_i; i++)
             {
@@ -100,16 +100,17 @@ HCService.FormManager.Objects.DropDownList = function ()
                 else
                     option = '<option value="' + fieldOptions[i].id + '">' + fieldOptions[i].text + '&nbsp;&nbsp;</option>';
 
-                this.inputField.append(option);
+                scope.inputField.append(option);
             }
 
             if (existingValue)
-            {
                 selectItem.val(existingValue).trigger("change");
-            }
         }
 
-        this.triggerContentChange();
+        if (data)
+            theSelectItem.focus();
+
+        scope.triggerContentChange();
     };
 
     /**
@@ -131,29 +132,31 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!scope.getFieldData().search.url)
             return;
 
-        scope.getFieldData().search['ajax'] = {
-            url           : scope.getFieldData().search.url,
-            dataType      : 'json',
-            delay         : 250,
-            data          : function (params)
-            {
-                if (!scope.dependencyValues)
-                    scope.dependencyValues = {};
+        selectizeOptions.load = function(query, callback) {
+            if (!query.length) return callback();
 
-                scope.searchPhrase = scope.dependencyValues['q'] = params.term;
-                return scope.dependencyValues;
-            },
-            processResults: function (data, page)
-            {
-                return {
-                    results: formatData(data)
-                };
-            },
-            escapeMarkup  : function (markup)
-            {
-                return markup;
-            }
-        };
+            callback = scope.handleOptions;
+
+            if (!scope.dependencyValues)
+                scope.dependencyValues = {};
+
+            var params = scope.dependencyValues;
+            params.q = query;
+
+            $.ajax({
+                url: scope.getFieldData().search.url,
+                type: 'GET',
+                delay: 250,
+                dataType: 'json',
+                data: params,
+                error: function() {
+                    callback();
+                },
+                success: function(data) {
+                    callback(data);
+                }
+            });
+        }
     }
 
     var filledValue;
@@ -168,10 +171,20 @@ HCService.FormManager.Objects.DropDownList = function ()
     {
         if (this.getFieldData().search)
         {
+            var selectItem = $('#' + this.uniqueFieldID);
+            var values     = [];
+
             if (this.getFieldData().search.maximumSelectionLength === 1)
             {
                 if (HCFunctions.isObject(data))
+                {
                     data = formatData([data])[0];
+
+                    var $option = $('#' + scope.uniqueFieldID + " option[value='" + data.id + "']");
+
+                    if (!$option.length)
+                        selectItem.append($('<option/>', {value: data.id, text: data.text}));
+                }
 
                 filledValue = data;
                 theSelectItem.setValue(data);
@@ -183,9 +196,25 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                 $.each(data, function (key, value)
                 {
-                    filledValue.push (value.id);
-                    theSelectItem.addItem(value.id);
+                    var $option = $('#' + scope.uniqueFieldID + " option[value='" + value.id + "']");
+
+                    if ($option.length)
+                    {
+                        if (value.text === '' || value.text !== $option.text())
+                            value.text = $option.text();
+
+                        $option.remove();
+                    }
+
+                    selectItem.append($('<option/>', {value: value.id, text: value.text}));
+
+                    theSelectItem.refreshOptions();
+                    theSelectItem.addItem(data.id);
+                    filledValue.push(value.id);
                 });
+
+                /*//TODO: update not reaching the enableSortable() update eventHandler
+                selectItem.val(values.toString().split(',')).trigger("change").trigger('update');*/
             }
         }
         else
@@ -252,7 +281,7 @@ HCService.FormManager.Objects.DropDownList = function ()
             {
                 $.each(obj, function (key, value)
                 {
-                    if (Object.size(obj) === 1 || key !== 'id' && value)
+                    if (Object.size(obj) === 1 || key !== 'id' && value !== '')
                         if (nodeNames)
                         {
                             if (nodeNames.indexOf(key) >= 0)
@@ -263,7 +292,6 @@ HCService.FormManager.Objects.DropDownList = function ()
                                 {
                                     if (node_value.indexOf('{lang}') !== -1)
                                     {
-
                                         node_value = HCFunctions.replaceBrackets(node_value, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, value)});
                                         text += HCFunctions.pathIndex(obj, node_value) + ' | ';
                                         return false;
