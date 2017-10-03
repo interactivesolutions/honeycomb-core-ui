@@ -349,6 +349,7 @@ HCService.FormManager.Objects.BasicField = function ()
     this.addEvents = function ()
     {
         $(this.inputField).unbind();
+
         HCFunctions.bind(this, this.inputField, 'blur', this.validateContentData);
         HCFunctions.bind(this, this.inputField, 'change', this.triggerContentChange);
     };
@@ -422,7 +423,7 @@ HCService.FormManager.Objects.BasicField = function ()
                 return false;
             }
         }
-        else if (this.isRequired() && this.getContentData() == null)
+        else if (this.isRequired() && (this.getContentData() === null || this.getContentData() === ''))
         {
             this.showFieldError(this.getLabel() + ' is empty!');
             return false;
@@ -483,7 +484,7 @@ HCService.FormManager.Objects.BasicField = function ()
         if (!data && this.invisibleValue)
             data = this.invisibleValue;
 
-        if (data == "")
+        if (data === "")
             return null;
 
         return data;
@@ -647,7 +648,7 @@ HCService.FormManager.Objects.BasicField = function ()
         fieldOptions = null;
         parent.addClass('hidden');
 
-        if (innerRequired == 1)
+        if (innerRequired === 1)
             this.getFieldData().required = false;
     };
 
@@ -668,11 +669,13 @@ HCService.FormManager.Objects.BasicField = function ()
         parent.removeClass('hidden');
         parent.removeAttr('style');
 
-        if (innerRequired == 1)
+        if (innerRequired === 1)
             this.getFieldData().required = true;
 
         if (this.invisibleValue)
             this.setContentData(this.invisibleValue);
+
+        this.invisibleValue = null;
     };
 
     /**
