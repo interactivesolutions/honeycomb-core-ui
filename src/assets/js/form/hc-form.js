@@ -233,6 +233,8 @@ HCService.FormManager.HCForm = function (data, availableFields)
      */
     this.disableSubmit = function (key)
     {
+        return;
+
         if (!key)
             return;
 
@@ -556,6 +558,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
                     }
                 });
             });
+
+        $.each(formFields, function (key, value){
+            value.validateContentData();
+        });
 
         if (scope.submitData)
         {
