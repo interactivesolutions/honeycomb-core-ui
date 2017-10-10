@@ -209,7 +209,7 @@ HCService.FormManager.Objects.DropDownList = function ()
                     selectItem.append($('<option/>', {value: value.id, text: value.text}));
 
                     theSelectItem.refreshOptions();
-                    theSelectItem.addItem(data.id);
+                    theSelectItem.addItem(value.id);
                     filledValue.push(value.id);
                 });
             }
