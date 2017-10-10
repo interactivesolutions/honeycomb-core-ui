@@ -108,9 +108,6 @@ HCService.FormManager.Objects.DropDownList = function ()
                 selectItem.val(existingValue).trigger("change");
         }
 
-        if (data && focus)
-            theSelectItem.focus();
-
         scope.triggerContentChange();
     };
 
@@ -133,8 +130,8 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!scope.getFieldData().search.url)
             return;
 
+        selectizeOptions.preload = true;
         selectizeOptions.load = function(query, callback) {
-            if (!query.length) return callback();
 
             callback = scope.handleOptions;
 
