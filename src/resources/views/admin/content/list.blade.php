@@ -21,4 +21,6 @@
         });
     </script>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('hc.google_map_api_key') }}&libraries=places"></script>
+
 @endsection

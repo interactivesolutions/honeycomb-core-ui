@@ -17,6 +17,7 @@
         '/js/form/hc-form-radio-list.js',
         '/js/form/hc-form-drop-down-list.js',
         '/js/form/hc-form-upload-file.js',
+        '/js/form/hc-form-google-map.js',
     ])
 
 !!}

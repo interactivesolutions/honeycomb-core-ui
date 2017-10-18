@@ -48,6 +48,7 @@ HCService.FormManager = new function ()
         this.registerField(HCService.FormManager.Objects.RadioList);
         this.registerField(HCService.FormManager.Objects.DropDownList);
         this.registerField(HCService.FormManager.Objects.UploadFile);
+        this.registerField(HCService.FormManager.Objects.GoogleMapsField);
 
         initializedLocal = true;
     };
