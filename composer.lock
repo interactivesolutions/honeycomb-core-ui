@@ -210,16 +210,16 @@
         },
         {
             "name": "interactivesolutions/honeycomb-core",
-            "version": "v1.0.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/interactivesolutions/honeycomb-core.git",
-                "reference": "122181c8430498e1d9c80207f6ab340ae4e9135c"
+                "reference": "338276071551f528759680d1aeca77e299f48784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/interactivesolutions/honeycomb-core/zipball/122181c8430498e1d9c80207f6ab340ae4e9135c",
-                "reference": "122181c8430498e1d9c80207f6ab340ae4e9135c",
+                "url": "https://api.github.com/repos/interactivesolutions/honeycomb-core/zipball/338276071551f528759680d1aeca77e299f48784",
+                "reference": "338276071551f528759680d1aeca77e299f48784",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
                 "honeycomb",
                 "laravel"
             ],
-            "time": "2017-10-18T13:06:06+00:00"
+            "time": "2017-10-19T08:53:33+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1047,16 +1047,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.12",
+            "version": "v0.8.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "1502354ebc70d59d8e3a87c325b0eb78a79da25b"
+                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/1502354ebc70d59d8e3a87c325b0eb78a79da25b",
-                "reference": "1502354ebc70d59d8e3a87c325b0eb78a79da25b",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
+                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
                 "shasum": ""
             },
             "require": {
@@ -1116,7 +1116,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-10-14T17:14:13+00:00"
+            "time": "2017-10-19T06:13:20+00:00"
         },
         {
             "name": "ramsey/uuid",

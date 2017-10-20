@@ -30,7 +30,7 @@
 
             @endif
 
-            @if(isPackageEnabled(\interactivesolutions\honeycombacl\app\providers\HCACLServiceProvider::class))
+            @if(isPackageEnabled(\InteractiveSolutions\HoneycombAcl\Providers\HCACLServiceProvider::class))
 
                 @include('HCACL::admin.dropdown')
 
