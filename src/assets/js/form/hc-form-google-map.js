@@ -75,7 +75,8 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
     this.setContentData = function (value) {
 
         if (value) {
-            var valArray = value.split(" ");
+            value = JSON.parse(value);
+
             var myLatlng = new google.maps.LatLng(value.geometry.location.lat, value.geometry.location.lng);
 
 
