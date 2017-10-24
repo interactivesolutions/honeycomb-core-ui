@@ -77,21 +77,15 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
         if (value) {
             value = JSON.parse(value);
 
-            var myLatlng = new google.maps.LatLng(value.geometry.location.lat, value.geometry.location.lng);
-
-
-            globalMap.setCenter(myLatlng);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: globalMap
-            });
-
-            marker.setVisible(true);
+            var $input = $(input);
+            $input.val(value.formatted_address);
+            autoComplete.set("place", value);
         }
 
         this.triggerContentChange();
     };
+
+    var input;
 
 
     this.initializeMap = function () {
@@ -111,11 +105,11 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
         globalMap = map;
 
         var card = document.getElementById('pac-card');
-        var input = document.getElementById('pac-input');
         var types = document.getElementById('type-selector');
         var strictBounds = document.getElementById('strict-bounds-selector');
 
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        input = document.getElementById('pac-input');
 
         autoComplete = new google.maps.places.Autocomplete(input);
 
