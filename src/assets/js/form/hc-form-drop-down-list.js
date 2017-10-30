@@ -57,8 +57,7 @@ HCService.FormManager.Objects.DropDownList = function ()
 
         if (theSelectItem)
         {
-            if (focus)
-                theSelectItem.clearOptions();
+            theSelectItem.clearOptions();
 
             $.each(fieldOptions, function (key, value){
                 theSelectItem.addOption({value:value.id, text:value.text});
