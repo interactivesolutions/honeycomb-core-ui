@@ -625,7 +625,14 @@ HCService.FormManager.Objects.BasicField = function ()
         else
         {
             if (localScope.getFieldData().key !== undefined)
-                localScope.setContentData(HCFunctions.pathIndex(localScope.form.content, localScope.getFieldData().key));
+            {
+                var value = HCFunctions.pathIndex(localScope.form.content, localScope.getFieldData().key);
+
+                if (value === false)
+                    value = undefined;
+
+                localScope.setContentData(value);
+            }
             else
                 localScope.setContentData(localScope.form.content[localScope.getFieldID()]);
         }
