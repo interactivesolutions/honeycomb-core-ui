@@ -1,5 +1,4 @@
-HCService.FormManager.Objects.DropDownList = function ()
-{
+HCService.FormManager.Objects.DropDownList = function () {
     this.inheritFrom = HCService.FormManager.Objects.BasicField;
     this.inheritFrom();
 
@@ -19,23 +18,29 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Options for selectize
      */
-    var selectizeOptions = {plugins:[], allowEmptyOption:true};
+    var selectizeOptions = {plugins: [], allowEmptyOption: true};
 
     /**
      * Handling properties of the input field
      *
      * @method handleProperties
      */
-    this.handleProperties = function ()
-    {
-        if (this.getFieldData().search)
-        {
+    this.handleProperties = function () {
+        if (this.getFieldData().search) {
             selectizeOptions.plugins.push('remove_button');
 
             if (this.getFieldData().search.maximumSelectionLength > 0)
                 selectizeOptions.maxItems = this.getFieldData().search.maximumSelectionLength;
             else if (!this.getFieldData().search.maximumSelectionLength)
                 selectizeOptions.maxItems = 10000;
+
+            if (this.getFieldData().search.allowTags)
+                selectizeOptions.create = function (input) {
+                    return {
+                        value: input,
+                        text: input
+                    }
+                }
         }
 
         this.innerHTML = this.inputField = $('<br/><select id="' + this.uniqueFieldID + '" class="form-control" style="width:auto;"></select>');
@@ -46,8 +51,7 @@ HCService.FormManager.Objects.DropDownList = function ()
      *
      * @method handleOptions
      */
-    this.handleOptions = function (data, focus)
-    {
+    this.handleOptions = function (data, focus) {
         if (!data && !scope.getOptions())
             return;
 
@@ -55,21 +59,19 @@ HCService.FormManager.Objects.DropDownList = function ()
         var fieldOptions = data ? formatData(data) : formatData(scope.getOptions());
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
-        if (theSelectItem)
-        {
-            theSelectItem.clearOptions();
+        if (theSelectItem) {
+            if (focus)
+                theSelectItem.clearOptions();
 
-            $.each(fieldOptions, function (key, value){
-                theSelectItem.addOption({value:value.id, text:value.text});
+            $.each(fieldOptions, function (key, value) {
+                theSelectItem.addOption({value: value.id, text: value.text});
             });
 
             theSelectItem.refreshOptions(false);
 
-            if (existingValue)
-            {
-                if (HCFunctions.isArray(existingValue))
-                {
-                    $.each(existingValue, function (key, value){
+            if (existingValue) {
+                if (HCFunctions.isArray(existingValue)) {
+                    $.each(existingValue, function (key, value) {
                         theSelectItem.addItem(value);
                     });
                 }
@@ -77,20 +79,17 @@ HCService.FormManager.Objects.DropDownList = function ()
                     theSelectItem.addItem(existingValue);
             }
         }
-        else
-        {
-            var length_i      = fieldOptions.length;
+        else {
+            var length_i = fieldOptions.length;
             var length_j;
             var option;
 
             scope.inputField.html('');
 
-            for (var i = 0; i < length_i; i++)
-            {
-                if (fieldOptions[i].children)
-                {
+            for (var i = 0; i < length_i; i++) {
+                if (fieldOptions[i].children) {
                     length_j = fieldOptions[i].children.length;
-                    option   = '<optgroup label="' + fieldOptions[i].text + '">';
+                    option = '<optgroup label="' + fieldOptions[i].text + '">';
 
                     for (var j = 0; j < length_j; j++)
                         option += '<option value="' + fieldOptions[i].children[j].value + '">' + fieldOptions[i].children[j].text + '&nbsp;&nbsp;</option>';
@@ -113,10 +112,8 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Updating when item is on stage
      */
-    this.updateWhenOnStageLocal = function ()
-    {
-        if (this.getFieldData().search)
-        {
+    this.updateWhenOnStageLocal = function () {
+        if (this.getFieldData().search) {
             addAjax();
             this.updateSelectComponent();
 
@@ -124,13 +121,12 @@ HCService.FormManager.Objects.DropDownList = function ()
         }
     };
 
-    function addAjax()
-    {
+    function addAjax() {
         if (!scope.getFieldData().search.url)
             return;
 
         selectizeOptions.preload = true;
-        selectizeOptions.load = function(query, callback) {
+        selectizeOptions.load = function (query, callback) {
 
             callback = scope.handleOptions;
 
@@ -146,10 +142,10 @@ HCService.FormManager.Objects.DropDownList = function ()
                 delay: 250,
                 dataType: 'json',
                 data: params,
-                error: function() {
+                error: function () {
                     callback();
                 },
-                success: function(data) {
+                success: function (data) {
                     callback(data, true);
                 }
             });
@@ -164,21 +160,16 @@ HCService.FormManager.Objects.DropDownList = function ()
      * @method setContentData
      * @param {String} data for SingleLine
      */
-    this.setContentData = function (data)
-    {
+    this.setContentData = function (data) {
         if (!data)
             return;
 
-        if (this.getFieldData().search)
-        {
+        if (this.getFieldData().search) {
             var selectItem = $('#' + this.uniqueFieldID);
 
-            if (this.getFieldData().search.maximumSelectionLength === 1)
-            {
-                if (theSelectItem)
-                {
-                    if (HCFunctions.isObject(data))
-                    {
+            if (this.getFieldData().search.maximumSelectionLength === 1) {
+                if (theSelectItem) {
+                    if (HCFunctions.isObject(data)) {
                         this.handleOptions(data);
                         filledValue = data.id;
                     }
@@ -188,17 +179,14 @@ HCService.FormManager.Objects.DropDownList = function ()
                     theSelectItem.addItem(filledValue);
                 }
             }
-            else
-            {
+            else {
                 data = formatData(data);
                 filledValue = [];
 
-                $.each(data, function (key, value)
-                {
+                $.each(data, function (key, value) {
                     var $option = $('#' + scope.uniqueFieldID + " option[value='" + value.id + "']");
 
-                    if ($option.length)
-                    {
+                    if ($option.length) {
                         if (value.text === '' || value.text !== $option.text())
                             value.text = $option.text();
 
@@ -228,8 +216,7 @@ HCService.FormManager.Objects.DropDownList = function ()
      * @param data
      * @returns {*}
      */
-    function formatData(data, nodeNames)
-    {
+    function formatData(data, nodeNames) {
         if (!data)
             return '';
 
@@ -242,28 +229,23 @@ HCService.FormManager.Objects.DropDownList = function ()
         if (!HCFunctions.isArray(data))
             data = [data];
 
-        return $.map(data, function (obj)
-        {
+        return $.map(data, function (obj) {
             text = '';
 
             if (HCFunctions.isString(obj))
                 obj = {id: obj, text: obj};
 
-            if (multiLevel)
-            {
-                function format(data)
-                {
+            if (multiLevel) {
+                function format(data) {
                     var formatted = {};
-                    var children  = data[multiLevel['field_children']];
+                    var children = data[multiLevel['field_children']];
 
-                    formatted.id    = data.id;
-                    formatted.text  = data[multiLevel['field_name']];
+                    formatted.id = data.id;
+                    formatted.text = data[multiLevel['field_name']];
 
-                    if (children && children.length > 0)
-                    {
+                    if (children && children.length > 0) {
                         formatted.children = [];
-                        $.each(children, function (child_key, child_value)
-                        {
+                        $.each(children, function (child_key, child_value) {
                             formatted.children.push(format(child_value));
                         });
                     }
@@ -273,27 +255,20 @@ HCService.FormManager.Objects.DropDownList = function ()
 
                 return format(obj);
             }
-            else
-            {
-                $.each(obj, function (key, value)
-                {
+            else {
+                $.each(obj, function (key, value) {
                     if (Object.size(obj) === 1 || key !== 'id' && value !== '')
-                        if (nodeNames)
-                        {
+                        if (nodeNames) {
                             if (nodeNames.indexOf(key) >= 0)
                                 text += value + ' | ';
-                            else if (HCFunctions.isArray(value))
-                            {
-                                $.each(nodeNames, function (node_key, node_value)
-                                {
-                                    if (node_value.indexOf('{lang}') !== -1)
-                                    {
+                            else if (HCFunctions.isArray(value)) {
+                                $.each(nodeNames, function (node_key, node_value) {
+                                    if (node_value.indexOf('{lang}') !== -1) {
                                         node_value = HCFunctions.replaceBrackets(node_value, {'lang': HCFunctions.getTranslationsLanguageElementIndex(HCService.FRONTENDLanguage, value)});
                                         text += HCFunctions.pathIndex(obj, node_value) + ' | ';
                                         return false;
                                     }
-                                    else
-                                    if (value[node_value] && value[node_value] !== '' && value[node_value] !== null)
+                                    else if (value[node_value] && value[node_value] !== '' && value[node_value] !== null)
                                         text += value[node_value] + ' | ';
                                 });
                             }
@@ -313,19 +288,18 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Enabling or updating select2 field
      */
-    this.updateSelectComponent = function ()
-    {
+    this.updateSelectComponent = function () {
         theSelectItem = $('#' + this.uniqueFieldID);
         var options = this.getFieldData().search;
 
         if (this.getFieldData().editType !== 1)
             if (this.getFieldData().sortable)
-                selectizeOptions.plugins.push ('drag_drop');
+                selectizeOptions.plugins.push('drag_drop');
 
         $.extend(true, options, selectizeOptions);
 
         theSelectItem = theSelectItem.selectize(options)[0].selectize;
-        theSelectItem.addOption({value:null, text:''});
+        theSelectItem.addOption({value: null, text: ''});
         theSelectItem.setValue(null);
 
         if (this.getFieldData().new)
@@ -338,13 +312,11 @@ HCService.FormManager.Objects.DropDownList = function ()
      * Adding new option which was just created to the list
      * @param response
      */
-    this.newOptionCreated = function (response)
-    {
+    this.newOptionCreated = function (response) {
         response = formatData([response], scope.getFieldData().new.showNodes)[0];
         theSelectItem.addOption({value: response.id, text: response.text});
 
-        if (scope.getFieldData().sortable)
-        {
+        if (scope.getFieldData().sortable) {
             theSelectItem.addItem(response.id);
         }
         else
@@ -356,8 +328,7 @@ HCService.FormManager.Objects.DropDownList = function ()
     /**
      * Adding new Option button
      */
-    this.addNewOption = function (options, callBack)
-    {
+    this.addNewOption = function (options, callBack) {
         var newOption = $('<div class="btn btn-success btn-add-new-option" style="float:right"><i class="fa fa-fw fa-plus"></i></div>');
         newOption.bind('click', handleNewOption);
 
@@ -367,24 +338,22 @@ HCService.FormManager.Objects.DropDownList = function ()
         this.getParent().append(newOption);
         this.getParent().append('<div style="clear:both"></div>');
 
-        function handleNewOption()
-        {
+        function handleNewOption() {
             HCService.PopUp.Pop({
-                label   : 'New Record',
-                type    : 'form',
-                config  : {
+                label: 'New Record',
+                type: 'form',
+                config: {
                     structureURL: getStructureURL()
                 },
                 callBack: callBack
             });
         }
 
-        function getStructureURL ()
-        {
+        function getStructureURL() {
             var url = options.url;
 
             if (options.require)
-                $.each(options.require, function (key, value){
+                $.each(options.require, function (key, value) {
                     if (url.indexOf('?') === -1)
                         url += '?' + value + '=' + scope.form.content[value];
                     else
@@ -400,9 +369,8 @@ HCService.FormManager.Objects.DropDownList = function ()
      *
      * @returns {*}
      */
-    this.getValue = function ()
-    {
-        var context       = $('.is-fo-dropdown-list option[value=' + this.contentData + ']', this.innerHTML).context;
+    this.getValue = function () {
+        var context = $('.is-fo-dropdown-list option[value=' + this.contentData + ']', this.innerHTML).context;
         var selectedIndex = context.selectedIndex;
 
         if (selectedIndex === -1)
@@ -417,8 +385,7 @@ HCService.FormManager.Objects.DropDownList = function ()
      * @method getContentData
      * @returns {*}
      */
-    this.getContentData = function ()
-    {
+    this.getContentData = function () {
         if (!this.inputField)
             return null;
 
