@@ -53,8 +53,7 @@ class HCCoreUiServiceProvider extends ServiceProvider
     {
         $this->commands($this->commands);
 
-        if (class_exists(MinifyServiceProvider::class)) {
+        if (class_exists(MinifyServiceProvider::class))
             $this->app->register(MinifyServiceProvider::class);
-        }
     }
 }

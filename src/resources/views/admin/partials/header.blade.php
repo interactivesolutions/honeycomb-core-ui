@@ -18,25 +18,25 @@
                 </a>
             </li>
         </ul>
-
+        
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
                 <!-- TODO include existing HoneyComb packages -->
-            @if(isPackageEnabled(\interactivesolutions\honeycomblanguages\app\providers\HCLanguagesServiceProvider::class))
+                @if(isPackageEnabled(\interactivesolutions\honeycomblanguages\app\providers\HCLanguagesServiceProvider::class))
 
-                @include('HCLanguages::lang-select')
+                    @include('HCLanguages::lang-select')
 
-            @endif
+                @endif
 
-            @if(isPackageEnabled(\InteractiveSolutions\HoneycombAcl\Providers\HCACLServiceProvider::class))
+                @if(isPackageEnabled(\interactivesolutions\honeycombacl\app\providers\HCACLServiceProvider::class))
 
-                @include('HCACL::admin.dropdown')
+                    @include('HCACL::admin.dropdown')
 
-            @endif
+                @endif
 
-            <!-- Control Sidebar Toggle Button -->
+                <!-- Control Sidebar Toggle Button -->
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>

@@ -6,11 +6,11 @@
         {{-- if the given user role has access to this permission than user can see that menu --}}
 
         <li
-                @if(isset($item['children']) && is_array($item['children']) && checkActiveMenuItems($item, request()->route()->getName()))
+            @if(isset($item['children']) && is_array($item['children']) && checkActiveMenuItems($item, request()->route()->getName()))
                 class="treeview active"
-                @elseif(request()->route()->getName() == $item['route'] )
+            @elseif(request()->route()->getName() == $item['route'] )
                 class="active"
-                @endif
+            @endif
         >
             @if(isset($item['children']) && is_array($item['children']))
 
