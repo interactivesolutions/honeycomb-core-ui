@@ -623,7 +623,12 @@ HCService.FormManager.Objects.BasicField = function ()
             }
         }
         else
-            localScope.setContentData(localScope.form.content[localScope.getFieldID()]);
+        {
+            if (localScope.getFieldData().key !== undefined)
+                localScope.setContentData(HCFunctions.pathIndex(localScope.form.content, localScope.getFieldData().key));
+            else
+                localScope.setContentData(localScope.form.content[localScope.getFieldID()]);
+        }
     };
 
     /**
