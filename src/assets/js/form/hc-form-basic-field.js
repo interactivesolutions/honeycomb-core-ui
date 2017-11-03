@@ -623,7 +623,18 @@ HCService.FormManager.Objects.BasicField = function ()
             }
         }
         else
-            localScope.setContentData(localScope.form.content[localScope.getFieldID()]);
+        {
+            if (localScope.getFieldData().key !== undefined) {
+                var value = HCFunctions.pathIndex(localScope.form.content, localScope.getFieldData().key);
+
+                if (value === false)
+                    value = undefined;
+
+                localScope.setContentData(value);
+            }
+            else
+                localScope.setContentData(localScope.form.content[localScope.getFieldID()]);
+        }
     };
 
     /**
