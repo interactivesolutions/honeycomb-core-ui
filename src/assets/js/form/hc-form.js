@@ -449,6 +449,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
 
             li.bind ('click', function (e)
             {
+                e.preventDefault();
                 changeTabContent ($ (this).find ('a').attr ('href'));
             });
 
