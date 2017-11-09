@@ -21,8 +21,20 @@ HCService.FormManager.Objects.SingleLine = function ()
      */
     this.handleProperties = function ()
     {
+        var type = 'text';
+        var step = '';
+
+        if (this.getFieldData ().numeric)
+        {
+            type = 'number';
+            step = this.getFieldData().step;
+
+                if (step)
+                step = 'step="' + step + '"';
+        }
+
         this.innerHTML = $ ('<div></div>');
-        this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="text" placeholder="' + this.getPlaceHolder () + '">');
+        this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="' + type + '" ' + step + ' placeholder="' + this.getPlaceHolder () + '">');
 
         if (this.getFieldData ().maxLength)
             this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
