@@ -359,16 +359,21 @@ HCLoader = new function ()
                         executeErrorFunction (m);
                     }
                 }
-                // if error is returned from laravel validator
                 else if (HCFunctions.isObject(r))
                 {
-                    $.each (r, function (key, value)
-                    {
-                        $.each (value, function (key, message)
+                    // if error is exception from laravel
+                    if ("trace" in r && "exception" in r && "file" in r) {
+                        executeErrorFunction (r.message + ' ' + r.exception);
+                    } else {
+                        // if error is returned from laravel validator
+                        $.each (r, function (key, value)
                         {
-                            executeErrorFunction (message);
+                            $.each (value, function (key, message)
+                            {
+                                executeErrorFunction (message);
+                            });
                         });
-                    });
+                    }
                 }
                 else
                 {
