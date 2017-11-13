@@ -234,6 +234,7 @@ HCService.List.SimpleList = function (configuration) {
          * @returns {*}
          */
         function getValue(key, value, disabled) {
+
             var parentClass = '';
 
             if (configuration.headers[key]) {
@@ -290,12 +291,36 @@ HCService.List.SimpleList = function (configuration) {
                         value = createFontAwesomeCell(value);
                         break;
 
+                    case 'array':
+
+                        value = createArrayCell(key);
+                        break;
+
                     default :
                         console.log(config.type);
                 }
             }
 
             return {cell: value, parentClass: parentClass};
+
+            /**
+             * Creating array cell
+             *
+             * @param key
+             * @param config
+             * @returns {string}
+             */
+            function createArrayCell(key)
+            {
+                var finalValue = '';
+                key = configuration.headers[key].key;
+
+                $.each(value, function (sequence, object){
+                    finalValue += object[key] + '<br/>';
+                });
+
+                return finalValue;
+            }
 
             /**
              * Creating font awesome cell with icons inside
