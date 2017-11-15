@@ -43,6 +43,7 @@ HCService.List.SimpleList = function (configuration) {
     }
 
     var listContainer;
+    var $listBody;
     var listElementsHolder;
     var mainCheckBox;
     var scope = this;
@@ -51,20 +52,21 @@ HCService.List.SimpleList = function (configuration) {
      *  Creating table headers
      */
     function createTableHeader() {
-        var headers = $('<div class="list-group-item hc-list-headers"></div>');
+
+        listContainer = $('<table class="table table-bordered table-striped dataTable hc-table" role="grid">');
+        $listBody = $('<tbody></tbody>');
+
+        var $header = $('<thead></thead>');
+        var $row = $('<tr></tr>');
+
+        var label;
         var useTranslations = true;
 
-        mainCheckBox = $('<div class="hc-list-item-value independent" style="width: 30px;padding-top: 2px;">'
-            + '<input type="checkbox" value="" name="checkbox" class="">'
-            + '</div>');
-
-        if (!configuration.headers) {
-            useTranslations = false;
-            configuration.headers = dataList.getLoadedData().data[0];
-        }
-
         if (scope.actionListItems.delete || scope.actionListItems.merge) {
-            headers.append(mainCheckBox);
+            mainCheckBox = $('<th class="hc-list-item-value independent" style="width:30px;padding-top:2px;">'
+                + '<input type="checkbox" value="" name="checkbox" class="">'
+                + '</th>');
+            $row.append(mainCheckBox);
 
             mainCheckBox.bind('change', function () {
                 totalSelectedRows = 0;
@@ -79,74 +81,24 @@ HCService.List.SimpleList = function (configuration) {
             });
         }
 
-        var label;
-        var dropDownItem;
-        var displayOption = $('<div id="hc-header-settings" class="btn-group hc-list-item-value"></div>');
-        var dropDownMenu = $('<div class="dropdown-menu dropdown-menu-right"></div>');
-        var headerSettings = $('<i aria-haspopup="true" aria-expanded="false" class="fa fa-columns"></i>');
-
-        displayOption.append(headerSettings);
-        displayOption.append(dropDownMenu);
-
-        headerSettings.on('click', function (event) {
-            $(this).parent().toggleClass('open');
-        });
-
-        $('body').on('click', function (e) {
-            if (!headerSettings.is(e.target) && dropDownMenu.has(e.target).length === 0)
-                displayOption.removeClass('open');
-        });
-
         $.each(configuration.headers, function (key, value) {
             if (!useTranslations)
                 label = key;
             else
                 label = value.label;
 
-            dropDownItem = $('<a class="dropdown-item"><label><input data-id="' + key + '" type="checkbox" checked><span>' + label + '</span></label></a>');
-            dropDownItem.bind('click', handleHeaderSettingsClick);
+            if (!configuration.headers) {
+                useTranslations = false;
+                configuration.headers = dataList.getLoadedData().data[0];
+            }
 
-            dropDownMenu.append(dropDownItem);
-            headers.append('<div class="hc-list-item-value" data-id="' + key + '">' + label + '</div>');
+            $row.append('<th data-id="' + key + '">' + label + '</th>');
         });
 
-        headers.append(displayOption);
-
-        listContainer = $('<div class="hc-list-container"></div>');
+        $header.append($row);
+        listContainer.append($header);
+        listContainer.append($listBody);
         scope.mainContainer.append(listContainer);
-        listContainer.append(headers);
-
-        /**
-         * When settings is clicked hide / show row
-         * @param e
-         */
-        function handleHeaderSettingsClick(e) {
-            //TODO save status for each list to cookie!
-            //TODO Allow min 1 selected item!
-            var target = $(e.target);
-            var data = target.data();
-
-            if (Object.size(data) !== 0) {
-                if (target.is(':checked')) {
-                    hiddenColumns.remove(data.id);
-
-                    listContainer.find('.hc-list-item-value').filter(
-                        function () {
-                            return $(this).data('id') === data.id;
-                        })
-                        .show();
-                }
-                else {
-                    hiddenColumns.push(data.id);
-
-                    listContainer.find('.hc-list-item-value').filter(
-                        function () {
-                            return $(this).data('id') === data.id;
-                        })
-                        .hide();
-                }
-            }
-        }
     }
 
     var hiddenColumns = [];
@@ -164,21 +116,22 @@ HCService.List.SimpleList = function (configuration) {
 
         var disabledFully = isDisabled(data, configuration.disableByFieldsFully) ? 'disabled' : '';
 
-        var record = $('<div id="' + currentID + '" class="list-group-item hc-list-item ' + disabledFully + '"></div>');
+        var record = $('<tr id="' + currentID + '" class="list-group-item hc-list-item ' + disabledFully + '"></tr>');
 
         if (scope.actionListItems.delete || scope.actionListItems.merge) {
             var checkBox = $('<input type="checkbox" value="" name="checkbox" class="">');
 
             if (disabledFully !== '')
                 checkBox.attr('disabled', true);
+            else
+                checkBox.bind('click', handleCheckBoxClick);
 
-            checkBox = $('<div class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</div>');
-            checkBox.bind('click', handleCheckBoxClick);
+            checkBox = $('<td class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</td>');
             checkBox.bind('change', handleCheckBoxChange);
             record.append(checkBox);
         }
 
-        listContainer.append(record);
+        $listBody.append(record);
 
         $.each(configuration.headers, function (key, value) {
             if (key.indexOf('.') !== -1) {
@@ -201,7 +154,6 @@ HCService.List.SimpleList = function (configuration) {
             record.append(createRecordItem(key, value, disabledFully));
         });
 
-        record.append('<div class="hc-list-item-value"></div>');
         enableListItemChildren(currentID);
 
         /**
@@ -217,7 +169,7 @@ HCService.List.SimpleList = function (configuration) {
                 value = HCFunctions.stripHTML(value);
 
             var cell = getValue(key, value, disabled);
-            var holder = $('<div data-id="' + key + '" class="hc-list-item-value"></div>');
+            var holder = $('<td data-id="' + key + '" class=""></td>');
             holder.append(cell.cell);
             holder.addClass(cell.parentClass);
 
@@ -459,10 +411,8 @@ HCService.List.SimpleList = function (configuration) {
             var record = $('#' + id);
             var canUpdate = (configuration.actions && configuration.actions.indexOf('update') >= 0);
 
-            record.removeClass('disabled');
-
             $.each(record.children(), function (key, child) {
-                    if ($(child).attr('class').split(' ').indexOf('independent') === -1) {
+                    if (record.attr('class').split(' ').indexOf('disabled') === -1 && $(child).attr('class').split(' ').indexOf('independent') === -1) {
                         if (canUpdate)
                             $(child).bind('click', function () {
                                 if (configuration.forms.newRecord)
@@ -629,11 +579,11 @@ HCService.List.SimpleList = function (configuration) {
      * @param value
      */
     this.handleFilterButtonActionClick = function (value) {
-        $.each($('.hc-list-container .hc-list-item'), function (key, element) {
+        $.each($('tbody .hc-list-item'), function (key, element) {
             listElementsHolder[$(element).attr('id')].showElement();
         });
 
-        $.each($('.hc-list-container .hc-list-item:not(:contains_ci(' + value + '))'), function (key, element) {
+        $.each($('tbody .hc-list-item:not(:contains_ci(' + value + '))'), function (key, element) {
             listElementsHolder[$(element).attr('id')].hideElement();
         });
     };
