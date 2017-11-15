@@ -12,8 +12,7 @@
 
 @section('scripts')
     <script>
-        $().ready(function ()
-        {
+        $().ready(function () {
             var config = {!! json_encode($config) !!};
             config.divID = '#here-comes-form';
 
