@@ -410,8 +410,6 @@ HCService.List.SimpleList = function (configuration) {
             var record = $('#' + id);
             var canUpdate = (configuration.actions && configuration.actions.indexOf('update') >= 0);
 
-            record.removeClass('disabled');
-
             $.each(record.children(), function (key, child) {
                     if ($(child).attr('class').split(' ').indexOf('independent') === -1) {
                         if (canUpdate)
