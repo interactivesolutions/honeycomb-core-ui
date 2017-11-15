@@ -123,9 +123,10 @@ HCService.List.SimpleList = function (configuration) {
 
             if (disabledFully !== '')
                 checkBox.attr('disabled', true);
+            else
+                checkBox.bind('click', handleCheckBoxClick);
 
             checkBox = $('<td class="hc-list-item-value independent hover ">' + checkBox.outerHTML() + '</td>');
-            checkBox.bind('click', handleCheckBoxClick);
             checkBox.bind('change', handleCheckBoxChange);
             record.append(checkBox);
         }
@@ -411,7 +412,7 @@ HCService.List.SimpleList = function (configuration) {
             var canUpdate = (configuration.actions && configuration.actions.indexOf('update') >= 0);
 
             $.each(record.children(), function (key, child) {
-                    if ($(child).attr('class').split(' ').indexOf('independent') === -1) {
+                    if (record.attr('class').split(' ').indexOf('disabled') === -1 && $(child).attr('class').split(' ').indexOf('independent') === -1) {
                         if (canUpdate)
                             $(child).bind('click', function () {
                                 if (configuration.forms.newRecord)
