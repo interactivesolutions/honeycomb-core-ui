@@ -16,9 +16,7 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
      * @method handleProperties
      */
     this.handleProperties = function () {
-        this.innerHTML = $('<div>' +
-            '<input style="margin-bottom: 15px;" class="form-control" id="' + this.uniqueFieldID + '" type="text" placeholder="' + this.getPlaceHolder() + '" disabled>' +
-            '</div>')
+        this.innerHTML = $('<div></div>');
         this.inputField = $('<div class="pac-card" id="pac-card">\n' +
             '      <div>\n' +
             '        <div id="title">\n' +
@@ -61,33 +59,33 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
 
     this.updateWhenOnStageLocal = function () {
         this.initializeMap();
-    }
+    };
+
+    var autoComplete;
 
     this.getContentData = function () {
-        return $('#' + this.uniqueFieldID).val();
-    }
+
+        if (autoComplete)
+            return JSON.stringify(autoComplete.getPlace());
+
+        return '';
+    };
+
 
     this.setContentData = function (value) {
-        $('#' + this.uniqueFieldID).val(value);
-
-        // google.maps.event.trigger(globalMap, 'resize');
 
         if (value) {
-            var valArray = value.split(" ");
-            var myLatlng = new google.maps.LatLng(valArray[0], valArray[1]);
+            value = JSON.parse(value);
 
-            globalMap.setCenter(myLatlng);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: globalMap,
-            });
-
-            marker.setVisible(true);
+            var $input = $(input);
+            $input.val(value.formatted_address);
+            autoComplete.set("place", value);
         }
 
         this.triggerContentChange();
-    }
+    };
+
+    var input;
 
 
     this.initializeMap = function () {
@@ -107,18 +105,18 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
         globalMap = map;
 
         var card = document.getElementById('pac-card');
-        var input = document.getElementById('pac-input');
         var types = document.getElementById('type-selector');
         var strictBounds = document.getElementById('strict-bounds-selector');
 
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        input = document.getElementById('pac-input');
 
-        var autocomplete = new google.maps.places.Autocomplete(input);
+        autoComplete = new google.maps.places.Autocomplete(input);
 
-        // Bind the map's bounds (viewport) property to the autocomplete object,
-        // so that the autocomplete requests use the current map bounds for the
+        // Bind the map's bounds (viewport) property to the autoComplete object,
+        // so that the autoComplete requests use the current map bounds for the
         // bounds option in the request.
-        autocomplete.bindTo('bounds', map);
+        autoComplete.bindTo('bounds', map);
 
         var infowindow = new google.maps.InfoWindow();
         var infowindowContent = document.getElementById('infowindow-content');
@@ -128,10 +126,10 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
             anchorPoint: new google.maps.Point(0, -29)
         });
 
-        autocomplete.addListener('place_changed', function () {
+        autoComplete.addListener('place_changed', function () {
             infowindow.close();
             marker.setVisible(false);
-            var place = autocomplete.getPlace();
+            var place = autoComplete.getPlace();
             if (!place.geometry) {
                 // User entered the name of a Place that was not suggested and
                 // pressed the Enter key, or the Place Details request failed.
@@ -150,9 +148,7 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
             marker.setVisible(true);
 
             // SET FIELD DATA
-            $('#' + self.uniqueFieldID).val(place.geometry.location.lat() + ' ' + place.geometry.location.lng());
-            self.triggerContentChange()
-
+            self.triggerContentChange();
 
             var address = '';
             if (place.address_components) {
@@ -174,7 +170,7 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
         function setupClickListener(id, types) {
             var radioButton = document.getElementById(id);
             radioButton.addEventListener('click', function () {
-                autocomplete.setTypes(types);
+                autoComplete.setTypes(types);
             });
         }
 
@@ -185,7 +181,7 @@ HCService.FormManager.Objects.GoogleMapsField = function () {
 
         document.getElementById('use-strict-bounds')
             .addEventListener('click', function () {
-                autocomplete.setOptions({strictBounds: this.checked});
+                autoComplete.setOptions({strictBounds: this.checked});
             });
 
         google.maps.event.trigger(map, 'resize');
