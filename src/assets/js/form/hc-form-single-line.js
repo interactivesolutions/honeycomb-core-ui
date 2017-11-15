@@ -28,7 +28,7 @@ HCService.FormManager.Objects.SingleLine = function ()
         {
             type = 'number';
             step = this.getFieldData().step;
-          
+
             if (step)
                 step = 'step="' + step + '"';
         }
