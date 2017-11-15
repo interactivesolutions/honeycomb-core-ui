@@ -60,8 +60,7 @@ HCService.FormManager.Objects.DropDownList = function () {
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
         if (theSelectItem) {
-            if (focus)
-                theSelectItem.clearOptions();
+            theSelectItem.clearOptions();
 
             $.each(fieldOptions, function (key, value) {
                 theSelectItem.addOption({value: value.id, text: value.text});
