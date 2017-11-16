@@ -60,8 +60,6 @@ HCService.FormManager.Objects.DropDownList = function () {
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
         if (theSelectItem) {
-            if (focus)
-                theSelectItem.clearOptions();
 
             $.each(fieldOptions, function (key, value) {
                 theSelectItem.addOption({value: value.id, text: value.text});
@@ -105,6 +103,9 @@ HCService.FormManager.Objects.DropDownList = function () {
             if (existingValue)
                 selectItem.val(existingValue).trigger("change");
         }
+
+        if (data && data.length > 0 && focus)
+            theSelectItem.focus();
 
         scope.triggerContentChange();
     };
