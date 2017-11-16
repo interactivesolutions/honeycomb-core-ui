@@ -11,6 +11,8 @@ HCService.FormManager.Objects.DateTimePicker = function ()
 
     var scope = this;
 
+    var input;
+
     /**
      * Handling properties of the input field
      *
@@ -21,15 +23,18 @@ HCService.FormManager.Objects.DateTimePicker = function ()
         var disabled = '';
 
         if (this.getFieldData().editType == 1)
-            disabled = 'disabled';
+            disabled = 'readonly';
 
         this.innerHTML = $('<div class="input-group date" id="' + this.uniqueFieldID + '"></div>');
-        this.inputField = $('<input type="text" class="form-control" ' + disabled + '/>' +
+        input = $('<input type="text" class="form-control" ' + disabled + '/>');
+        this.inputField = input;
+
+        var calendarIcon = $(
             '<span class="input-group-addon">' +
                 '<span class="fa fa-calendar"></span>' +
             '</span>');
 
-        this.innerHTML.append(this.inputField);
+        this.innerHTML.append([this.inputField, calendarIcon]);
     };
 
     /**
@@ -66,5 +71,15 @@ HCService.FormManager.Objects.DateTimePicker = function ()
     this.getContentData = function ()
     {
         return $('#' + this.uniqueFieldID).datetimepicker().children('input').val();
+    };
+
+    this.disable = function ()
+    {
+        input.attr('readonly', true);
+    };
+
+    this.enable = function ()
+    {
+        input.attr('readonly', false);
     }
 };

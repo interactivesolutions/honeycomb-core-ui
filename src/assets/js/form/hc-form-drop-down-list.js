@@ -121,6 +121,9 @@ HCService.FormManager.Objects.DropDownList = function () {
 
             this.getParent().append(this.getAnnotation());
         }
+
+        if (disabled)
+            this.disable();
     };
 
     function addAjax() {
@@ -303,6 +306,9 @@ HCService.FormManager.Objects.DropDownList = function () {
         theSelectItem = theSelectItem.selectize(options)[0].selectize;
         theSelectItem.addOption({value: null, text: ''});
         theSelectItem.setValue(null);
+        theSelectItem.on('change', function (){
+            scope.triggerContentChange();
+        });
 
         if (this.getFieldData().new)
             this.addNewOption(this.getFieldData().new, this.newOptionCreated);
@@ -404,4 +410,20 @@ HCService.FormManager.Objects.DropDownList = function () {
 
         return data;
     };
+
+    var disabled = false;
+
+    this.disable = function ()
+    {
+        disabled = true;
+
+        if (theSelectItem)
+            theSelectItem.disable();
+    };
+
+    this.enable = function ()
+    {
+        if (theSelectItem)
+            theSelectItem.enable();
+    }
 };

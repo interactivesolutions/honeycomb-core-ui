@@ -196,7 +196,23 @@ HCService.FormManager.Objects.BasicField = function ()
     this.handleReadonly = function ()
     {
         if (readonly)
-            this.inputField.attr('disabled', true);
+            this.disable();
+    };
+
+    /**
+     * enabling input field
+     */
+    this.enable = function ()
+    {
+        this.inputField.attr('readonly', false);
+    };
+
+    /**
+     * disabling input field
+     */
+    this.disable = function ()
+    {
+        this.inputField.attr('readonly', true);
     };
 
     /**
@@ -624,8 +640,7 @@ HCService.FormManager.Objects.BasicField = function ()
         }
         else
         {
-            if (localScope.getFieldData().key !== undefined)
-            {
+            if (localScope.getFieldData().key !== undefined) {
                 var value = HCFunctions.pathIndex(localScope.form.content, localScope.getFieldData().key);
 
                 if (value === false)
