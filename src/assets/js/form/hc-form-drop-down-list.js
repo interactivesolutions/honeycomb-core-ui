@@ -133,6 +133,9 @@ HCService.FormManager.Objects.DropDownList = function () {
         selectizeOptions.preload = true;
         selectizeOptions.load = function (query, callback) {
 
+            if (query === '')
+                return;
+
             callback = scope.handleOptions;
 
             if (!scope.dependencyValues)
@@ -166,6 +169,7 @@ HCService.FormManager.Objects.DropDownList = function () {
      * @param {String} data for SingleLine
      */
     this.setContentData = function (data) {
+
         if (!data)
             return;
 
