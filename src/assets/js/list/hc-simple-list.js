@@ -268,7 +268,11 @@ HCService.List.SimpleList = function (configuration) {
                 key = configuration.headers[key].key;
 
                 $.each(value, function (sequence, object){
-                    finalValue += object[key] + '<br/>';
+                    if (key){
+                        finalValue += object[key] + '<br/>';
+                    } else {
+                        finalValue += object + '<br/>';
+                    }
                 });
 
                 return finalValue;
