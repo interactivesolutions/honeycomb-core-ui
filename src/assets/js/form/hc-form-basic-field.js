@@ -670,6 +670,9 @@ HCService.FormManager.Objects.BasicField = function ()
      */
     this.hideParent = function ()
     {
+        if (this.getFieldData().disableHiding)
+            return;
+        
         this.available = false;
 
         fieldOptions = null;
