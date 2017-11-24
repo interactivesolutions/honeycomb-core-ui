@@ -17,9 +17,11 @@
                 {{--if it has allowed children to show children than add dropdown --}}
                 <a href="#">
                     @if(isset($item['iconPath']) && ! empty($item['iconPath']))
-                        <img src="{{ $item['iconPath'] }}" width="15" alt=""/>
+                        <img src="{{ $item['iconPath'] }}" class="{{ $item['iconParams']['class'] or '' }}"
+                             style="{{ $item['iconParams']['style'] or '' }}" width="15" alt=""/>
                     @else
-                        <i class="fa {{ $item['icon'] }} fa-fw"></i>
+                        <i class="fa {{ $item['icon'] }} fa-fw {{ $item['iconParams']['class'] or '' }}"
+                           style="{{ $item['iconParams']['style'] or '' }}"></i>
                     @endif
 
                     <span>{{ trans($item['translation']) }}</span>
@@ -36,9 +38,11 @@
                                         <img src="{{ $item['listIconPath'] }}" width="15" alt=""/>
                                     @else
                                         @if (isset($item['listIcon']) && ! empty($item['listIcon']))
-                                            <i class="fa {{ $item['listIcon'] }} fa-fw"></i>
+                                            <i class="fa {{ $item['listIcon'] }} fa-fw {{ $item['iconParams']['class'] or '' }}"
+                                               style="{{ $item['iconParams']['style'] or '' }}"></i>
                                         @else
-                                            <i class="fa fa-list-ul fa-fw"></i>
+                                            <i class="fa fa-list-ul fa-fw {{ $item['iconParams']['class'] or '' }}"
+                                               style="{{ $item['iconParams']['style'] or '' }}"></i>
                                         @endif
                                     @endif
                                     {{ trans($item['listTranslation']) }}
@@ -57,9 +61,9 @@
                 {{--show without dropdown--}}
                 <a href="{{ route($item['route']) }}">
                     @if(isset($item['iconPath']) && ! empty($item['iconPath']))
-                        <img src="{{ $item['iconPath'] }}" width="15" alt=""/>
+                        <img src="{{ $item['iconPath'] }}" width="15" class="{{ $item['iconParams']['class'] or '' }}" style="{{ $item['iconParams']['style'] or '' }}" alt=""/>
                     @else
-                        <i class="fa {{ $item['icon'] }} fa-fw"></i>
+                        <i class="fa {{ $item['icon'] }} fa-fw {{ $item['iconParams']['class'] or '' }}" style="{{ $item['iconParams']['style'] or '' }}"></i>
                     @endif
 
                     {{ trans($item['translation']) }}
