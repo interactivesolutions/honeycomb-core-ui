@@ -234,7 +234,7 @@ HCService.List.SimpleList = function (configuration) {
 
                     case 'external-button':
 
-                        parentClass = isIndependent(disabled);
+                        parentClass = isIndependent(false);
                         value = createExternalButton(value);
                         break;
 
