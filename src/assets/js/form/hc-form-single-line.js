@@ -23,6 +23,8 @@ HCService.FormManager.Objects.SingleLine = function ()
     {
         var type = 'text';
         var step = '';
+        var min =  '';
+        var max = '';
 
         if (this.getFieldData ().numeric)
         {
@@ -31,10 +33,16 @@ HCService.FormManager.Objects.SingleLine = function ()
 
             if (step)
                 step = 'step="' + step + '"';
+
+            if (this.getFieldData ().min)
+                min = 'min="' + this.getFieldData ().min + '"';
+
+            if (this.getFieldData ().max)
+                max = 'max="' + this.getFieldData ().max + '"';
         }
 
         this.innerHTML = $ ('<div></div>');
-        this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="' + type + '" ' + step + ' placeholder="' + this.getPlaceHolder () + '">');
+        this.inputField  = $ ('<input class="form-control" id="' + this.uniqueFieldID + '" type="' + type + '" ' + step + ' ' + min + ' ' + max + ' placeholder="' + this.getPlaceHolder () + '">');
 
         if (this.getFieldData ().maxLength)
             this.inputField.attr ('maxLength', this.getFieldData ().maxLength);
