@@ -30,15 +30,17 @@ HCService.FormManager.Objects.SingleLine = function ()
         {
             type = 'number';
             step = this.getFieldData().step;
+            min = this.getFieldData().min;
+            max = this.getFieldData().max;
 
             if (step)
                 step = 'step="' + step + '"';
 
-            if (this.getFieldData ().min)
-                min = 'min="' + this.getFieldData ().min + '"';
+            if (min)
+                min = 'min="' + min + '"';
 
-            if (this.getFieldData ().max)
-                max = 'max="' + this.getFieldData ().max + '"';
+            if (max)
+                max = 'max="' + max + '"';
         }
 
         this.innerHTML = $ ('<div></div>');
