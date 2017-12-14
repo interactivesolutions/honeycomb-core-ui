@@ -321,7 +321,7 @@ input[type=checkbox], input[type=radio]
     background-color: #fff;
 }
 
-.selectize-control .selectize-input:after {
+.selectize-control.multi .selectize-input:after {
     content: ' ';
     display: block;
     position: absolute;
