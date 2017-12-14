@@ -359,6 +359,18 @@ HCLoader = new function ()
                         executeErrorFunction (m);
                     }
                 }
+
+                // if error is return from laravel validation ($this->validate)
+                else if( r.errors || r.message === 'false') {
+                    $.each (r.errors, function (key, value)
+                    {
+                        $.each (value, function (key, message)
+                        {
+                            executeErrorFunction (message);
+                        });
+                    });
+                }
+
                 // if error is returned from laravel validator
                 else if (HCFunctions.isObject(r))
                 {
