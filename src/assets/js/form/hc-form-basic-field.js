@@ -818,6 +818,16 @@ HCService.FormManager.Objects.BasicField = function ()
     }
 
     /**
+     * Adding loaded data to the options array
+     *
+     * @param data
+     */
+    this.addCoreOption = function (data)
+    {
+        fieldOptions.push (data);
+    };
+
+    /**
      * Executing additional tasks in main field
      */
     this.updateDependenciesLocal = function (value)
