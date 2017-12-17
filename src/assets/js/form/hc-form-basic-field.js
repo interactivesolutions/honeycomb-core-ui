@@ -826,6 +826,46 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         fieldOptions.push (data);
     };
+    /**
+     * Adding loaded data to the options array
+     *
+     * @param data
+     */
+    this.addCoreOption = function (data)
+    {
+        if (!fieldOptions)
+            fieldOptions = [];
+
+        fieldOptions.push (data);
+    };
+
+    /**
+     * Clearing options
+     */
+    this.clearOptions = function (data)
+    {
+        fieldOptions = null;
+
+        if (data)
+            fieldOptions = data;
+    };
+
+    /**
+     * Returning Selected item data
+     */
+    this.getSelectedOptionData = function ()
+    {
+        var id = this.getContentData();
+        var result = null;
+
+        $.each(fieldOptions, function (key, value)
+        {
+            if (value.id === id)
+                result = value;
+        });
+
+        return result;
+    };
 
     /**
      * Executing additional tasks in main field
