@@ -325,6 +325,9 @@ HCService.FormManager.Objects.DropDownList = function () {
      * @param response
      */
     this.newOptionCreated = function (response) {
+
+        scope.addCoreOption(response);
+
         response = formatData([response], scope.getFieldData().new.showNodes)[0];
         theSelectItem.addOption({value: response.id, text: response.text});
 
