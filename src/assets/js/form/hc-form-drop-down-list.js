@@ -55,8 +55,11 @@ HCService.FormManager.Objects.DropDownList = function () {
         if (!data && !scope.getOptions())
             return;
 
+        if (!data)
+            data = scope.getOptions();
+
         var selectItem = $('#' + scope.uniqueFieldID);
-        var fieldOptions = data ? formatData(data) : formatData(scope.getOptions());
+        var fieldOptions = formatData(data);
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
         if (theSelectItem) {
