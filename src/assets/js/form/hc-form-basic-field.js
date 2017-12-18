@@ -672,7 +672,7 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         if (this.getFieldData().disableHiding)
             return;
-        
+
         this.available = false;
 
         fieldOptions = null;
@@ -857,6 +857,12 @@ HCService.FormManager.Objects.BasicField = function ()
     {
         var id = this.getContentData();
         var result = null;
+
+        if (id === "")
+            return result;
+
+        if (HCFunctions.isObject(fieldOptions))
+            return fieldOptions;
 
         $.each(fieldOptions, function (key, value)
         {
