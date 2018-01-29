@@ -32,7 +32,7 @@
                 <ul class="treeview-menu">
                     @if($item['route'] != 'admin.index')
                         <li @if($item['route'] == request()->route()->getName()) class="active" @endif>
-                            <a href="{{ route($item['route']) }}">
+                            <a href="{{ route($item['route'], array_get($item, 'routeParams', [])) }}">
                                 @if(isset($item['listTranslation']))
                                     @if(isset($item['listIconPath']) && ! empty($item['listIconPath']))
                                         <img src="{{ $item['listIconPath'] }}" width="15" alt=""/>
@@ -59,7 +59,7 @@
             @else
 
                 {{--show without dropdown--}}
-                <a href="{{ route($item['route']) }}">
+                <a href="{{ route($item['route'], array_get($item, 'routeParams', [])) }}">
                     @if(isset($item['iconPath']) && ! empty($item['iconPath']))
                         <img src="{{ $item['iconPath'] }}" width="15" class="{{ $item['iconParams']['class'] or '' }}" style="{{ $item['iconParams']['style'] or '' }}" alt=""/>
                     @else
