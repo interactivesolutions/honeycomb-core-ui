@@ -22,7 +22,7 @@ HCService.FormManager.Objects.DateTimePicker = function ()
     {
         var disabled = '';
 
-        if (this.getFieldData().editType == 1)
+        if (this.getFieldData().editType === 1)
             disabled = 'readonly';
 
         this.innerHTML = $('<div class="input-group date" id="' + this.uniqueFieldID + '"></div>');
@@ -31,10 +31,13 @@ HCService.FormManager.Objects.DateTimePicker = function ()
 
         var calendarIcon = $(
             '<span class="input-group-addon">' +
-                '<span class="fa fa-calendar"></span>' +
+            '<span class="fa fa-calendar"></span>' +
             '</span>');
 
-        this.innerHTML.append([this.inputField, calendarIcon]);
+        if (this.getFieldData().leftIcon)
+            this.innerHTML.append([calendarIcon, this.inputField]);
+        else
+            this.innerHTML.append([this.inputField, calendarIcon]);
     };
 
     /**

@@ -55,12 +55,16 @@ HCService.FormManager.Objects.DropDownList = function () {
         if (!data && !scope.getOptions())
             return;
 
+        if (!data)
+            data = scope.getOptions();
+
         var selectItem = $('#' + scope.uniqueFieldID);
-        var fieldOptions = data ? formatData(data) : formatData(scope.getOptions());
+        var fieldOptions = formatData(data);
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
         if (theSelectItem) {
             theSelectItem.clearOptions();
+            scope.clearOptions(data);
 
             $.each(fieldOptions, function (key, value) {
                 theSelectItem.addOption({value: value.id, text: value.text});
@@ -325,6 +329,9 @@ HCService.FormManager.Objects.DropDownList = function () {
      * @param response
      */
     this.newOptionCreated = function (response) {
+
+        scope.addCoreOption(response);
+
         response = formatData([response], scope.getFieldData().new.showNodes)[0];
         theSelectItem.addOption({value: response.id, text: response.text});
 
