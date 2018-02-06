@@ -130,6 +130,12 @@ HCService.FormManager.Objects.DropDownList = function () {
             this.disable();
     };
 
+    this.itemVisible = function () {
+
+        if (this.getFieldData().search.reloadWhenVisible)
+            loadOptions();
+    };
+
     function addAjax() {
         if (!scope.getFieldData().search.url)
             return;
@@ -140,28 +146,33 @@ HCService.FormManager.Objects.DropDownList = function () {
             if (query === '')
                 return;
 
-            callback = scope.handleOptions;
-
-            if (!scope.dependencyValues)
-                scope.dependencyValues = {};
-
-            var params = scope.dependencyValues;
-            params.q = query;
-
-            $.ajax({
-                url: scope.getFieldData().search.url,
-                type: 'GET',
-                delay: 250,
-                dataType: 'json',
-                data: params,
-                error: function () {
-                    callback();
-                },
-                success: function (data) {
-                    callback(data, true);
-                }
-            });
+            loadOptions(query);
         }
+    }
+
+    function loadOptions (query)
+    {
+        var callback = scope.handleOptions;
+
+        if (!scope.dependencyValues)
+            scope.dependencyValues = {};
+
+        var params = scope.dependencyValues;
+        params.q = query;
+
+        $.ajax({
+            url: scope.getFieldData().search.url,
+            type: 'GET',
+            delay: 250,
+            dataType: 'json',
+            data: params,
+            error: function () {
+                callback();
+            },
+            success: function (data) {
+                callback(data, true);
+            }
+        });
     }
 
     var filledValue;

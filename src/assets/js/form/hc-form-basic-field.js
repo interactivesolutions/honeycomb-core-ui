@@ -706,6 +706,16 @@ HCService.FormManager.Objects.BasicField = function ()
             this.setContentData(this.invisibleValue);
 
         this.invisibleValue = null;
+
+        this.itemVisible ();
+    };
+
+    /**
+     * When item is visible
+     */
+    this.itemVisible = function ()
+    {
+
     };
 
     /**
