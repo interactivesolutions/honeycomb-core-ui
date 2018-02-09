@@ -150,6 +150,9 @@ HCService.FormManager.Objects.DropDownList = function () {
         }
     }
 
+    var lastURL;
+    var lastQ;
+
     function loadOptions (query)
     {
         var callback = scope.handleOptions;
@@ -159,6 +162,12 @@ HCService.FormManager.Objects.DropDownList = function () {
 
         var params = scope.dependencyValues;
         params.q = query;
+
+        if (lastQ === query && lastURL === scope.getFieldData().search.url)
+            return;
+
+        lastQ = query;
+        lastURL = scope.getFieldData().search.url;
 
         $.ajax({
             url: scope.getFieldData().search.url,

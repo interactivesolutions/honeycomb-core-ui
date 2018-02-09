@@ -685,7 +685,7 @@ HCService.FormManager.Objects.BasicField = function ()
     /**
      * show field parent
      *
-     * @method showParent
+         * @method showParent
      */
     this.showParent = function ()
     {
