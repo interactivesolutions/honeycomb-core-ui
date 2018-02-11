@@ -675,7 +675,6 @@ HCService.FormManager.Objects.BasicField = function ()
 
         this.available = false;
 
-        fieldOptions = null;
         parent.addClass('hidden');
 
         if (innerRequired === 1)
