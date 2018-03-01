@@ -614,6 +614,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
     {
         if (response.success === false)
             handleError (response);
+        else if (response.redirectURL && response.message) {
+            HCFunctions.notify ('info', response);
+            window.location.href = response.redirectURL;
+        }
         else if (response.redirectURL)
             window.location.href = response.redirectURL;
 
