@@ -129,7 +129,7 @@ HCService.FormManager.Objects.DropDownList = function () {
 
     this.itemVisible = function () {
 
-        if (this.getFieldData().search.reloadWhenVisible)
+        if (this.getFieldData().search && this.getFieldData().search.reloadWhenVisible)
             loadOptions();
     };
 
