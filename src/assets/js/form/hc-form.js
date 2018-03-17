@@ -183,6 +183,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
         createFormDiv ();
         createFormFields (formConfiguration.structure);
         createFormButtons (formConfiguration.buttons);
+        
+        if (formConfiguration.popUpLabel) {
+            $('#' + id).parent().parent().find('.is-popup-title').html(formConfiguration.popUpLabel);
+        }
 
         if (data.contentID)
             loadContent ();
