@@ -418,6 +418,7 @@ HCService.List.SimpleList = function (configuration) {
             $.each(record.children(), function (key, child) {
                     if (record.attr('class').split(' ').indexOf('disabled') === -1 && $(child).attr('class').split(' ').indexOf('independent') === -1) {
                         if (canUpdate)
+                        {
                             $(child).bind('click', function () {
                                 if (configuration.forms.newRecord)
                                     location.href = '//' + location.host + location.pathname + '/' + id;
@@ -432,6 +433,10 @@ HCService.List.SimpleList = function (configuration) {
                                         callBack: markUpdatedItem
                                     });
                             });
+                        }
+                        else
+                        {
+                            record.addClass('disabled');
                     }
                 }
             );
