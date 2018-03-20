@@ -434,9 +434,9 @@ HCService.List.SimpleList = function (configuration) {
                                     });
                             });
                         }
-                        else
-                        {
+                        else {
                             record.addClass('disabled');
+                        }
                     }
                 }
             );
