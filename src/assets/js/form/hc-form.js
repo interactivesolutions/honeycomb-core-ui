@@ -183,7 +183,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
         createFormDiv ();
         createFormFields (formConfiguration.structure);
         createFormButtons (formConfiguration.buttons);
-        
+
         if (formConfiguration.popUpLabel) {
             $('#' + id).parent().parent().find('.is-popup-title').html(formConfiguration.popUpLabel);
         }
@@ -549,6 +549,8 @@ HCService.FormManager.HCForm = function (data, availableFields)
         if (!scope.content)
             return;
 
+        submitButton.disable();
+
         // adjusting translations values
         if (scope.content.translations)
             $.each(scope.content.translations, function(key, value)
@@ -574,7 +576,10 @@ HCService.FormManager.HCForm = function (data, availableFields)
         });
 
         if (!valid)
+        {
+            submitButton.enable();
             return;
+        }
 
         if (scope.submitData)
         {
@@ -616,6 +621,8 @@ HCService.FormManager.HCForm = function (data, availableFields)
      */
     function handleSubmitSuccess (response)
     {
+        submitButton.enable();
+
         if (response.success === false)
             handleError (response);
         else if (response.redirectURL && response.message) {
@@ -632,8 +639,6 @@ HCService.FormManager.HCForm = function (data, availableFields)
             scope.successCallBack (response);
         else if (response.success === true)
             HCFunctions.notify ('success', response);
-
-        scope.enableSubmit('data-management');
     }
 
     /**
@@ -645,7 +650,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
     function handleError (e)
     {
         HCFunctions.notify ('error', e);
-        scope.enableSubmit ('data-management');
+        submitButton.enable();
     }
 
     initialize ();
