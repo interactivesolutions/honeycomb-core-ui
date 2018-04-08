@@ -109,6 +109,9 @@ HCService.FormManager.Objects.DropDownList = function () {
                 selectItem.val(existingValue).trigger("change");
         }
 
+        if (data && data.length > 0 && focus)
+            theSelectItem.focus();
+
         scope.triggerContentChange();
     };
 
