@@ -253,6 +253,7 @@ HCService.FormManager.HCForm = function (data, availableFields)
      */
     this.enableSubmit = function  (key)
     {
+        return;
         if (!key)
             return;
 
