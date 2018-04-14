@@ -124,6 +124,19 @@ HCService.FormManager.Objects.DropDownList = function () {
             this.updateSelectComponent();
 
             this.getParent().append(this.getAnnotation());
+
+            if (this.getFieldData().search.resetOnFocusOut)
+            {
+                var inputField = $('#' + this.uniqueFieldID + '-selectized');
+
+                inputField.focusout(function () {
+
+                    if (scope.getContentData () === '')
+                    {
+                        theSelectItem.clearOptions([]);
+                    }
+                });
+            }
         }
 
         if (disabled)
