@@ -603,16 +603,33 @@ HCService.List.SimpleList = function (configuration) {
         if (listToDelete.length === 0)
             return;
 
-        var loader = new HCLoader.BasicLoader();
-        loader.addVariable('list', listToDelete);
-        loader.methodDELETE();
-        loader.load(null, null, null, configuration.contentURL, 'delete');
+        swal({
+            title: "Ar tikrai norite ištrinti?",
+            text: "Pprašome patvirtinti.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Taip ištrinti",
+            cancelButtonText: "Atšaukti",
+            closeOnConfirm: true
+        }, function () { deleteStart() });
 
-        $.each(listToDelete, function (key, value) {
-            updateSelected(false);
-            $('#' + value).remove();
-            delete (listElementsHolder[value]);
-        });
+        function deleteStart ()
+        {
+            var loader = new HCLoader.BasicLoader();
+            loader.addVariable('list', listToDelete);
+            loader.methodDELETE();
+            loader.load(deleteCompleted, null, null, configuration.contentURL, 'delete');
+        }
+
+        function deleteCompleted ()
+        {
+            $.each(listToDelete, function (key, value) {
+                updateSelected(false);
+                $('#' + value).remove();
+                delete (listElementsHolder[value]);
+            });
+        }
     };
 
     /**
