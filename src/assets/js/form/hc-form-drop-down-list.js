@@ -28,6 +28,8 @@ HCService.FormManager.Objects.DropDownList = function () {
     this.handleProperties = function () {
         if (this.getFieldData().search) {
             selectizeOptions.plugins.push('remove_button');
+            selectizeOptions.closeAfterSelect = true;
+            //selectizeOptions.onItemAdd = itemHasBeenAdded;
 
             if (this.getFieldData().search.maximumSelectionLength > 0)
                 selectizeOptions.maxItems = this.getFieldData().search.maximumSelectionLength;
@@ -62,9 +64,23 @@ HCService.FormManager.Objects.DropDownList = function () {
         var fieldOptions = formatData(data);
         var existingValue = filledValue ? filledValue : scope.getFieldData().value;
 
+        if (existingValue === undefined)
+            existingValue = [];
+
+        if (preservedOptions.length > 0) {
+
+            $.each(preservedOptions, function (key, value) {
+                existingValue.push(value.id);
+            });
+
+            fieldOptions = preservedOptions.concat(fieldOptions);
+        }
+
         if (theSelectItem) {
-            theSelectItem.clearOptions();
-            scope.clearOptions(data);
+            if (!scope.getFieldData().search.leaveOptions) {
+                theSelectItem.clearOptions();
+                scope.clearOptions(data);
+            }
 
             $.each(fieldOptions, function (key, value) {
                 theSelectItem.addOption({value: value.id, text: value.text});
@@ -109,8 +125,12 @@ HCService.FormManager.Objects.DropDownList = function () {
                 selectItem.val(existingValue).trigger("change");
         }
 
-        if (data && data.length > 0 && focus)
+        /*if (data && data.length > 0 && focus && (scope.getFieldData().search && !scope.getFieldData().search.ignoreFocus)) {
+            console.log(data, data.length > 0, focus, scope.getFieldData().search);
+            console.log(!scope.getFieldData().search.ignoreFocus);
+
             theSelectItem.focus();
+        }*/
 
         scope.triggerContentChange();
     };
@@ -125,14 +145,12 @@ HCService.FormManager.Objects.DropDownList = function () {
 
             this.getParent().append(this.getAnnotation());
 
-            if (this.getFieldData().search.resetOnFocusOut)
-            {
+            if (this.getFieldData().search.resetOnFocusOut) {
                 var inputField = $('#' + this.uniqueFieldID + '-selectized');
 
                 inputField.focusout(function () {
 
-                    if (scope.getContentData () === '')
-                    {
+                    if (scope.getContentData() === '') {
                         theSelectItem.clearOptions([]);
                     }
                 });
@@ -166,8 +184,7 @@ HCService.FormManager.Objects.DropDownList = function () {
     var lastURL;
     var lastQ;
 
-    function loadOptions (query)
-    {
+    function loadOptions(query) {
         var callback = scope.handleOptions;
 
         if (!scope.dependencyValues)
@@ -243,8 +260,14 @@ HCService.FormManager.Objects.DropDownList = function () {
 
                     theSelectItem.refreshOptions();
                     theSelectItem.addItem(value.id);
+
                     filledValue.push(value.id);
+                    preservedOptions.push(value);
                 });
+
+                if (scope.getFieldData().search.forcePreservation) {
+                    scope.handleOptions(preservedOptions);
+                }
             }
         }
         else
@@ -330,6 +353,7 @@ HCService.FormManager.Objects.DropDownList = function () {
     }
 
     var theSelectItem;
+    var preservedOptions = [];
 
     /**
      * Enabling or updating select2 field
@@ -347,9 +371,27 @@ HCService.FormManager.Objects.DropDownList = function () {
         theSelectItem = theSelectItem.selectize(options)[0].selectize;
         theSelectItem.addOption({value: null, text: ''});
         theSelectItem.setValue(null);
-        theSelectItem.on('change', function (){
+        theSelectItem.on('change', preserveAndChange);
+
+        function preserveAndChange() {
+
+            var options = scope.getOptions();
+            var values = scope.getContentData();
+
+            if (values.length > 0) {
+
+                preservedOptions = [];
+
+                $.each(options, function (key, object) {
+
+                    if (values.indexOf(object.id) >= 0) {
+                        preservedOptions.push(object)
+                    }
+                });
+            }
+
             scope.triggerContentChange();
-        });
+        }
 
         if (this.getFieldData().new)
             this.addNewOption(this.getFieldData().new, this.newOptionCreated);
@@ -457,16 +499,14 @@ HCService.FormManager.Objects.DropDownList = function () {
 
     var disabled = false;
 
-    this.disable = function ()
-    {
+    this.disable = function () {
         disabled = true;
 
         if (theSelectItem)
             theSelectItem.disable();
     };
 
-    this.enable = function ()
-    {
+    this.enable = function () {
         if (theSelectItem)
             theSelectItem.enable();
     }
