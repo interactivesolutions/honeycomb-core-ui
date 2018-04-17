@@ -125,12 +125,10 @@ HCService.FormManager.Objects.DropDownList = function () {
                 selectItem.val(existingValue).trigger("change");
         }
 
-        /*if (data && data.length > 0 && focus && (scope.getFieldData().search && !scope.getFieldData().search.ignoreFocus)) {
-            console.log(data, data.length > 0, focus, scope.getFieldData().search);
-            console.log(!scope.getFieldData().search.ignoreFocus);
+        if (data && data.length > 0 && focus && (scope.getFieldData().search && !scope.getFieldData().search.ignoreFocus)) {
 
             theSelectItem.focus();
-        }*/
+        }
 
         scope.triggerContentChange();
     };
